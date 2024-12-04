@@ -1,0 +1,17 @@
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WistBot.exe
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WistBot.deps.json
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WistBot.runtimeconfig.json
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WistBot.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WistBot.pdb
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.GeneratedMSBuildEditorConfig.editorconfig
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.AssemblyInfoInputs.cache
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.AssemblyInfo.cs
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.csproj.CoreCompileInputs.cache
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.dll
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\refint\WistBot.dll
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.pdb
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.genruntimeconfig.cache
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\ref\WistBot.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\Telegram.Bot.dll
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.csproj.AssemblyReference.cache
+F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.csproj.Up2Date
