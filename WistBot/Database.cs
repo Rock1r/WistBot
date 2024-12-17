@@ -1,7 +1,6 @@
 ﻿using System.Data.SQLite;
 using System.Text.Json;
 
-
 namespace WistBot
 {
     internal class Database
@@ -33,7 +32,6 @@ namespace WistBot
             InitializeDatabase();
         }
 
-
         private void InitializeDatabase()
         {
             using var connection = new SQLiteConnection(_connectionString);
@@ -50,49 +48,116 @@ namespace WistBot
             command.ExecuteNonQuery();
         }
 
-        public void AddUser(string telegramId, List<ListObject>? userData = null)
+        public bool UserExists(long telegramId)
         {
             using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
 
-            string insertQuery = @"
-        INSERT INTO Users (TelegramId, UserData)
-        VALUES (@telegramId, @userData);
-    ";
+            string checkQuery = @"
+                SELECT COUNT(1)
+                FROM Users
+                WHERE TelegramId = @telegramId;
+            ";
 
-            string jsonData = userData != null ? JsonSerializer.Serialize(userData) : "[]";
+            using var command = new SQLiteCommand(checkQuery, connection);
+            command.Parameters.AddWithValue("@telegramId", telegramId);
+
+            return Convert.ToInt32(command.ExecuteScalar()) > 0;
+        }
+
+        public void AddUser(long telegramId)
+        {
+            if (UserExists(telegramId))
+            {
+                Console.WriteLine("User already exists.");
+                return;
+            }
+
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+
+            string insertQuery = @"
+                INSERT INTO Users (TelegramId, UserData)
+                VALUES (@telegramId, @emptyData);
+            ";
+
+            string emptyData = JsonSerializer.Serialize(new List<ListObject>());
 
             using var command = new SQLiteCommand(insertQuery, connection);
             command.Parameters.AddWithValue("@telegramId", telegramId);
-            command.Parameters.AddWithValue("@userData", jsonData);
+            command.Parameters.AddWithValue("@emptyData", emptyData);
 
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            catch (SQLiteException ex)
-            {
-                if (ex.ErrorCode == (int)SQLiteErrorCode.Constraint)
-                {
-                    Console.WriteLine("User already exists.");
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            command.ExecuteNonQuery();
         }
 
-        public void UpdateUser(string telegramId, List<ListObject> userData)
+        public List<ListObject> GetUserData(long telegramId)
+        {
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+
+            string selectQuery = @"
+                SELECT UserData
+                FROM Users
+                WHERE TelegramId = @telegramId;
+            ";
+
+            using var command = new SQLiteCommand(selectQuery, connection);
+            command.Parameters.AddWithValue("@telegramId", telegramId);
+
+            using var reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                string jsonData = reader.GetString(0);
+                return JsonSerializer.Deserialize<List<ListObject>>(jsonData) ?? new List<ListObject>();
+            }
+
+            Console.WriteLine("No user found with the given Telegram ID.");
+            return new List<ListObject>();
+        }
+
+        public void UpdateItem(long telegramId, ListObject newItem)
+        {
+            var currentData = GetUserData(telegramId);
+            bool itemExists = false;
+            if (currentData == null)
+            {
+                //log creating new userdata
+                currentData = new List<ListObject>();
+            }
+
+            foreach (var item in currentData)
+            {
+                if (item.Id == newItem.Id)
+                {
+                    itemExists = true;
+                    item.Name = newItem.Name;
+                    item.Description = newItem.Description;
+                    item.Link = newItem.Link;
+                    item.Document = newItem.Document;
+                    item.Photo = newItem.Photo;
+                    item.Performer = newItem.Performer;
+                    item.CurrentState = newItem.CurrentState;
+                    UpdateUserData(telegramId, currentData);
+                    return;
+                }
+            }
+            if (!itemExists)
+            {
+                currentData.Add(newItem);
+            }
+            UpdateUserData(telegramId, currentData);
+        }
+
+        public void UpdateUserData(long telegramId, List<ListObject> userData)
         {
             using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
 
             string updateQuery = @"
-        UPDATE Users
-        SET UserData = @userData
-        WHERE TelegramId = @telegramId;
-    ";
+                UPDATE Users
+                SET UserData = @userData
+                WHERE TelegramId = @telegramId;
+            ";
 
             string jsonData = JsonSerializer.Serialize(userData);
 
@@ -108,24 +173,9 @@ namespace WistBot
             }
         }
 
-
-        public List<ListObject> GetUserData(string telegramId)
+        public void ClearUserData(long telegramId)
         {
-            using var connection = new SQLiteConnection(_connectionString);
-            connection.Open();
-
-            string selectQuery = "SELECT UserData FROM Users WHERE TelegramId = @telegramId;";
-            using var command = new SQLiteCommand(selectQuery, connection);
-            command.Parameters.AddWithValue("@telegramId", telegramId);
-
-            using var reader = command.ExecuteReader();
-            if (reader.Read())
-            {
-                string jsonData = reader.GetString(0);
-                return JsonSerializer.Deserialize<List<ListObject>>(jsonData) ?? new List<ListObject>();
-            }
-
-            return new List<ListObject>();
+            UpdateUserData(telegramId, new List<ListObject>());
         }
     }
 }

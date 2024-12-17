@@ -16,7 +16,7 @@ namespace WistBot
                 throw new ArgumentException("Токен не може бути пустим.", nameof(telegramBotToken));
             }
 
-            this.TelegramBotToken = telegramBotToken;
+            TelegramBotToken = telegramBotToken;
             Console.WriteLine("Config loaded.");
         }
 
