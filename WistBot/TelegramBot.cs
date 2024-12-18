@@ -23,15 +23,6 @@ namespace WistBot
             SettingPhoto,
         }
 
-        private enum Callbacks
-        {
-            set_name,
-            set_description,
-            set_link,
-            set_media,
-            finish
-        }
-
         public TelegramBot(string token)
         {
             _client = new TelegramBotClient(token);
@@ -53,11 +44,11 @@ namespace WistBot
         {
             var commands = new Dictionary<string, Func<Message, ITelegramBotClient, CancellationToken, Task>>
             {
-                ["/start"] = async (message, bot, token) =>
+                ["/" + BotCommands.Start] = async (message, bot, token) =>
                 {
                     await bot.SendMessage(message.Chat.Id, _localization.Get("start_message"), cancellationToken: token);
                 },
-                ["/language"] = async (message, bot, token) =>
+                ["/" + BotCommands.Language] = async (message, bot, token) =>
                 {
                     var keyboard = new InlineKeyboardMarkup(new[]
                     {
@@ -69,7 +60,7 @@ namespace WistBot
                     });
                     await bot.SendMessage(message.Chat.Id, _localization.Get("change_language"), replyMarkup: keyboard, cancellationToken: token);
                 },
-                ["/list"] = async (message, bot, token) =>
+                ["/" + BotCommands.List] = async (message, bot, token) =>
                 {
                     if(_database.GetUserData(message.From.Id) == null || _database.GetUserData(message.From.Id).Count == 0)
                     {
@@ -96,7 +87,7 @@ namespace WistBot
                         }
                     }
                 },
-                ["/add"] = async (message, bot, token) =>
+                ["/" + BotCommands.Add] = async (message, bot, token) =>
                 {
                     var chatId = message.Chat.Id;
                     var userId = message.From.Id;
@@ -110,23 +101,6 @@ namespace WistBot
 
                     _userStates[userId] = (UserStates.SettingName, new ListObject());
                 },
-                ["/clear"] = async (message, bot, token) =>
-                {
-                    _database.ClearUserData(message.From.Id);
-                    await bot.SendMessage(message.Chat.Id, _localization.Get("list_cleared"), cancellationToken: token);
-                },
-                ["/remove"] = async (message, bot, token) =>
-                {
-                    await bot.SendMessage(message.Chat.Id, _localization.Get("remove_name"), cancellationToken: token);
-                },
-                ["/edit"] = async (message, bot, token) =>
-                {
-                    await bot.SendMessage(message.Chat.Id, _localization.Get("edit_name"), cancellationToken: token);
-                },
-                ["/help"] = async (message, bot, token) =>
-                {
-                    await bot.SendMessage(message.Chat.Id, _localization.Get("help_message"), cancellationToken: token);
-                }
             };
 
             return commands;
@@ -136,34 +110,34 @@ namespace WistBot
         {
             var callbacks = new Dictionary<string, Func<CallbackQuery, ITelegramBotClient, CancellationToken, Task>>
             {
-                ["en"] = async (callback, bot, token) =>
+                [BotCallbacks.English] = async (callback, bot, token) =>
                 {
                     _localization.SetLanguage("en");
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("language_changed"), cancellationToken: token);
                 },
-                ["uk"] = async (callback, bot, token) =>
+                [BotCallbacks.Ukrainian] = async (callback, bot, token) =>
                 {
                     _localization.SetLanguage("uk");
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("language_changed"), cancellationToken: token);
                 },
-                ["set_description"] = async (callback, bot, token) =>
+                [BotCallbacks.SetDescription] = async (callback, bot, token) =>
                 {
                    
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("set_description"), cancellationToken: token);
                     _userStates[callback.From.Id] = (UserStates.SettingDescription, _userStates[callback.From.Id].Item2);
                 },
-                ["set_link"] = async (callback, bot, token) =>
+                [BotCallbacks.SetLink] = async (callback, bot, token) =>
                 {
                    
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("set_link"), cancellationToken: token);
                     _userStates[callback.From.Id] = (UserStates.SettingLink, _userStates[callback.From.Id].Item2);
                 },
-                ["set_media"] = async (callback, bot, token) =>
+                [BotCallbacks.SetMedia] = async (callback, bot, token) =>
                 {
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("set_media"), cancellationToken: token);
                     _userStates[callback.From.Id] = (UserStates.SettingPhoto, _userStates[callback.From.Id].Item2);
                 },
-                ["finish"] = async (callback, bot, token) =>
+                [BotCallbacks.FinishSetting] = async (callback, bot, token) =>
                 {
                     FinishSetting(callback.From.Id);
                     await bot.SendMessage(callback.Message.Chat.Id, _localization.Get("set_success"), cancellationToken: token);
@@ -329,35 +303,22 @@ namespace WistBot
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_name.ToString()), Callbacks.set_name.ToString()),
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_description.ToString()), Callbacks.set_description.ToString()),
+                    InlineKeyboardButton.WithCallbackData(_localization.Get("set_name"), BotCallbacks.SetName),
+                    InlineKeyboardButton.WithCallbackData(_localization.Get("set"), BotCallbacks.SetDescription),
                 },
                 new[]{
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_link.ToString()), Callbacks.set_link.ToString()),
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_media.ToString()), Callbacks.set_media.ToString()),
+                    InlineKeyboardButton.WithCallbackData(_localization.Get("set_link"), BotCallbacks.SetLink),
+                    InlineKeyboardButton.WithCallbackData(_localization.Get("set_media"), BotCallbacks.SetMedia),
                 },
                 new[]{
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.finish.ToString()), Callbacks.finish.ToString()) }
+                    InlineKeyboardButton.WithCallbackData(_localization.Get("finish_setting"), BotCallbacks.FinishSetting) }
             });
             await bot.SendMessage(chatId, _localization.Get("seting_menu"), replyMarkup: keyboard, cancellationToken: token);
         }
 
         private async Task ShowListMenu(long chatId, ITelegramBotClient bot, CancellationToken token)
         {
-            var keyboard = new InlineKeyboardMarkup(new[]
-            {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_name.ToString()), Callbacks.set_name.ToString()),
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_description.ToString()), Callbacks.set_description.ToString()),
-                },
-                new[]{
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_link.ToString()), Callbacks.set_link.ToString()),
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.set_media.ToString()), Callbacks.set_media.ToString()),
-                },
-                new[]{
-                    InlineKeyboardButton.WithCallbackData(_localization.Get(Callbacks.finish.ToString()), Callbacks.finish.ToString()) }
-            });
+            var keyboard = new InlineKeyboardMarkup();
             await bot.SendMessage(chatId, _localization.Get("seting_menu"), replyMarkup: keyboard, cancellationToken: token);
         }
 

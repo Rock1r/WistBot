@@ -15,7 +15,6 @@ namespace WistBot
             string jsonContent = File.ReadAllText(filePath);
             _texts = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonContent);
         }
-
         public string Get(string key)
         {
             return _texts.TryGetValue(key, out var value) ? value : key;

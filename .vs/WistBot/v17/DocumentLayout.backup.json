@@ -1,29 +1,45 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\dev\\TGBot\\WistBot\\",
+  "WorkspaceRootPath": "D:\\WistBot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\telegrambot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\botcallbacks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\botcallbacks.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\botcommands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\botcommands.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\localization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\localization.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WistBot\\bin\\Debug\\net8.0\\localization\\en.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\listobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\listobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\listobject.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|d:\\wistbot\\wistbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:WistBot\\bin\\Debug\\net8.0\\localization\\uk.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
   ],
@@ -33,9 +49,57 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 344,
-          "SelectedChildIndex": 7,
+          "DockedHeight": 234,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TelegramBot.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\TelegramBot.cs",
+              "RelativeDocumentMoniker": "WistBot\\TelegramBot.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\TelegramBot.cs*",
+              "RelativeToolTip": "WistBot\\TelegramBot.cs*",
+              "ViewState": "AgIAADUBAAAAAAAAAAAIwEIBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-29T17:49:41.346Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BotCommands.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\BotCommands.cs",
+              "RelativeDocumentMoniker": "WistBot\\BotCommands.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\BotCommands.cs",
+              "RelativeToolTip": "WistBot\\BotCommands.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T14:44:45.113Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BotCallbacks.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\BotCallbacks.cs",
+              "RelativeDocumentMoniker": "WistBot\\BotCallbacks.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\BotCallbacks.cs",
+              "RelativeToolTip": "WistBot\\BotCallbacks.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T14:45:43.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -49,12 +113,81 @@
               "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "Localization.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\Localization.cs",
+              "RelativeDocumentMoniker": "WistBot\\Localization.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\Localization.cs",
+              "RelativeToolTip": "WistBot\\Localization.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T14:32:21.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Config.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\Config.cs",
+              "RelativeDocumentMoniker": "WistBot\\Config.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\Config.cs",
+              "RelativeToolTip": "WistBot\\Config.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T13:51:12.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ListObject.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\ListObject.cs",
+              "RelativeDocumentMoniker": "WistBot\\ListObject.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\ListObject.cs",
+              "RelativeToolTip": "WistBot\\ListObject.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-09T16:29:11.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "en.json",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
+              "RelativeDocumentMoniker": "WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
+              "ToolTip": "D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
+              "RelativeToolTip": "WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-12T10:10:51.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "uk.json",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
+              "RelativeDocumentMoniker": "WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
+              "ToolTip": "D:\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
+              "RelativeToolTip": "WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-12T11:35:21.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Database.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Database.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\Database.cs",
               "RelativeDocumentMoniker": "WistBot\\Database.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Database.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\Database.cs",
               "RelativeToolTip": "WistBot\\Database.cs",
               "ViewState": "AgIAAGsAAAAAAAAAAAAQwIEAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -63,69 +196,21 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "uk.json",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
-              "RelativeDocumentMoniker": "WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
-              "RelativeToolTip": "WistBot\\bin\\Debug\\net8.0\\localization\\uk.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-12T11:35:21.309Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "en.json",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
-              "RelativeDocumentMoniker": "WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
-              "RelativeToolTip": "WistBot\\bin\\Debug\\net8.0\\localization\\en.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-12T10:10:51.008Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ListObject.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\ListObject.cs",
-              "RelativeDocumentMoniker": "WistBot\\ListObject.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\ListObject.cs",
-              "RelativeToolTip": "WistBot\\ListObject.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-09T16:29:11.397Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TelegramBot.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\TelegramBot.cs",
-              "RelativeDocumentMoniker": "WistBot\\TelegramBot.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\TelegramBot.cs*",
-              "RelativeToolTip": "WistBot\\TelegramBot.cs*",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAgwIAAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T17:49:41.346Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Program.cs",
+              "DocumentMoniker": "D:\\WistBot\\WistBot\\Program.cs",
               "RelativeDocumentMoniker": "WistBot\\Program.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Program.cs",
+              "ToolTip": "D:\\WistBot\\WistBot\\Program.cs",
               "RelativeToolTip": "WistBot\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T17:26:30.52Z"
+              "WhenOpened": "2024-11-29T17:26:30.52Z",
+              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedHeight": 56,
+          "DockedHeight": 166,
           "SelectedChildIndex": -1,
           "Children": [
             {
