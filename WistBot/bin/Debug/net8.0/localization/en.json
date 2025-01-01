@@ -3,7 +3,8 @@
   "start_message": "Hello",
   "change_language": "Choose language:",
   "language_changed": "Language changed to english.",
-  "list_message": "your list: ",
-  "list_empty": "your list is empty, to create a new one, just add item to your list using '/add'.",
-  "add_name": "Enter the name of the wish"
+  "lists_message": "your lists: ",
+  "no_list": "you have no lists, create a new one",
+  "set_name": "Enter the name of the wish",
+  "list_deleted": "List deleted, type '/list' to show your lists."
 }

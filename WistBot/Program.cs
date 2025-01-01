@@ -8,7 +8,7 @@ try
 
     config.UseToken(token =>
     {
-        var Bot = new TelegramBot(token);
+        var Bot = new Bot(token);
         Bot.StartReceiving();
     });
 }

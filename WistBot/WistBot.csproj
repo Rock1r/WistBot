@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
-    <PackageReference Include="telegram.bot" Version="22.2.0" />
+    <PackageReference Include="WTelegramBot" Version="8.1.1" />
   </ItemGroup>
 
 </Project>

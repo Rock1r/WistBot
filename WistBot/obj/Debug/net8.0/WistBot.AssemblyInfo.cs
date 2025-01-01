@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WistBot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86c1ec12e380544fe6b8a0148bb06f35b8864f7a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+083e84850ed370f2ba8f837776bc58d0dfacb9f6")]
 [assembly: System.Reflection.AssemblyProductAttribute("WistBot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WistBot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

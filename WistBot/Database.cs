@@ -69,7 +69,6 @@ namespace WistBot
         {
             if (UserExists(telegramId))
             {
-                Console.WriteLine("User already exists.");
                 return;
             }
 
@@ -81,7 +80,7 @@ namespace WistBot
                 VALUES (@telegramId, @emptyData);
             ";
 
-            string emptyData = JsonSerializer.Serialize(new List<ListObject>());
+            string emptyData = JsonSerializer.Serialize(new UserData(telegramId));
 
             using var command = new SQLiteCommand(insertQuery, connection);
             command.Parameters.AddWithValue("@telegramId", telegramId);
@@ -90,16 +89,16 @@ namespace WistBot
             command.ExecuteNonQuery();
         }
 
-        public List<ListObject> GetUserData(long telegramId)
+        public UserData GetUserData(long telegramId)
         {
             using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
 
             string selectQuery = @"
-                SELECT UserData
-                FROM Users
-                WHERE TelegramId = @telegramId;
-            ";
+        SELECT UserData
+        FROM Users
+        WHERE TelegramId = @telegramId;
+    ";
 
             using var command = new SQLiteCommand(selectQuery, connection);
             command.Parameters.AddWithValue("@telegramId", telegramId);
@@ -108,56 +107,57 @@ namespace WistBot
             if (reader.Read())
             {
                 string jsonData = reader.GetString(0);
-                return JsonSerializer.Deserialize<List<ListObject>>(jsonData) ?? new List<ListObject>();
+                return JsonSerializer.Deserialize<UserData>(jsonData) ?? new UserData { TelegramId = telegramId };
             }
 
-            Console.WriteLine("No user found with the given Telegram ID.");
-            return new List<ListObject>();
+            return new UserData { TelegramId = telegramId };
         }
 
-        public void UpdateItem(long telegramId, ListObject newItem)
+        public void UpdateItem(long telegramId, string listName, WishListItem newItem)
         {
-            var currentData = GetUserData(telegramId);
-            bool itemExists = false;
-            if (currentData == null)
+            var currentData = GetUserData(telegramId) ?? new UserData(telegramId);
+
+            var currentList = currentData.WishLists.FirstOrDefault(list => list.Name == listName);
+
+            if (currentList == null)
             {
-                //log creating new userdata
-                currentData = new List<ListObject>();
+                currentList = new WishList { Name = listName };
+                currentList.Items.Add(newItem);
+                currentData.UpdateWishList(listName, currentList);
+            }
+            else
+            {
+                var existingItem = currentList.Items.FirstOrDefault(item => item.Id == newItem.Id);
+                if (existingItem != null)
+                {
+                    existingItem.Name = newItem.Name;
+                    existingItem.Description = newItem.Description;
+                    existingItem.Link = newItem.Link;
+                    existingItem.Photo = newItem.Photo;
+                    existingItem.PerformerId = newItem.PerformerId;
+                    existingItem.CurrentState = newItem.CurrentState;
+                }
+                else
+                {
+                    currentList.Items.Add(newItem);
+                }
+
+                currentData.UpdateWishList(listName, currentList);
             }
 
-            foreach (var item in currentData)
-            {
-                if (item.Id == newItem.Id)
-                {
-                    itemExists = true;
-                    item.Name = newItem.Name;
-                    item.Description = newItem.Description;
-                    item.Link = newItem.Link;
-                    item.Document = newItem.Document;
-                    item.Photo = newItem.Photo;
-                    item.Performer = newItem.Performer;
-                    item.CurrentState = newItem.CurrentState;
-                    UpdateUserData(telegramId, currentData);
-                    return;
-                }
-            }
-            if (!itemExists)
-            {
-                currentData.Add(newItem);
-            }
             UpdateUserData(telegramId, currentData);
         }
 
-        public void UpdateUserData(long telegramId, List<ListObject> userData)
+        public void UpdateUserData(long telegramId, UserData userData)
         {
             using var connection = new SQLiteConnection(_connectionString);
             connection.Open();
 
             string updateQuery = @"
-                UPDATE Users
-                SET UserData = @userData
-                WHERE TelegramId = @telegramId;
-            ";
+        UPDATE Users
+        SET UserData = @userData
+        WHERE TelegramId = @telegramId;
+    ";
 
             string jsonData = JsonSerializer.Serialize(userData);
 
@@ -173,9 +173,87 @@ namespace WistBot
             }
         }
 
-        public void ClearUserData(long telegramId)
+
+        public bool AddWishList(long telegramId, string listName)
         {
-            UpdateUserData(telegramId, new List<ListObject>());
+            var userData = GetUserData(telegramId);
+
+            if (userData.WishLists.Any(list => list.Name == listName))
+            {
+                return false;
+            }
+
+            userData.WishLists.Add(new WishList { Name = listName });
+            UpdateUserData(telegramId, userData);
+            return true;
+        }
+
+        public WishList GetWishList(long telegramId, string listName)
+        {
+            var userData = GetUserData(telegramId);
+
+            var wishList = userData.WishLists.FirstOrDefault(list => list.Name == listName);
+            if (wishList == null)
+            {
+                Console.WriteLine("No list found with the given name.");
+                return new WishList { Name = listName }; // Повертаємо порожній список.
+            }
+
+            return wishList;
+        }
+
+        public void UpdateWishList(long telegramId, string listName, WishList newItems)
+        {
+            var userData = GetUserData(telegramId);
+
+            var wishListIndex = userData.WishLists.FindIndex(list => list.Name == listName);
+
+            if (wishListIndex == -1)
+            {
+                userData.WishLists.Add(new WishList
+                {
+                    Name = listName,
+                    Items = newItems.Items
+                });
+            }
+            else
+            {
+                userData.WishLists[wishListIndex].Items = newItems.Items;
+            }
+
+            UpdateUserData(telegramId, userData);
+        }
+
+
+        public void DeleteWishList(long telegramId, string listName)
+        {
+            var userData = GetUserData(telegramId);
+
+            var wishList = userData.WishLists.FirstOrDefault(list => list.Name == listName);
+            if (wishList != null)
+            {
+                userData.WishLists.Remove(wishList);
+                UpdateUserData(telegramId, userData);
+            }
+            else
+            {
+                Console.WriteLine("No list found with the given name.");
+            }
+        }
+
+        public WishListItem GetItem(long userId, string? text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+            var userData = GetUserData(userId);
+            var list = userData.WishLists.FirstOrDefault(list => list.Items.Any(item => item.Name == text));
+            if (list == null)
+            {
+                return null;
+            }
+            return list.Items.First(item => item.Name == text);
         }
     }
 }

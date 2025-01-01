@@ -1,0 +1,36 @@
+﻿namespace WistBot.src
+{
+    public static class LocalizationKeys
+    {
+
+        public const string StartMessage = "start_message";
+        public const string DefaultListNaming = "default_list_naming";
+        public const string DefaultItemNaming = "default_list_item_naming";
+        public const string ChangeLanguage = "change_language";
+        public const string SetName = "set_name";
+        public const string NoList = "no_list";
+        public const string ListsMessage = "lists_message";
+        public const string ListMessage = "list_message";
+        public const string ListDeleted = "list_deleted";
+        public const string LanguageChanged = "language_changed";
+        public const string SetDescription = "set_description";
+        public const string SetLink = "set_link";
+        public const string SetMedia = "set_media";
+        public const string NotACommand = "not_a_command";
+        public const string StateFree = "state_free";
+        public const string InvalidName = "invalid_name";
+        public const string NameSaved = "name_saved";
+        public const string InvalidDescription = "invalid_description";
+        public const string DescriptionSaved = "description_saved";
+        public const string InvalidLink = "invalid_link";
+        public const string LinkSaved = "link_saved";
+        public const string PhotoNotReceived = "photo_not_received";
+        public const string PhotoSaved = "photo_saved";
+        public const string UnknownState = "unknown_state";
+        public const string AddList = "add_list";
+        public const string AddItem = "add_list_item";
+        public const string DeleteItem = "delete_item";
+        public const string DocumentNotSupported = "document_not_supported";
+    }
+
+}
