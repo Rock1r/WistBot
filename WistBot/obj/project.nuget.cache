@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DFG88StAn1o=",
+  "dgSpecHash": "sZBEoSRDCuc=",
   "success": true,
   "projectFilePath": "F:\\dev\\TGBot\\WistBot\\WistBot\\WistBot.csproj",
   "expectedPackageFiles": [
@@ -34,8 +34,7 @@
     "C:\\Users\\Home\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Home\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512",
     "C:\\Users\\Home\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
-    "C:\\Users\\Home\\.nuget\\packages\\wtelegrambot\\8.1.1\\wtelegrambot.8.1.1.nupkg.sha512",
-    "C:\\Users\\Home\\.nuget\\packages\\wtelegramclient\\4.2.5\\wtelegramclient.4.2.5.nupkg.sha512"
+    "C:\\Users\\Home\\.nuget\\packages\\telegram.bot\\22.2.0\\telegram.bot.22.2.0.nupkg.sha512"
   ],
   "logs": []
 }

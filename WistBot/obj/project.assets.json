@@ -519,39 +519,25 @@
           }
         }
       },
-      "WTelegramBot/8.1.1": {
+      "Telegram.Bot/22.2.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Options.ConfigurationExtensions": "8.0.0",
-          "System.Text.Json": "8.0.5",
-          "WTelegramClient": "4.2.5"
+          "System.Text.Json": "8.0.5"
         },
         "compile": {
-          "lib/net8.0/WTelegramBot.dll": {
-            "related": ".xml"
+          "lib/net6.0/Telegram.Bot.dll": {
+            "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net8.0/WTelegramBot.dll": {
-            "related": ".xml"
+          "lib/net6.0/Telegram.Bot.dll": {
+            "related": ".pdb;.xml"
           }
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
-      },
-      "WTelegramClient/4.2.5": {
-        "type": "package",
-        "compile": {
-          "lib/net8.0/WTelegramClient.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net8.0/WTelegramClient.dll": {
-            "related": ".xml"
-          }
-        }
       }
     }
   },
@@ -1654,50 +1640,30 @@
         "version.txt"
       ]
     },
-    "WTelegramBot/8.1.1": {
-      "sha512": "cdBgNRdQnN9cncjUEjT23R6ygAct1+dEFnVyrxQC2KDV86AfJ9ciDum3FIdY57x5ahQOcph8h8i7HBP37lt18w==",
+    "Telegram.Bot/22.2.0": {
+      "sha512": "Ff4K8dtREbEGHRN500b/tDPHXouh0d0+X4aZqVyC9So1u66gn7Il6miqBgurDwDASSx10LMN9cJRidwf+fgXoQ==",
       "type": "package",
-      "path": "wtelegrambot/8.1.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "CHANGES.md",
-        "README.md",
-        "lib/net6.0/WTelegramBot.dll",
-        "lib/net6.0/WTelegramBot.xml",
-        "lib/net8.0/WTelegramBot.dll",
-        "lib/net8.0/WTelegramBot.xml",
-        "lib/netstandard2.0/WTelegramBot.dll",
-        "lib/netstandard2.0/WTelegramBot.xml",
-        "logo.png",
-        "wtelegrambot.8.1.1.nupkg.sha512",
-        "wtelegrambot.nuspec"
-      ]
-    },
-    "WTelegramClient/4.2.5": {
-      "sha512": "XbOeuSv/KYHrm4NqaC39i1N5K5HFGuJW+pbJnuvpnbQAqqDXlKHtT7o7577INpVTMVx7WJfdpUq1qGR/Tm2BUw==",
-      "type": "package",
-      "path": "wtelegramclient/4.2.5",
+      "path": "telegram.bot/22.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "README.md",
-        "lib/net5.0/WTelegramClient.dll",
-        "lib/net5.0/WTelegramClient.xml",
-        "lib/net8.0/WTelegramClient.dll",
-        "lib/net8.0/WTelegramClient.xml",
-        "lib/netstandard2.0/WTelegramClient.dll",
-        "lib/netstandard2.0/WTelegramClient.xml",
-        "logo.png",
-        "wtelegramclient.4.2.5.nupkg.sha512",
-        "wtelegramclient.nuspec"
+        "lib/net6.0/Telegram.Bot.dll",
+        "lib/net6.0/Telegram.Bot.pdb",
+        "lib/net6.0/Telegram.Bot.xml",
+        "lib/netstandard2.0/Telegram.Bot.dll",
+        "lib/netstandard2.0/Telegram.Bot.pdb",
+        "lib/netstandard2.0/Telegram.Bot.xml",
+        "package-icon.png",
+        "telegram.bot.22.2.0.nupkg.sha512",
+        "telegram.bot.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
       "System.Data.SQLite >= 1.0.119",
-      "WTelegramBot >= 8.1.1"
+      "Telegram.Bot >= 22.2.0"
     ]
   },
   "packageFolders": {
@@ -1754,9 +1720,9 @@
             "target": "Package",
             "version": "[1.0.119, )"
           },
-          "WTelegramBot": {
+          "Telegram.Bot": {
             "target": "Package",
-            "version": "[8.1.1, )"
+            "version": "[22.2.0, )"
           }
         },
         "imports": [

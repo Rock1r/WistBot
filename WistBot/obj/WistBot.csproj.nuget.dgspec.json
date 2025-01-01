@@ -54,9 +54,9 @@
               "target": "Package",
               "version": "[1.0.119, )"
             },
-            "WTelegramBot": {
+            "Telegram.Bot": {
               "target": "Package",
-              "version": "[8.1.1, )"
+              "version": "[22.2.0, )"
             }
           },
           "imports": [

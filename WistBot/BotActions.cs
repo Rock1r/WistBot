@@ -21,7 +21,8 @@ namespace WistBot
                 {
                     db.AddWishList(userId, _localization.Get(LocalizationKeys.DefaultListNaming));
                 }
-                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.StartMessage), cancellationToken: token);
+                keyboard = new ReplyKeyboardRemove();
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.StartMessage), replyMarkup: keyboard, cancellationToken: token);
             }
             catch (Exception ex)
             {

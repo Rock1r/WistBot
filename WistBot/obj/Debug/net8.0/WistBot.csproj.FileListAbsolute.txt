@@ -85,5 +85,4 @@ D:\WistBot\WistBot\obj\Debug\net8.0\WistBot.sourcelink.json
 D:\WistBot\WistBot\obj\Debug\net8.0\WistBot.csproj.Up2Date
 D:\WistBot\WistBot\obj\Debug\net8.0\WistBot.genruntimeconfig.cache
 D:\WistBot\WistBot\obj\Debug\net8.0\ref\WistBot.dll
-F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WTelegramBot.dll
-F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\WTelegramClient.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0\Telegram.Bot.dll

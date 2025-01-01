@@ -9,7 +9,7 @@
       "WistBot/1.0.0": {
         "dependencies": {
           "System.Data.SQLite": "1.0.119",
-          "WTelegramBot": "8.1.1"
+          "Telegram.Bot": "22.2.0"
         },
         "runtime": {
           "WistBot.dll": {}
@@ -303,24 +303,15 @@
           }
         }
       },
-      "WTelegramBot/8.1.1": {
+      "Telegram.Bot/22.2.0": {
         "dependencies": {
           "Microsoft.Extensions.Options.ConfigurationExtensions": "8.0.0",
-          "System.Text.Json": "8.0.5",
-          "WTelegramClient": "4.2.5"
+          "System.Text.Json": "8.0.5"
         },
         "runtime": {
-          "lib/net8.0/WTelegramBot.dll": {
-            "assemblyVersion": "8.1.1.0",
-            "fileVersion": "8.1.1.0"
-          }
-        }
-      },
-      "WTelegramClient/4.2.5": {
-        "runtime": {
-          "lib/net8.0/WTelegramClient.dll": {
-            "assemblyVersion": "4.2.5.0",
-            "fileVersion": "4.2.5.0"
+          "lib/net6.0/Telegram.Bot.dll": {
+            "assemblyVersion": "22.2.0.0",
+            "fileVersion": "22.2.0.0"
           }
         }
       }
@@ -542,19 +533,12 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
-    "WTelegramBot/8.1.1": {
+    "Telegram.Bot/22.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cdBgNRdQnN9cncjUEjT23R6ygAct1+dEFnVyrxQC2KDV86AfJ9ciDum3FIdY57x5ahQOcph8h8i7HBP37lt18w==",
-      "path": "wtelegrambot/8.1.1",
-      "hashPath": "wtelegrambot.8.1.1.nupkg.sha512"
-    },
-    "WTelegramClient/4.2.5": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-XbOeuSv/KYHrm4NqaC39i1N5K5HFGuJW+pbJnuvpnbQAqqDXlKHtT7o7577INpVTMVx7WJfdpUq1qGR/Tm2BUw==",
-      "path": "wtelegramclient/4.2.5",
-      "hashPath": "wtelegramclient.4.2.5.nupkg.sha512"
+      "sha512": "sha512-Ff4K8dtREbEGHRN500b/tDPHXouh0d0+X4aZqVyC9So1u66gn7Il6miqBgurDwDASSx10LMN9cJRidwf+fgXoQ==",
+      "path": "telegram.bot/22.2.0",
+      "hashPath": "telegram.bot.22.2.0.nupkg.sha512"
     }
   }
 }
