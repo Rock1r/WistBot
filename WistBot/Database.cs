@@ -38,11 +38,12 @@ namespace WistBot
             connection.Open();
 
             string createTableQuery = @"
-                CREATE TABLE IF NOT EXISTS Users (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    TelegramId TEXT NOT NULL UNIQUE,
-                    UserData TEXT NOT NULL
-                );";
+        CREATE TABLE IF NOT EXISTS Users (
+            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+            TelegramId TEXT NOT NULL UNIQUE,
+            Username TEXT,
+            UserData TEXT NOT NULL
+        );";
 
             using var command = new SQLiteCommand(createTableQuery, connection);
             command.ExecuteNonQuery();
@@ -65,10 +66,36 @@ namespace WistBot
             return Convert.ToInt32(command.ExecuteScalar()) > 0;
         }
 
-        public void AddUser(long telegramId)
+        public bool UserExists(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentException("Username cannot be null or whitespace.", nameof(username));
+            }
+
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+
+            string query = @"
+        SELECT EXISTS(
+            SELECT 1 
+            FROM Users 
+            WHERE Username = @username
+        );
+    ";
+
+            using var command = new SQLiteCommand(query, connection);
+            command.Parameters.AddWithValue("@username", username);
+
+            return Convert.ToInt32(command.ExecuteScalar()) == 1;
+        }
+
+
+        public void AddUser(long telegramId, string username)
         {
             if (UserExists(telegramId))
             {
+                UpdateUsername(telegramId, username);
                 return;
             }
 
@@ -76,18 +103,38 @@ namespace WistBot
             connection.Open();
 
             string insertQuery = @"
-                INSERT INTO Users (TelegramId, UserData)
-                VALUES (@telegramId, @emptyData);
-            ";
+        INSERT INTO Users (TelegramId, Username, UserData)
+        VALUES (@telegramId, @username, @emptyData);
+    ";
 
-            string emptyData = JsonSerializer.Serialize(new UserData(telegramId));
+            string emptyData = JsonSerializer.Serialize(new UserData(telegramId, username));
 
             using var command = new SQLiteCommand(insertQuery, connection);
             command.Parameters.AddWithValue("@telegramId", telegramId);
+            command.Parameters.AddWithValue("@username", username);
             command.Parameters.AddWithValue("@emptyData", emptyData);
 
             command.ExecuteNonQuery();
         }
+
+        public void UpdateUsername(long telegramId, string username)
+        {
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+
+            string updateQuery = @"
+        UPDATE Users
+        SET Username = @username
+        WHERE TelegramId = @telegramId;
+    ";
+
+            using var command = new SQLiteCommand(updateQuery, connection);
+            command.Parameters.AddWithValue("@telegramId", telegramId);
+            command.Parameters.AddWithValue("@username", username);
+
+            command.ExecuteNonQuery();
+        }
+
 
         public UserData GetUserData(long telegramId)
         {
@@ -95,7 +142,7 @@ namespace WistBot
             connection.Open();
 
             string selectQuery = @"
-        SELECT UserData
+        SELECT UserData, Username
         FROM Users
         WHERE TelegramId = @telegramId;
     ";
@@ -107,15 +154,35 @@ namespace WistBot
             if (reader.Read())
             {
                 string jsonData = reader.GetString(0);
-                return JsonSerializer.Deserialize<UserData>(jsonData) ?? new UserData { TelegramId = telegramId };
+                string username = reader.IsDBNull(1) ? null : reader.GetString(1);
+
+                var userData = JsonSerializer.Deserialize<UserData>(jsonData) ?? new UserData { TelegramId = telegramId };
+                userData.Username = username;
+                return userData;
             }
 
             return new UserData { TelegramId = telegramId };
         }
 
+        public string GetUsername(long telegramId)
+        {
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+            string selectQuery = @"
+                SELECT Username
+                FROM Users
+                WHERE TelegramId = @telegramId;";
+            using var command = new SQLiteCommand(selectQuery, connection);
+            command.Parameters.AddWithValue("@telegramId", telegramId);
+            return command.ExecuteScalar() as string;
+        }
+
+
+
+
         public void UpdateItem(long telegramId, string listName, WishListItem newItem)
         {
-            var currentData = GetUserData(telegramId) ?? new UserData(telegramId);
+            var currentData = GetUserData(telegramId) ?? new UserData(telegramId, GetUsername(telegramId));
 
             var currentList = currentData.WishLists.FirstOrDefault(list => list.Name == listName);
 
@@ -173,6 +240,19 @@ namespace WistBot
             }
         }
 
+        public long GetUserId(string username)
+        {
+            using var connection = new SQLiteConnection(_connectionString);
+            connection.Open();
+            string selectQuery = @"
+                SELECT TelegramId
+                FROM Users
+                WHERE Username = @username;
+            ";
+            using var command = new SQLiteCommand(selectQuery, connection);
+            command.Parameters.AddWithValue("@username", username);
+            return Convert.ToInt64(command.ExecuteScalar());
+        }
 
         public bool AddWishList(long telegramId, string listName)
         {

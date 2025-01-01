@@ -9,15 +9,17 @@ namespace WistBot
     internal class UserData
     {
         public long TelegramId { get; set; }
+        public string Username { get; set; }
         public List<WishList> WishLists { get; set; } = new List<WishList>();
 
         public UserData()
         {
         }
 
-        public UserData(long telegramId)
+        public UserData(long telegramId, string username)
         {
             TelegramId = telegramId;
+            Username = username;
         }
 
         public WishList GetWishList(string name)

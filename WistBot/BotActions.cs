@@ -19,7 +19,7 @@ namespace WistBot
                 var userId = message.From.Id;
                 if (!db.UserExists(userId))
                 {
-                    db.AddWishList(userId, _localization.Get(LocalizationKeys.DefaultListNaming));
+                    db.AddUser(userId, message.From.Username);
                 }
                 keyboard = new ReplyKeyboardRemove();
                 await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.StartMessage), replyMarkup: keyboard, cancellationToken: token);
@@ -87,6 +87,58 @@ namespace WistBot
                 }
             }
         }
+
+        public static async Task ShowUserLists(Message message, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
+        {
+            var chatId = message.Chat.Id;
+            var username = message.Text.Trim();
+
+            if (username.StartsWith("@"))
+            {
+                username = username.Substring(1);
+            }
+
+            if (!_database.UserExists(username))
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.UserNotFound), cancellationToken: token);
+                return;
+            }
+
+            var userId = _database.GetUserId(username);
+            var userData = _database.GetUserData(userId);
+
+            if (userData != null && userData.WishLists.Any())
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.UserListsMessage), cancellationToken: token);
+                int counter = 0;
+
+                foreach (var list in userData.WishLists)
+                {
+                    if (list.IsPublic)
+                    {
+                        counter++;
+                        var inlineReply = new InlineKeyboardMarkup(new[]
+                        {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(list.Name, BotCallbacks.List)
+                    }
+                });
+                        await bot.SendMessage(chatId, list.Name, replyMarkup: inlineReply);
+                    }
+                }
+
+                if (counter == 0)
+                {
+                    await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.NoPublicLists), cancellationToken: token);
+                }
+            }
+            else
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.NoLists), cancellationToken: token);
+            }
+        }
+
 
         public static async Task ListsAction(Message message, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
         {
@@ -218,7 +270,6 @@ namespace WistBot
         {
             var message = msg as Message;
             var user = await bot.GetChatMember(message.Chat.Id, message.From.Id);
-            Console.WriteLine(user.User.Username);
             Console.WriteLine("successfully.");
 
         }

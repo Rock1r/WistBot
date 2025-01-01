@@ -31,6 +31,10 @@
         public const string AddItem = "add_list_item";
         public const string DeleteItem = "delete_item";
         public const string DocumentNotSupported = "document_not_supported";
+        public const string UserListsMessage = "user_lists_message";
+        public const string NoLists = "no_lists";
+        public const string NoPublicLists = "no_public_lists";
+        public const string UserNotFound = "user_not_found";
     }
 
 }

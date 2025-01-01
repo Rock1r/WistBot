@@ -130,6 +130,11 @@ namespace WistBot
                         {
                             return;
                         }
+                        if(message.Text.StartsWith("@"))
+                        {
+                           BotActions.ShowUserLists(message, bot, token, _localization, _database);
+                            return;
+                        }
                         if (_actions.TryGetValue(message.Text.Trim(), out var action))
                         {
                             await action(message, bot, token);
