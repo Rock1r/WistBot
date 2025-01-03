@@ -299,6 +299,7 @@ namespace WistBot
             else
             {
                 userData.WishLists[wishListIndex].Items = newItems.Items;
+                userData.WishLists[wishListIndex].IsPublic = newItems.IsPublic;
             }
 
             UpdateUserData(telegramId, userData);

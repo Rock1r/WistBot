@@ -21,23 +21,26 @@ namespace WistBot
             Free
         }
 
-        private static Dictionary<long, UserState> UserStates = new Dictionary<long, UserState>();
-        private static object ObjectToUpdate = new();
-        public static void SetState(long userId, UserState state, object objectToupdate)
+        private static Dictionary<long, (UserState, object)> UserStates = new Dictionary<long, (UserState, object)>();
+        public static void SetState(long userId, UserState state, object objectToupdate = null)
         {
             if (UserStates.ContainsKey(userId))
             {
-                UserStates[userId] = state;
+                if (objectToupdate is null)
+                {
+                    UserStates[userId] = (state, UserStates[userId].Item2);
+                }
+                else
+                    UserStates[userId] = (state, objectToupdate);
             }
             else
             {
-                UserStates.Add(userId, state);
+                UserStates.Add(userId, (state, objectToupdate));
             }
-            ObjectToUpdate = objectToupdate;
             return;
         }
 
-        public static UserState GetState(long userId)
+        public static (UserState, object) GetState(long userId)
         {
             if (UserStates.ContainsKey(userId))
             {
@@ -45,7 +48,7 @@ namespace WistBot
             }
             else
             {
-                return UserState.Free;
+                return (UserState.Free, null);
             }
         }
 
@@ -66,7 +69,7 @@ namespace WistBot
 
         public static bool IsUserInState(long userId, UserState state)
         {
-            return GetState(userId) == state;
+            return GetState(userId).Item1 == state;
         }
 
         public static bool UserHasState(long userId)
@@ -76,7 +79,8 @@ namespace WistBot
 
         internal static async Task HandleStates(long userId, Message message, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
         {
-            var state = GetState(userId);
+            var state = GetState(userId).Item1;
+            var ObjectToUpdate = GetState(userId).Item2;
             if(message is null)
             {
                 return;
@@ -156,6 +160,9 @@ namespace WistBot
 
                     await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
 
+                    break;
+                case UserState.Free:
+                    
                     break;
             }
             RemoveState(userId);

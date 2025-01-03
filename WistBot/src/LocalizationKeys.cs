@@ -35,6 +35,12 @@
         public const string NoLists = "no_lists";
         public const string NoPublicLists = "no_public_lists";
         public const string UserNotFound = "user_not_found";
+        public const string WatchList = "watch_list";
+        public const string VisibilityChanged = "visibility_changed";
+        public const string Type_list = "type_/list";
+        public const string PublicVisibility = "public_visibility";
+        public const string PrivateVisibility = "private_visibility";
+        public const string UserListMessage = "user_list_message";
     }
 
 }

@@ -67,15 +67,20 @@ namespace WistBot
                     var callback = obj as CallbackQuery;
                     await BotActions.DeleteListCallbackAction(callback, bot, token, _localization, _database);
                 },
-                [Button.AddList] = async (obj, bot, token) =>
+                [_localization.Get(Button.AddList)] = async (obj, bot, token) =>
                 {
                     var msg = obj as Message;
                     await BotActions.AddListAction(msg, bot, token, _localization, _database);
                 },
-                [BotCallbacks.AddItem] = async (obj, bot, token) =>
+                [BotCallbacks.ChangeVisability] = async (obj, bot, token) =>
                 {
                     var callback = obj as CallbackQuery;
-                    await BotActions.AddListItemCallbackAction(callback, bot, token, _localization, _database);
+                    await BotActions.ChangeListVisibilityCallbackAction(callback, bot, token, _localization, _database);
+                },
+                [_localization.Get(Button.AddItem)] = async (obj, bot, token) =>
+                {
+                    var msg = obj as Message;
+                    await BotActions.AddListItemAction(msg, bot, token, _localization, _database);
                 },
                 [BotCallbacks.SetName] = async (obj, bot, token) =>
                 {
@@ -96,6 +101,11 @@ namespace WistBot
                 {
                     var callback = obj as CallbackQuery;
                     await BotActions.SetItemMediaCallbackAction(callback, bot, token, _localization, _database);
+                },
+                [BotCallbacks.UserList] = async (obj, bot, token) =>
+                {
+                    var callback = obj as CallbackQuery;
+                    await BotActions.UserListCallbackAction(callback, bot, token, _localization, _database);
                 },
                 [BotCommands.Test] = async (obj, bot, token) =>
                     {
@@ -120,7 +130,7 @@ namespace WistBot
                         var chatId = message.Chat.Id;
                         var userId = message.From.Id;
 
-                        if (UserStateManager.UserHasState(userId))
+                        if (UserStateManager.UserHasState(userId) && UserStateManager.GetState(userId).Item1 != UserStateManager.UserState.Free)
                         {
                             await UserStateManager.HandleStates(userId, message, bot, token, _localization, _database);
 
@@ -147,7 +157,19 @@ namespace WistBot
 
                     case UpdateType.CallbackQuery:
                         var callback = upd.CallbackQuery;
-                        if (_actions.TryGetValue(callback.Data, out var ction))
+                        if (callback.Data.Contains(":"))
+                        {
+                            var data = callback.Data.Split(":");
+                            if (_actions.TryGetValue(data[0], out var ion))
+                            {
+                                await ion(callback, bot, token);
+                            }
+                            else
+                            {
+                                await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
+                            }
+                        }
+                        else if (_actions.TryGetValue(callback.Data, out var ction))
                         {
                             await ction(callback, bot, token);
                         }

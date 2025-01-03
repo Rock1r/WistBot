@@ -17,6 +17,7 @@
         public const string ShareList = "share_list_button";
         public const string DeleteList = "delete_list_button";
         public const string ChangeListName = "change_list_name";
+        public const string ChangeVisability = "change_visability";
 
         public static IEnumerable<string> AllButtons => new[]
         {

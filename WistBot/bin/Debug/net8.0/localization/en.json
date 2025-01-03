@@ -6,5 +6,11 @@
   "lists_message": "your lists: ",
   "no_list": "you have no lists, create a new one",
   "set_name": "Enter the name of the wish",
-  "list_deleted": "List deleted, type '/list' to show your lists."
+  "list_deleted": "List deleted, ",
+  "type_/list": "Type '/list' to show your lists.",
+  "watch_list": "Watch list",
+  "visibility_changed": "Visibility changed to ",
+  "public_visibility": "public.",
+  "private_visibility": "private."
+
 }
