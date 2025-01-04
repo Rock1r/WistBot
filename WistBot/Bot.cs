@@ -92,11 +92,11 @@ namespace WistBot
                     var callback = obj as CallbackQuery;
                     await BotActions.SetItemDescriptionCallbackAction(callback, bot, token, _localization, _database);
                 },
-                /*[BotCallbacks.SetLink] = async (obj, bot, token) =>
+                [BotCallbacks.SetLink] = async (obj, bot, token) =>
                 {
                     var callback = obj as CallbackQuery;
                     await BotActions.SetItemLinkCallbackAction(callback, bot, token, _localization, _database);
-                },*/
+                },
                 [BotCallbacks.SetMedia] = async (obj, bot, token) =>
                 {
                     var callback = obj as CallbackQuery;
@@ -106,6 +106,11 @@ namespace WistBot
                 {
                     var callback = obj as CallbackQuery;
                     await BotActions.UserListCallbackAction(callback, bot, token, _localization, _database);
+                },
+                [BotCallbacks.DeleteItem] = async (obj, bot, token) =>
+                {
+                    var callback = obj as CallbackQuery;
+                    await BotActions.DeleteItemCallbackAction(callback, bot, token, _localization, _database);
                 },
                 [BotCommands.Test] = async (obj, bot, token) =>
                     {
@@ -122,74 +127,80 @@ namespace WistBot
         {
             try
             {
-                var type = upd.Type;
-                switch (type)
+                switch (upd.Type)
                 {
                     case UpdateType.Message:
-                        var message = upd.Message;
-                        var chatId = message.Chat.Id;
-                        var userId = message.From.Id;
-
-                        if (UserStateManager.UserHasState(userId) && UserStateManager.GetState(userId).Item1 != UserStateManager.UserState.Free)
-                        {
-                            await UserStateManager.HandleStates(userId, message, bot, token, _localization, _database);
-
-                            return;
-                        }
-                        if (message.Text == null)
-                        {
-                            return;
-                        }
-                        if(message.Text.StartsWith("@"))
-                        {
-                           BotActions.ShowUserLists(message, bot, token, _localization, _database);
-                            return;
-                        }
-                        if (_actions.TryGetValue(message.Text.Trim(), out var action))
-                        {
-                            await action(message, bot, token);
-                        }
-                        else
-                        {
-                            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
-                        }
+                        await HandleMessage(upd.Message, bot, token);
                         break;
 
                     case UpdateType.CallbackQuery:
-                        var callback = upd.CallbackQuery;
-                        if (callback.Data.Contains(":"))
-                        {
-                            var data = callback.Data.Split(":");
-                            if (_actions.TryGetValue(data[0], out var ion))
-                            {
-                                await ion(callback, bot, token);
-                            }
-                            else
-                            {
-                                await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
-                            }
-                        }
-                        else if (_actions.TryGetValue(callback.Data, out var ction))
-                        {
-                            await ction(callback, bot, token);
-                        }
-                        else
-                        {
-                            await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
-                        }
+                        await HandleCallbackQuery(upd.CallbackQuery, bot, token);
                         break;
 
                     default:
-                        Console.WriteLine($"Unsupported UpdateType: {type}");
+                        Console.WriteLine($"Unsupported UpdateType: {upd.Type}");
                         break;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error while processing update: {ex.Message}");
+                Console.WriteLine($"Error while processing update: {ex}");
             }
         }
-        
+
+        private async Task HandleMessage(Message message, ITelegramBotClient bot, CancellationToken token)
+        {
+            if (message == null)
+                return;
+
+            var chatId = message.Chat.Id;
+            var userId = message.From.Id;
+
+            if (UserStateManager.UserHasState(userId) && UserStateManager.GetState(userId).Item1 != UserStateManager.UserState.Free)
+            {
+                await UserStateManager.HandleStates(userId, message, bot, token, _localization, _database);
+                return;
+            }
+
+            if (message.Text.StartsWith("@"))
+            {
+                BotActions.ShowUserLists(message, bot, token, _localization, _database);
+                return;
+            }
+
+            if (_actions.TryGetValue(message.Text.Trim(), out var action))
+            {
+                await action(message, bot, token);
+            }
+            else
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
+            }
+        }
+
+        private async Task HandleCallbackQuery(CallbackQuery callback, ITelegramBotClient bot, CancellationToken token)
+        {
+            if (callback == null || callback.Data == null)
+                return;
+
+            var dataParts = callback.Data.Split(':');
+            var key = dataParts[0];
+
+            if (_actions.TryGetValue(key, out var action))
+            {
+                await action(callback, bot, token);
+            }
+            else
+            {
+                var chatId = callback.Message?.Chat.Id;
+                if (chatId != null)
+                {
+                    await bot.SendMessage(chatId.Value, _localization.Get(LocalizationKeys.NotACommand), cancellationToken: token);
+                }
+            }
+        }
+
+
         private Task HandleError(ITelegramBotClient bot, Exception exception, CancellationToken token)
         {
             Console.WriteLine($"Error: {exception.Message}");

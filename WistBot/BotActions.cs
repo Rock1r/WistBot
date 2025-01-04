@@ -197,9 +197,14 @@ namespace WistBot
             }
             var userId = callback.From.Id;
             var listName = callback.Message.Text;
-            UserStateManager.SetState(userId, UserStateManager.UserState.Free, _database.GetWishList(userId, listName));
-            
-            await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.ListMessage), cancellationToken: token);
+            var list = _database.GetWishList(userId, listName);
+            UserStateManager.SetState(userId, UserStateManager.UserState.Free, list);
+            var messageToSend = _localization.Get(LocalizationKeys.ListMessage);
+            if (!list.Items.Any())
+            {
+                messageToSend = _localization.Get(LocalizationKeys.EmptyList);
+            }
+            await bot.SendMessage(callback.Message.Chat.Id, messageToSend, cancellationToken: token);
             await ShowList(callback.Message, bot, token, _database, _localization, callback.Message.Text);
         }
 
@@ -226,13 +231,18 @@ namespace WistBot
             {
                 foreach (var item in list.Items)
                 {
+                    var name = item.Name;
+                    if (item.Link is not null)
+                    {
+                        name = "<a href=\"" + item.Link + "\">" + item.Name + "</a>";
+                    }
                     if (item.Photo is not null)
                     {
-                        await bot.SendPhoto(chatId, item.Photo, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, cancellationToken: token, parseMode: ParseMode.Html);
+                        await bot.SendPhoto(chatId, item.Photo, $"<b>{name}</b>" + "\n" + item.Description, cancellationToken: token, parseMode: ParseMode.Html);
                     }
                     else
                     {
-                        await bot.SendMessage(chatId, item.Name + "\n" + item.Description + "\n" + item.Link, cancellationToken: token);
+                        await bot.SendMessage(chatId, $"<b>{name}</b>" + "\n" + item.Description, cancellationToken: token, parseMode: ParseMode.Html);
                     }
                 }
             }
@@ -319,11 +329,41 @@ namespace WistBot
             var userId = callback.From.Id;
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
-
             var item = _database.GetItem(userId, text);
             UserStateManager.SetState(userId, UserStateManager.UserState.SettingMedia, item);
             keyboard = new ReplyKeyboardRemove();
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetMedia), replyMarkup: keyboard, cancellationToken: token);
+        }
+
+        public static async Task SetItemLinkCallbackAction(CallbackQuery callback, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
+        {
+            if (callback == null)
+            {
+                return;
+            }
+            var chatId = callback.Message.Chat.Id;
+            var userId = callback.From.Id;
+            var text = callback.Message.Text ?? callback.Message.Caption;
+            text = text.Split("\n")[0];
+            var item = _database.GetItem(userId, text);
+            UserStateManager.SetState(userId, UserStateManager.UserState.SettingLink, item);
+            keyboard = new ReplyKeyboardRemove();
+            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetLink), replyMarkup: keyboard, cancellationToken: token);
+        }
+
+        public static async Task DeleteItemCallbackAction(CallbackQuery callback, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
+        {
+            if (callback == null)
+            {
+                return;
+            }
+            var chatId = callback.Message.Chat.Id;
+            var userId = callback.From.Id;
+            var text = callback.Message.Text ?? callback.Message.Caption;
+            text = text.Split("\n")[0];
+            var item = _database.GetItem(userId, text);
+            _database.DeleteItem(userId, item.ListName, item.Id);
+            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemDeleted), cancellationToken: token);
         }
 
         public static async Task Test(object msg, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database database)

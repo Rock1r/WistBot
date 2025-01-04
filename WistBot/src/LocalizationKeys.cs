@@ -41,6 +41,8 @@
         public const string PublicVisibility = "public_visibility";
         public const string PrivateVisibility = "private_visibility";
         public const string UserListMessage = "user_list_message";
+        public const string ItemDeleted = "item_deleted";
+        public const string EmptyList = "empty_list";
     }
 
 }

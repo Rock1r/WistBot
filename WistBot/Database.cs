@@ -322,6 +322,29 @@ namespace WistBot
             }
         }
 
+        public void DeleteItem(long telegramId, string listName, long itemId)
+        {
+            var userData = GetUserData(telegramId);
+            var wishList = userData.WishLists.FirstOrDefault(list => list.Name == listName);
+            if (wishList != null)
+            {
+                var item = wishList.Items.FirstOrDefault(item => item.Id == itemId);
+                if (item != null)
+                {
+                    wishList.Items.Remove(item);
+                    UpdateWishList(telegramId, listName, wishList);
+                }
+                else
+                {
+                    Console.WriteLine("No item found with the given ID.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No list found with the given name.");
+            }
+        }
+
         public WishListItem GetItem(long userId, string? text)
         {
             if (string.IsNullOrEmpty(text))

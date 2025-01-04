@@ -107,17 +107,35 @@ namespace WistBot
                     break;
                 case UserState.SettingItemName:
                     var itemName = message.Text;
-                    if (ObjectToUpdate is WishList)
+                    if (ObjectToUpdate is WishList wishList)
                     {
-                        ((WishList)ObjectToUpdate).Items.Add(new WishListItem(((WishList)ObjectToUpdate).Name) { Name = itemName });
-                        _database.UpdateWishList(userId, ((WishList)ObjectToUpdate).Name, (WishList)ObjectToUpdate);
-                        await BotActions.ShowList(message, bot, token,  _database, _localization, ((WishList)ObjectToUpdate).Name);
+                        var baseName = itemName;
+                        var counter = 1;
+                        while (wishList.Items.Any(x => x.Name == itemName))
+                        {
+                            itemName = $"{baseName}{counter}";
+                            counter++;
+                        }
+                        wishList.Items.Add(new WishListItem(wishList.Name) { Name = itemName });
+                        _database.UpdateWishList(userId, wishList.Name, wishList);
+                        await BotActions.ShowList(message, bot, token,  _database, _localization, wishList.Name);
                     }
-                    else if (ObjectToUpdate is WishListItem)
+                    else if (ObjectToUpdate is WishListItem wishListItem)
                     {
-                        ((WishListItem)ObjectToUpdate).Name = itemName;
-                        _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
-                        await BotActions.ShowList(message, bot, token,  _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                        var baseName = itemName;
+                        var counter = 1;
+                        var parentListName = wishListItem.ListName;
+
+                        var parentList = _database.GetWishList(userId, parentListName);
+                        while (parentList.Items.Any(x => x.Name == itemName))
+                        {
+                            itemName = $"{baseName}{counter}";
+                            counter++;
+                        }
+
+                        wishListItem.Name = itemName;
+                        _database.UpdateItem(userId, parentListName, wishListItem);
+                        await BotActions.ShowList(message, bot, token, _database, _localization, parentListName);
                     }
                     break;
                 case UserState.SettingDescription:
@@ -130,6 +148,18 @@ namespace WistBot
                     }
                     break;
                 case UserState.SettingLink:
+                    if (!Uri.IsWellFormedUriString(message.Text, UriKind.Absolute))
+                    {
+                        await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.InvalidLink), cancellationToken: token);
+                        break;
+                    }
+                    var link = message.Text;
+                    if (ObjectToUpdate is WishListItem)
+                    {
+                        ((WishListItem)ObjectToUpdate).Link = link;
+                        _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
+                        await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                    }
                     break;
                 case UserState.SettingMedia:
                     if (message.Document != null)
@@ -139,11 +169,11 @@ namespace WistBot
                     }
                     if (message.Photo != null)
                     {
-                        if (ObjectToUpdate is WishListItem)
+                        if (ObjectToUpdate is WishListItem wish)
                         {
-                            ((WishListItem)ObjectToUpdate).Photo = message.Photo[0];
-                            _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
-                            await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                            wish.Photo = message.Photo[0];
+                            _database.UpdateItem(userId, wish.ListName, wish);
+                            await BotActions.ShowList(message, bot, token, _database, _localization, wish.ListName);
                         }
                         break;
                     }
