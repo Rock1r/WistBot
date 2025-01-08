@@ -177,9 +177,6 @@ namespace WistBot
             return command.ExecuteScalar() as string;
         }
 
-
-
-
         public void UpdateItem(long telegramId, string listName, WishListItem newItem)
         {
             var currentData = GetUserData(telegramId) ?? new UserData(telegramId, GetUsername(telegramId));
@@ -201,8 +198,7 @@ namespace WistBot
                     existingItem.Description = newItem.Description;
                     existingItem.Link = newItem.Link;
                     existingItem.Photo = newItem.Photo;
-                    existingItem.PerformerId = newItem.PerformerId;
-                    existingItem.CurrentState = newItem.CurrentState;
+                    existingItem.PerformerName = newItem.PerformerName;
                 }
                 else
                 {
@@ -254,20 +250,6 @@ namespace WistBot
             return Convert.ToInt64(command.ExecuteScalar());
         }
 
-        public bool AddWishList(long telegramId, string listName)
-        {
-            var userData = GetUserData(telegramId);
-
-            if (userData.WishLists.Any(list => list.Name == listName))
-            {
-                return false;
-            }
-
-            userData.WishLists.Add(new WishList { Name = listName });
-            UpdateUserData(telegramId, userData);
-            return true;
-        }
-
         public WishList GetWishList(long telegramId, string listName)
         {
             var userData = GetUserData(telegramId);
@@ -275,35 +257,77 @@ namespace WistBot
             var wishList = userData.WishLists.FirstOrDefault(list => list.Name == listName);
             if (wishList == null)
             {
-                Console.WriteLine("No list found with the given name.");
-                return new WishList { Name = listName }; // Повертаємо порожній список.
+                return null;
             }
 
             return wishList;
         }
 
-        public void UpdateWishList(long telegramId, string listName, WishList newItems)
+        public void UpdateWishList(long telegramId, long listId, WishList newList)
         {
             var userData = GetUserData(telegramId);
 
-            var wishListIndex = userData.WishLists.FindIndex(list => list.Name == listName);
+            if (userData is null)
+            {
+                throw new ArgumentNullException(nameof(userData), $"User data not found for Telegram ID {telegramId}");
+            }
+
+            // Знаходимо існуючий список за ID
+            var wishListIndex = userData.WishLists.FindIndex(list => list.Id == listId);
 
             if (wishListIndex == -1)
             {
-                userData.WishLists.Add(new WishList
-                {
-                    Name = listName,
-                    Items = newItems.Items
-                });
-            }
-            else
-            {
-                userData.WishLists[wishListIndex].Items = newItems.Items;
-                userData.WishLists[wishListIndex].IsPublic = newItems.IsPublic;
+                // Якщо список не знайдено, додаємо новий
+                AddWishList(telegramId, newList);
+                return;
             }
 
+            // Оновлюємо існуючий список
+            var wishList = userData.WishLists[wishListIndex];
+            wishList.Items = newList.Items;
+            wishList.Name = newList.Name;
+            foreach (var item in wishList.Items)
+            {
+                item.ListName = newList.Name;
+            }
+            wishList.IsPublic = newList.IsPublic;
+
+            // Зберігаємо зміни
             UpdateUserData(telegramId, userData);
         }
+
+        public bool AddWishList(long telegramId, WishList wishlist)
+        {
+            if (wishlist is null)
+            {
+                throw new ArgumentNullException(nameof(wishlist), "WishList cannot be null");
+            }
+
+            var userData = GetUserData(telegramId);
+            if (userData is null)
+            {
+                throw new ArgumentNullException(nameof(userData), $"User data not found for Telegram ID {telegramId}");
+            }
+
+            // Перевіряємо, чи існує список із таким самим ID
+            if (userData.WishLists.Any(list => list.Id == wishlist.Id))
+            {
+                Console.WriteLine($"WishList with ID {wishlist.Id} already exists for user {telegramId}");
+                return false;
+            }
+
+            // Оновлюємо ListName для елементів нового списку
+            foreach (var item in wishlist.Items)
+            {
+                item.ListName = wishlist.Name;
+            }
+
+            // Додаємо новий список
+            userData.WishLists.Add(wishlist);
+            UpdateUserData(telegramId, userData);
+            return true;
+        }
+
 
 
         public void DeleteWishList(long telegramId, string listName)
@@ -332,7 +356,7 @@ namespace WistBot
                 if (item != null)
                 {
                     wishList.Items.Remove(item);
-                    UpdateWishList(telegramId, listName, wishList);
+                    UpdateWishList(telegramId, wishList.Id, wishList);
                 }
                 else
                 {

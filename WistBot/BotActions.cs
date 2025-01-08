@@ -4,7 +4,6 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using WistBot.src;
 
 namespace WistBot
 {
@@ -34,7 +33,6 @@ namespace WistBot
         {
             var chatId = message.Chat.Id;
             keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(Button.Ukrainian), new KeyboardButton(Button.English));
-
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ChangeLanguage), replyMarkup: keyboard, cancellationToken: token);
         }
 
@@ -81,9 +79,13 @@ namespace WistBot
                     {
                         await bot.SendPhoto(message.Chat.Id, item.Photo, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
                     }
+                    else if (item.Video is not null)
+                    {
+                        await bot.SendVideo(message.Chat.Id, item.Video, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
+                    }
                     else
                     {
-                        await bot.SendMessage(message.Chat.Id, item.Name + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token);
+                        await bot.SendMessage(message.Chat.Id, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
                     }
                 }
             }
@@ -186,7 +188,7 @@ namespace WistBot
             var chatId = message.Chat.Id;
             UserStateManager.SetState(message.From.Id, UserStateManager.UserState.SettingListName, new WishList());
             keyboard = new ReplyKeyboardRemove();
-            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.AddList), replyMarkup: keyboard, cancellationToken: token);
+            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetListName), replyMarkup: keyboard, cancellationToken: token);
         }
 
         public static async Task ListCallbackAction(CallbackQuery callback, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
@@ -198,6 +200,11 @@ namespace WistBot
             var userId = callback.From.Id;
             var listName = callback.Message.Text;
             var list = _database.GetWishList(userId, listName);
+            if (list is null)
+            {
+                await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.ListNotFound), cancellationToken: token);
+                return;
+            }
             UserStateManager.SetState(userId, UserStateManager.UserState.Free, list);
             var messageToSend = _localization.Get(LocalizationKeys.ListMessage);
             if (!list.Items.Any())
@@ -227,6 +234,11 @@ namespace WistBot
         {
             
             var list = _database.GetWishList(_database.GetUserId(ownerName), listName);
+            if (list is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ListNotFound), cancellationToken: token);
+                return;
+            }
             if (list.Items.Count > 0)
             {
                 foreach (var item in list.Items)
@@ -239,6 +251,10 @@ namespace WistBot
                     if (item.Photo is not null)
                     {
                         await bot.SendPhoto(chatId, item.Photo, $"<b>{name}</b>" + "\n" + item.Description, cancellationToken: token, parseMode: ParseMode.Html);
+                    }
+                    else if (item.Video is not null)
+                    {
+                        await bot.SendVideo(chatId, item.Video, $"<b>{name}</b>" + "\n" + item.Description, cancellationToken: token, parseMode: ParseMode.Html);
                     }
                     else
                     {
@@ -269,9 +285,14 @@ namespace WistBot
             var userId = callback.From.Id;
             var listName = callback.Message.Text;
             var list = _database.GetWishList(userId, listName);
+            if (list is null)
+            {
+                await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.ListNotFound), cancellationToken: token);
+                return;
+            }
             list.IsPublic = !list.IsPublic;
             var isPublic = list.IsPublic ? _localization.Get(LocalizationKeys.PublicVisibility) : _localization.Get(LocalizationKeys.PrivateVisibility);
-            _database.UpdateWishList(userId, listName, list);
+            _database.UpdateWishList(userId, list.Id, list);
             await bot.SendMessage(callback.Message.Chat.Id, _localization.Get(LocalizationKeys.VisibilityChanged) + isPublic + "\n" + _localization.Get(LocalizationKeys.Type_list), cancellationToken: token);
         }
 
@@ -298,6 +319,11 @@ namespace WistBot
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
             var item = _database.GetItem(userId, text);
+            if (item is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemNotFound), cancellationToken: token);
+                return;
+            }
             UserStateManager.SetState(userId, UserStateManager.UserState.SettingItemName, item);
             keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(LocalizationKeys.DefaultItemNaming));
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetName), replyMarkup: keyboard, cancellationToken: token);
@@ -314,8 +340,20 @@ namespace WistBot
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
             var item = _database.GetItem(userId, text);
+            if (item is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemNotFound), cancellationToken: token);
+                return;
+            }
             UserStateManager.SetState(userId, UserStateManager.UserState.SettingDescription, item);
-            keyboard = new ReplyKeyboardRemove();
+            if (item.Description is not null)
+            {
+                keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(LocalizationKeys.RemoveDescription));
+            }
+            else
+            {
+                keyboard = new ReplyKeyboardRemove();
+            }
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetDescription), replyMarkup: keyboard, cancellationToken: token);
         }
 
@@ -330,8 +368,20 @@ namespace WistBot
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
             var item = _database.GetItem(userId, text);
+            if (item is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemNotFound), cancellationToken: token);
+                return;
+            }
             UserStateManager.SetState(userId, UserStateManager.UserState.SettingMedia, item);
-            keyboard = new ReplyKeyboardRemove();
+            if (item.Photo is not null)
+            {
+                keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(LocalizationKeys.RemoveMedia));
+            }
+            else
+            {
+                keyboard = new ReplyKeyboardRemove();
+            }
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetMedia), replyMarkup: keyboard, cancellationToken: token);
         }
 
@@ -346,8 +396,20 @@ namespace WistBot
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
             var item = _database.GetItem(userId, text);
+            if (item is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemNotFound), cancellationToken: token);
+                return;
+            }
             UserStateManager.SetState(userId, UserStateManager.UserState.SettingLink, item);
-            keyboard = new ReplyKeyboardRemove();
+            if (item.Link is not null)
+            {
+                keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(LocalizationKeys.RemoveLink));
+            }
+            else
+            {
+                keyboard = new ReplyKeyboardRemove();
+            }
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetLink), replyMarkup: keyboard, cancellationToken: token);
         }
 
@@ -362,14 +424,42 @@ namespace WistBot
             var text = callback.Message.Text ?? callback.Message.Caption;
             text = text.Split("\n")[0];
             var item = _database.GetItem(userId, text);
+            if (item is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemNotFound), cancellationToken: token);
+                return;
+            }
             _database.DeleteItem(userId, item.ListName, item.Id);
             await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ItemDeleted), cancellationToken: token);
+            await ShowList(callback.Message, bot, token, _database, _localization, item.ListName);
+        }
+
+        public static async Task ChangeListNameCallbackAction(CallbackQuery callback, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
+        {
+            var chatId = callback.Message.Chat.Id;
+            var userId = callback.From.Id;
+            var listName = callback.Message.Text;
+            var list = _database.GetWishList(userId, listName);
+            if (list is null)
+            {
+                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ListNotFound), cancellationToken: token);
+                return;
+            }
+            UserStateManager.SetState(userId, UserStateManager.UserState.SettingListName, list);
+            keyboard = new ReplyKeyboardMarkup(true).AddButton(new KeyboardButton(LocalizationKeys.DefaultListNaming));
+            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.SetListName), replyMarkup: keyboard, cancellationToken: token);
         }
 
         public static async Task Test(object msg, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database database)
         {
             var message = msg as Message;
-            var user = await bot.GetChatMember(message.Chat.Id, message.From.Id);
+            var chatId = message.Chat.Id;
+            var userId = message.From.Id;
+            var photo = new Video();
+            {
+                
+            };
+            
             Console.WriteLine("successfully.");
 
         }

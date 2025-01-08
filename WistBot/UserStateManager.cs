@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using WistBot.src;
 
 namespace WistBot
 {
@@ -85,28 +84,50 @@ namespace WistBot
             {
                 return;
             }
+            if (message.Text is not null)
+            {
+                if (message.Text.StartsWith("@"))
+                {
+                    await BotActions.ShowUserLists(message, bot, token, _localization, _database);
+                    return;
+                }
+                if (message.Text.StartsWith("/"))
+                {
+                    await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.NameCantStartWithSlash), cancellationToken: token);
+                    return;
+                }
+            }
 
             switch (state)
             {
                 case UserState.SettingListName:
-                    var listName = message.Text;
-                    if (ObjectToUpdate is WishList)
+                    var newListName = message.Text;
+                    if (string.IsNullOrEmpty(newListName))
                     {
-                        ((WishList)ObjectToUpdate).Name = listName;
+                        await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
+                        break;
+                    }
+                    if (ObjectToUpdate is WishList list)
+                    {
+                        list.Name = newListName;
+                        _database.UpdateWishList(userId, list.Id, list);
                     }
                     else
                     {
-                        ObjectToUpdate = new WishList { Name = listName };
+                        var newList = new WishList { Name = newListName };
+                        _database.AddWishList(userId, newList);
                     }
-                    foreach (var item in ((WishList)ObjectToUpdate).Items)
-                    {
-                        item.ListName = listName;
-                    }
-                    _database.UpdateWishList(userId, listName, (WishList)ObjectToUpdate);
+
                     await BotActions.ListsAction(message, bot, token, _localization, _database);
                     break;
+
                 case UserState.SettingItemName:
                     var itemName = message.Text;
+                    if (itemName == null)
+                    {
+                        await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
+                        break;
+                    }
                     if (ObjectToUpdate is WishList wishList)
                     {
                         var baseName = itemName;
@@ -117,7 +138,7 @@ namespace WistBot
                             counter++;
                         }
                         wishList.Items.Add(new WishListItem(wishList.Name) { Name = itemName });
-                        _database.UpdateWishList(userId, wishList.Name, wishList);
+                        _database.UpdateWishList(userId, wishList.Id, wishList);
                         await BotActions.ShowList(message, bot, token,  _database, _localization, wishList.Name);
                     }
                     else if (ObjectToUpdate is WishListItem wishListItem)
@@ -140,6 +161,11 @@ namespace WistBot
                     break;
                 case UserState.SettingDescription:
                     var description = message.Text;
+                    if (description == null)
+                    {
+                        await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.DescriptionCantBeEmpty), cancellationToken: token);
+                        break;
+                    }
                     if (ObjectToUpdate is WishListItem)
                     {
                         ((WishListItem)ObjectToUpdate).Description = description;
@@ -171,6 +197,11 @@ namespace WistBot
                     {
                         if (ObjectToUpdate is WishListItem wish)
                         {
+                            if (wish.Video != null)
+                            {
+                                wish.Video = null;
+                                break;
+                            }
                             wish.Photo = message.Photo[0];
                             _database.UpdateItem(userId, wish.ListName, wish);
                             await BotActions.ShowList(message, bot, token, _database, _localization, wish.ListName);
@@ -179,11 +210,25 @@ namespace WistBot
                     }
                     if (message.Video != null)
                     {
-                        if (ObjectToUpdate is WishListItem)
+                        if(message.Video.Duration > 60)
                         {
-                            ((WishListItem)ObjectToUpdate).Video = message.Video;
-                            _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
-                            await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                            await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.VideoTooLong), cancellationToken: token);
+                            break;
+                        }
+                        if (ObjectToUpdate is WishListItem wish)
+                        {
+                            if (wish.Photo != null)
+                            {
+                                Console.WriteLine(2);
+
+                                wish.Photo = null;
+                                break;
+                            }
+                            wish.Video = message.Video;
+                            Console.WriteLine(wish.Video.Duration);
+
+                            _database.UpdateItem(userId, wish.ListName, wish);
+                            await BotActions.ShowList(message, bot, token, _database, _localization, wish.ListName);
                         }
                         break;
                     }

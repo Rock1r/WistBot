@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using WistBot.src;
 
 namespace WistBot
 {
@@ -112,6 +111,11 @@ namespace WistBot
                     var callback = obj as CallbackQuery;
                     await BotActions.DeleteItemCallbackAction(callback, bot, token, _localization, _database);
                 },
+                [BotCallbacks.ChangeListName] = async (obj, bot, token) =>
+                {
+                    var callback = obj as CallbackQuery;
+                    await BotActions.ChangeListNameCallbackAction(callback, bot, token, _localization, _database);
+                },
                 [BotCommands.Test] = async (obj, bot, token) =>
                     {
                         var msg = obj as Message;
@@ -162,9 +166,11 @@ namespace WistBot
                 return;
             }
 
+            if (message.Text == null)
+                return;
             if (message.Text.StartsWith("@"))
             {
-                BotActions.ShowUserLists(message, bot, token, _localization, _database);
+                await BotActions.ShowUserLists(message, bot, token, _localization, _database);
                 return;
             }
 
