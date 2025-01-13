@@ -52,6 +52,7 @@
         public const string ListNotFound = "list_not_found";
         public const string NameCantBeEmpty = "name_cant_be_empty";
         public const string DescriptionCantBeEmpty = "description_cant_be_empty";
+        public const string InvalidMedia = "invalid_media";
     }
 
 }

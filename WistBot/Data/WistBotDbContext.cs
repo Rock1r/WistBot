@@ -26,15 +26,17 @@ namespace WistBot.Data
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new WishListConfiguration());
             modelBuilder.ApplyConfiguration(new WishListItemConfiguration());
-            modelBuilder.ApplyConfiguration(new PhotoSizeConfiguration());
-            modelBuilder.ApplyConfiguration(new VideoConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(_configuration.GetConnectionString(nameof(WistBotDbContext)));
+            var relativePath = _configuration.GetConnectionString(nameof(WistBotDbContext));
+
+            var dbPath = Path.Combine(AppContext.BaseDirectory, relativePath);
+
+            optionsBuilder.UseSqlite($"Data Source={Path.GetFullPath(dbPath)}");
         }
     }
 }

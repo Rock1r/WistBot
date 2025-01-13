@@ -1,4 +1,5 @@
-﻿using WistBot.Data.Models;
+﻿using Telegram.Bot.Types;
+using WistBot.Data.Models;
 using WistBot.Data.Repos;
 using WistBot.Enums;
 
@@ -18,24 +19,38 @@ namespace WistBot.Services
             return await _wishListItemsRepo.GetById(id);
         }
 
+        public async Task<WishListItemEntity> GetByName(string name)
+        {
+            return await _wishListItemsRepo.GetByName(name);
+        }
+
         public async Task<List<WishListItemEntity>> Get()
         {
             return await _wishListItemsRepo.Get();
         }
 
-        public async Task Add(string name, string description, string link, PhotoSizeEntity? photo, VideoEntity? video, string performerName, State currentState, Guid listId)
+        public async Task Add(string name, string description, string link, PhotoSize? photo, Video? video, string performerName, State currentState, Guid listId)
         {
-            await _wishListItemsRepo.Add(name, description, link, photo, video, performerName, currentState, listId);
+            var media = photo != null ? photo.FileId : video != null ? video.FileId : string.Empty;
+           
+            await _wishListItemsRepo.Add(name, description, link, media, performerName, currentState, listId);
         }
 
         public async Task Add(WishListItemEntity item)
         {
-            await _wishListItemsRepo.Add(item.Name, item.Description, item.Link, item.Photo, item.Video, item.PerformerName, item.CurrentState, item.ListId);
+
+            await _wishListItemsRepo.Add(item.Name, item.Description, item.Link, item.Media, item.PerformerName, item.CurrentState, item.ListId);
         }
 
-        public async Task Update(Guid id, string name, string description, string link, PhotoSizeEntity? photo, VideoEntity? video, string performerName, State currentState)
+        public async Task Update(Guid id, string name, string description, string link, PhotoSize? photo, Video? video, string performerName, State currentState)
         {
-            await _wishListItemsRepo.Update(id, name, description, link, photo, video, performerName, currentState);
+            var media = photo != null ? photo.FileId : video != null ? video.FileId : string.Empty;
+            await _wishListItemsRepo.Update(id, name, description, link, media, performerName, currentState);
+        }
+
+        public async Task Update(WishListItemEntity item)
+        {
+            await _wishListItemsRepo.Update(item.Id, item.Name, item.Description, item.Link, item.Media, item.PerformerName, item.CurrentState);
         }
 
         public async Task Delete(Guid id)

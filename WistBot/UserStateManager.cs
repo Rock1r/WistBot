@@ -1,82 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using WistBot.Services;
+using WistBot.States;
+using WistBot.UserStates;
 
 namespace WistBot
 {
-    public static class UserStateManager
+    public class UserStateManager
     {
-        public enum UserState
+        private readonly Dictionary<long, IUserStateHandler> _userStates = new();
+
+        public void SetState(long userId, IUserStateHandler stateHandler)
         {
-            SettingListName,
-            SettingItemName,
-            SettingDescription,
-            SettingLink,
-            SettingMedia,
-            Free
+            _userStates[userId] = stateHandler;
         }
 
-        private static Dictionary<long, (UserState, object)> UserStates = new Dictionary<long, (UserState, object)>();
-        public static void SetState(long userId, UserState state, object objectToupdate = null)
+        public async Task HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, WishListItemsService wishListItemsService)
         {
-            if (UserStates.ContainsKey(userId))
+            if (_userStates.TryGetValue(userId, out var stateHandler))
             {
-                if (objectToupdate is null)
+                await stateHandler.HandleStateAsync(userId, message, bot, token, localization, wishListsService, wishListItemsService);
+                if (stateHandler is ViewingListState)
                 {
-                    UserStates[userId] = (state, UserStates[userId].Item2);
+                    return;
                 }
-                else
-                    UserStates[userId] = (state, objectToupdate);
-            }
-            else
-            {
-                UserStates.Add(userId, (state, objectToupdate));
-            }
-            return;
-        }
-
-        public static (UserState, object) GetState(long userId)
-        {
-            if (UserStates.ContainsKey(userId))
-            {
-                return UserStates[userId];
-            }
-            else
-            {
-                return (UserState.Free, null);
+                _userStates.Remove(userId);
             }
         }
 
-        public static void RemoveState(long userId)
+        public void RemoveState(long userId)
         {
-            if (UserStates.ContainsKey(userId))
-            {
-                UserStates.Remove(userId);
-            }
-            return;
+            _userStates.Remove(userId);
         }
 
-        public static void ClearStates()
+        public bool UserHasState(long userId)
         {
-            UserStates.Clear();
-            return;
+            return _userStates.ContainsKey(userId);
         }
 
-        public static bool IsUserInState(long userId, UserState state)
+        public void ClearStates()
         {
-            return GetState(userId).Item1 == state;
+            _userStates.Clear();
         }
 
-        public static bool UserHasState(long userId)
-        {
-            return UserStates.ContainsKey(userId);
-        }
-
-        internal static async Task HandleStates(long userId, Message message, ITelegramBotClient bot, CancellationToken token, Localization _localization, Database _database)
+       /* internal static async Task HandleStates(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService _localization, WishListsService _wishListsService, WishListItemsService _wishListItemsService)
         {
             var state = GetState(userId).Item1;
             var ObjectToUpdate = GetState(userId).Item2;
@@ -88,7 +55,7 @@ namespace WistBot
             {
                 if (message.Text.StartsWith("@"))
                 {
-                    await BotActions.ShowUserLists(message, bot, token, _localization, _database);
+                    await BotActions.ShowUserLists(message, token, _localization);
                     return;
                 }
                 if (message.Text.StartsWith("/"))
@@ -102,33 +69,31 @@ namespace WistBot
             {
                 case UserState.SettingListName:
                     var newListName = message.Text;
-                    if (string.IsNullOrEmpty(newListName))
+                    if (string.IsNullOrWhiteSpace(newListName))
                     {
                         await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
                         break;
                     }
-                    if (ObjectToUpdate is WishList list)
+                    if (ObjectToUpdate is WishListEntity list)
                     {
-                        list.Name = newListName;
-                        _database.UpdateWishList(userId, list.Id, list);
+                        await _wishListsService.Update(list.Id, newListName, list.IsPublic);
                     }
                     else
                     {
-                        var newList = new WishList { Name = newListName };
-                        _database.AddWishList(userId, newList);
+                        await _wishListsService.Add(newListName, false, userId);
                     }
 
-                    await BotActions.ListsAction(message, bot, token, _localization, _database);
+                    await BotActions.ListsAction(message, token, _localization);
                     break;
 
                 case UserState.SettingItemName:
                     var itemName = message.Text;
-                    if (itemName == null)
+                    if (string.IsNullOrWhiteSpace(itemName))
                     {
                         await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
                         break;
                     }
-                    if (ObjectToUpdate is WishList wishList)
+                    if (ObjectToUpdate is WishListEntity wishList)
                     {
                         var baseName = itemName;
                         var counter = 1;
@@ -137,26 +102,23 @@ namespace WistBot
                             itemName = $"{baseName}{counter}";
                             counter++;
                         }
-                        wishList.Items.Add(new WishListItem(wishList.Name) { Name = itemName });
-                        _database.UpdateWishList(userId, wishList.Id, wishList);
-                        await BotActions.ShowList(message, bot, token,  _database, _localization, wishList.Name);
+                        await _wishListItemsService.Add(new WishListItemEntity() { Name = itemName, ListId = wishList.Id});
+                        await BotActions.ShowList(message, token, _localization, wishList.Name);
                     }
-                    else if (ObjectToUpdate is WishListItem wishListItem)
+                    else if (ObjectToUpdate is WishListItemEntity wishListItem)
                     {
                         var baseName = itemName;
                         var counter = 1;
-                        var parentListName = wishListItem.ListName;
 
-                        var parentList = _database.GetWishList(userId, parentListName);
-                        while (parentList.Items.Any(x => x.Name == itemName))
+                        while (wishListItem.List.Items.Any(x => x.Name == itemName))
                         {
                             itemName = $"{baseName}{counter}";
                             counter++;
                         }
 
                         wishListItem.Name = itemName;
-                        _database.UpdateItem(userId, parentListName, wishListItem);
-                        await BotActions.ShowList(message, bot, token, _database, _localization, parentListName);
+                        await _wishListItemsService.Update(wishListItem.Id, wishListItem.Name, wishListItem.Description, wishListItem.Link, wishListItem.Photo, wishListItem.Video, wishListItem.PerformerName, wishListItem.CurrentState);
+                        await BotActions.ShowList(message, token, _localization, wishListItem.Name);
                     }
                     break;
                 case UserState.SettingDescription:
@@ -166,11 +128,11 @@ namespace WistBot
                         await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.DescriptionCantBeEmpty), cancellationToken: token);
                         break;
                     }
-                    if (ObjectToUpdate is WishListItem)
+                    if (ObjectToUpdate is WishListItemEntity item)
                     {
-                        ((WishListItem)ObjectToUpdate).Description = description;
-                        _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
-                        await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                        item.Description = description;
+                        await _wishListItemsService.Update(item.Id, item.Name, item.Description, item.Link, item.Photo, item.Video, item.PerformerName, item.CurrentState);
+                        await BotActions.ShowList(message, token, _localization, item.List.Name);
                     }
                     break;
                 case UserState.SettingLink:
@@ -180,11 +142,11 @@ namespace WistBot
                         break;
                     }
                     var link = message.Text;
-                    if (ObjectToUpdate is WishListItem)
+                    if (ObjectToUpdate is WishListItemEntity itm)
                     {
-                        ((WishListItem)ObjectToUpdate).Link = link;
-                        _database.UpdateItem(userId, ((WishListItem)ObjectToUpdate).ListName, (WishListItem)ObjectToUpdate);
-                        await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                        itm.Link = link;
+                        await _wishListItemsService.Update(itm.Id, itm.Name, itm.Description, itm.Link, itm.Photo, itm.Video, itm.PerformerName, itm.CurrentState);
+                        await BotActions.ShowList(message, token, _localization, itm.List.Name);
                     }
                     break;
                 case UserState.SettingMedia:
@@ -195,16 +157,21 @@ namespace WistBot
                     }
                     if (message.Photo != null)
                     {
-                        if (ObjectToUpdate is WishListItem wish)
+                        if (ObjectToUpdate is WishListItemEntity wish)
                         {
                             if (wish.Video != null)
                             {
                                 wish.Video = null;
                                 break;
                             }
-                            wish.Photo = message.Photo[0];
-                            _database.UpdateItem(userId, wish.ListName, wish);
-                            await BotActions.ShowList(message, bot, token, _database, _localization, wish.ListName);
+                            wish.Photo = new PhotoSizeEntity() 
+                            {
+                                FileId = message.Photo[0].FileId,
+                                Width = message.Photo[0].Width,
+                                Height = message.Photo[0].Height
+                            };
+                            await _wishListItemsService.Update(wish.Id, wish.Name, wish.Description, wish.Link, wish.Photo, wish.Video, wish.PerformerName, wish.CurrentState);
+                            await BotActions.ShowList(message, token, _localization, wish.List.Name);
                         }
                         break;
                     }
@@ -215,7 +182,7 @@ namespace WistBot
                             await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.VideoTooLong), cancellationToken: token);
                             break;
                         }
-                        if (ObjectToUpdate is WishListItem wish)
+                        if (ObjectToUpdate is WishListItemEntity wish)
                         {
                             if (wish.Photo != null)
                             {
@@ -224,16 +191,22 @@ namespace WistBot
                                 wish.Photo = null;
                                 break;
                             }
-                            wish.Video = message.Video;
+                            wish.Video = new VideoEntity()
+                            {
+                                FileId = message.Video.FileId,
+                                Duration = message.Video.Duration,
+                                Width = message.Video.Width,
+                                Height = message.Video.Height
+                            };
                             Console.WriteLine(wish.Video.Duration);
 
-                            _database.UpdateItem(userId, wish.ListName, wish);
-                            await BotActions.ShowList(message, bot, token, _database, _localization, wish.ListName);
+                            await _wishListItemsService.Update(wish.Id, wish.Name, wish.Description, wish.Link, wish.Photo, wish.Video, wish.PerformerName, wish.CurrentState);
+                            await BotActions.ShowList(message, token, _localization, wish.List.Name);
                         }
                         break;
                     }
 
-                    await BotActions.ShowList(message, bot, token, _database, _localization, ((WishListItem)ObjectToUpdate).ListName);
+                    await BotActions.ShowList(message,  token,  _localization, ((WishListItemEntity)ObjectToUpdate).List.Name);
 
                     break;
                 case UserState.Free:
@@ -242,5 +215,6 @@ namespace WistBot
             }
             RemoveState(userId);
         }
+   */
     }
 }

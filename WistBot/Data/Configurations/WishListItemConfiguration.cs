@@ -12,14 +12,6 @@ namespace WistBot.Data.Configurations
             builder.HasOne(wli => wli.List)
                 .WithMany(wl => wl.Items)
                 .HasForeignKey(wli => wli.ListId);
-
-            builder.HasOne(ph => ph.Photo)
-                .WithOne(i => i.WishListItem)
-                .HasForeignKey<PhotoSizeEntity>(ph => ph.Id);
-
-            builder.HasOne(v => v.Video)
-                .WithOne(i => i.WishListItem)
-                .HasForeignKey<VideoEntity>(v => v.Id);
         }
     }
 }

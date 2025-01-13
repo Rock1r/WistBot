@@ -2,10 +2,10 @@
 
 namespace WistBot
 {
-    internal class Localization
+    public class LocalizationService
     {
         private Dictionary<string, string> _texts = new Dictionary<string, string>();
-        public Localization(string languageCode)
+        public LocalizationService(string languageCode)
         {
             string filePath = @$"localization/{languageCode}.json";
             if (!File.Exists(filePath))

@@ -14,9 +14,19 @@ namespace WistBot.Data.Repos
 
         public async Task<WishListEntity> GetById(Guid id)
         {
-            return await _context.WishLists.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception();
+            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception();
         }
-        
+
+        public async Task<List<WishListEntity>> GetByOwnerId(long ownerId)
+        {
+            return await _context.WishLists.AsNoTracking().Where(x => x.OwnerId == ownerId).ToListAsync();
+        }
+
+        public async Task<WishListEntity> GetByName(long ownerId, string name)
+        {
+            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.OwnerId == ownerId && x.Name == name) ?? throw new Exception();
+        }
+
         public async Task<WishListEntity> GetByName(string name)
         {
             return await _context.WishLists.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name) ?? throw new Exception();
@@ -62,7 +72,13 @@ namespace WistBot.Data.Repos
                 .ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
         }
+
+        public async Task Delete(string name)
+        {
+            await _context.WishLists
+                .Where(x => x.Name == name)
+                .ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
+        }
     }
-
-
 }

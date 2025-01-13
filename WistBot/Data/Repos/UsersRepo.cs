@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using WistBot.Data.Models;
 
 namespace WistBot.Data.Repos
@@ -13,9 +12,24 @@ namespace WistBot.Data.Repos
             _context = context;
         }
 
+        public async Task<bool> UserExists(long telegramId)
+        {
+            return await _context.Users.AsNoTracking().AnyAsync(x => x.TelegramId == telegramId);
+        }
+
         public async Task<UserEntity> GetById(int userId)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.TelegramId == userId)?? throw new Exception();
+        }
+
+        public async Task<UserEntity> GetByUsername(string username)
+        {
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Username == username) ?? throw new Exception();
+        }
+
+        public async Task<long> GetIdByName(string username)
+        {
+            return await _context.Users.AsNoTracking().Where(x => x.Username == username).Select(x => x.TelegramId).FirstOrDefaultAsync();
         }
 
         public async Task<List<UserEntity>> Get()
@@ -53,6 +67,15 @@ namespace WistBot.Data.Repos
             await _context.Users
                 .Where(x => x.TelegramId == telegramId)
                 .ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SetLanguage(long telegramId, string language)
+        {
+            await _context.Users
+                .Where(x => x.TelegramId == telegramId)
+                .ExecuteUpdateAsync(x =>
+                x.SetProperty(n => n.Language, language));
             await _context.SaveChangesAsync();
         }
     }

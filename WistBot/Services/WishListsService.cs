@@ -17,6 +17,16 @@ namespace WistBot.Services
             return await _wishListsRepo.GetById(id);
         }
 
+        public async Task<List<WishListEntity>> GetByOwnerId(long ownerId)
+        {
+            return await _wishListsRepo.GetByOwnerId(ownerId);
+        }
+
+        public async Task<WishListEntity> GetByName(long ownerId, string name)
+        {
+            return await _wishListsRepo.GetByName(ownerId, name);
+        }
+
         public async Task<List<WishListEntity>> Get()
         {
             return await _wishListsRepo.Get();
@@ -40,6 +50,11 @@ namespace WistBot.Services
         public async Task Delete(Guid id)
         {
             await _wishListsRepo.Delete(id);
+        }
+
+        public async Task Delete(string name)
+        {
+            await _wishListsRepo.Delete(name);
         }
     }
 }
