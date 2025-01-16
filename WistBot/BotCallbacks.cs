@@ -15,7 +15,7 @@
         public const string DeleteList = "delete_list";
         public const string DeleteItem = "delete_item";
         public const string ChangeListName = "change_list_name";
-        public const string ChangeVisability = "change_visability";
+        public const string ChangeVisіbility = "change_visability";
         public const string UserList = "user_list";
 
         public static IEnumerable<string> AllCallbacks => new[]

@@ -4,6 +4,11 @@
     {
         public const string English = "🇬🇧 English";
         public const string Ukrainian = "🇺🇦 Українська";
+        public const string DeleteList = "DeleteListButton";
+        public const string ChangeListName = "ChangeListNameButton";
+        public const string ChangeVisіbility = "ChangeVisibilityButton";
+
+        public const string ShareList = "ShareListButton";
         public const string SetName = "set_name_button";
         public const string ChangeName = "set_new_name_button";
         public const string SetDescription = "set_description_button";
@@ -14,10 +19,6 @@
         public const string AddList = "add_list_button";
         public const string List = "list_button";
         public const string ClearList = "clear_list_button";
-        public const string ShareList = "share_list_button";
-        public const string DeleteList = "delete_list_button";
-        public const string ChangeListName = "change_list_name";
-        public const string ChangeVisability = "change_visability";
 
         public static IEnumerable<string> AllButtons => new[]
         {

@@ -2,17 +2,23 @@
 {
     public static class LocalizationKeys
     {
+        public const string StartMessage = "StartMessage";
+        //language
+        public const string ChooseLanguage = "ChooseLanguage";
+        public const string LanguageChanged = "LanguageChanged";
+        //list
+        public const string NoLists = "NoLists";
+        public const string WatchList = "WatchList";
+        public const string MakePublic = "MakePublic";
+        public const string MakePrivate = "MakePrivate";
+        public const string ListsMessage = "ListsMessage";
 
-        public const string StartMessage = "start_message";
         public const string DefaultListNaming = "default_list_naming";
         public const string DefaultItemNaming = "default_list_item_naming";
-        public const string ChangeLanguage = "change_language";
         public const string SetName = "set_name";
         public const string NoList = "no_list";
-        public const string ListsMessage = "lists_message";
         public const string ListMessage = "list_message";
         public const string ListDeleted = "list_deleted";
-        public const string LanguageChanged = "language_changed";
         public const string SetDescription = "set_description";
         public const string SetLink = "set_link";
         public const string SetMedia = "set_media";
@@ -32,10 +38,8 @@
         public const string DeleteItem = "delete_item";
         public const string DocumentNotSupported = "document_not_supported";
         public const string UserListsMessage = "user_lists_message";
-        public const string NoLists = "no_lists";
         public const string NoPublicLists = "no_public_lists";
         public const string UserNotFound = "user_not_found";
-        public const string WatchList = "watch_list";
         public const string VisibilityChanged = "visibility_changed";
         public const string Type_list = "type_/list";
         public const string PublicVisibility = "public_visibility";

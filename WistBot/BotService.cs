@@ -1,33 +1,40 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using WistBot.Data.Repos;
-using WistBot.Enums;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot
 {
-    internal class BotService
+    public class BotService
     {
         private readonly ITelegramBotClient _client;
-        private readonly LocalizationService _localization;
         private readonly Dictionary<string, Func<object, CancellationToken, Task>> _actions;
         private readonly UsersService _usersService;
         private readonly WishListsService _wishListsService;
         private readonly WishListItemsService _wishListItemsService;
         private readonly UserStateManager _userStateManager;
+        private readonly LocalizationService _localization;
+        private readonly ActionService _actionService;
 
-        public BotService(ITelegramBotClient bot, UsersService usersService, WishListsService wishListService, WishListItemsService wishListItemsService, UserStateManager userStateManager)
+        public BotService(ITelegramBotClient bot, 
+            UsersService usersService, 
+            WishListsService wishListService, 
+            WishListItemsService wishListItemsService, 
+            UserStateManager userStateManager, 
+            LocalizationService localization,
+            ActionService actionService
+            )
         {
             _client = bot;
             _usersService = usersService;
             _wishListsService = wishListService;
             _wishListItemsService = wishListItemsService;
             _userStateManager = userStateManager;
+            _localization = localization;
+            _actionService = actionService;
 
-            _localization = new LocalizationService(LanguageCodes.English);
-
-            BotActions.Initialize(_usersService, _wishListsService, _wishListItemsService, _client, _userStateManager);
+            BotActions.Initialize(_usersService, _wishListsService, _wishListItemsService, _client, _userStateManager, _localization);
 
             _actions = InitializeActions();
 
@@ -38,94 +45,126 @@ namespace WistBot
             _client.StartReceiving(HandleUpdate, HandleError);
         }
 
+        private async Task HandleUpdate(ITelegramBotClient _client, Update update, CancellationToken token)
+        {
+            if (update.Message is { } message)
+            {
+                try
+                {
+                    var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
+                    if (_userStateManager.UserHasState(user.Id))
+                    {
+                        await _userStateManager.HandleStateAsync(user.Id, message, _client, token, _localization, _wishListsService, _wishListItemsService);
+                        return;
+                    }
+                    await _actionService.ExecuteMessage(message.Text ?? string.Empty, message, token);
+                }
+                catch (KeyNotFoundException)
+                {
+                    await _client.SendMessage(message.Chat.Id, "Unknown command", cancellationToken: token);
+                }
+            }
+            else if (update.CallbackQuery is { } callback)
+            {
+                try
+                {
+                    await _actionService.ExecuteCallback(callback.Data ?? string.Empty, callback, token);
+                }
+                catch (KeyNotFoundException)
+                {
+                    await _client.AnswerCallbackQuery(callback.Id, "Unknown action", cancellationToken: token);
+                }
+            }
+        }
+
         private Dictionary<string, Func<object, CancellationToken, Task>> InitializeActions()
         {
             var actions = new Dictionary<string, Func<object, CancellationToken, Task>>
             {
                 [BotCommands.Start] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
-                    await BotActions.StartAction(msg, token, _localization);
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
+                    await BotActions.StartAction(msg, token);
                 },
                 [BotCommands.Language] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
-                    await BotActions.LanguageAction(msg, token, _localization);
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
+                    await BotActions.LanguageAction(msg, token);
                 },
                 [Button.Ukrainian] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
-                    await BotActions.ChangeLanguageButton(msg, token, _localization, LanguageCodes.Ukrainian);
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
+                    await BotActions.ChangeLanguageButton(msg, token, LanguageCodes.Ukrainian);
                 },
                 [Button.English] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
-                    await BotActions.ChangeLanguageButton(msg, token, _localization, LanguageCodes.English);
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
+                    await BotActions.ChangeLanguageButton(msg, token, LanguageCodes.English);
                 },
                 [BotCommands.List] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.ListsAction(msg, token, _localization);
                 },
                 [BotCallbacks.List] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.ListCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.DeleteList] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.DeleteListCallbackAction(callback, token, _localization);
                 },
                 [_localization.Get(Button.AddList)] = async (obj, token) =>
                 {
-                    var msg = obj as Message;
+                    var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.AddListAction(msg, token, _localization);
                 },
-                [BotCallbacks.ChangeVisability] = async (obj, token) =>
+                [BotCallbacks.ChangeVisіbility] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.ChangeListVisibilityCallbackAction(callback, token, _localization);
                 },
                 
                 [BotCallbacks.SetName] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.SetItemNameCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.SetDescription] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.SetItemDescriptionCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.SetLink] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.SetItemLinkCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.SetMedia] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.SetItemMediaCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.UserList] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.UserListCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.DeleteItem] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.DeleteItemCallbackAction(callback, token, _localization);
                 },
                 [BotCallbacks.ChangeListName] = async (obj, token) =>
                 {
-                    var callback = obj as CallbackQuery;
+                    var callback = obj as CallbackQuery ?? throw new ArgumentNullException(nameof(obj));
                     await BotActions.ChangeListNameCallbackAction(callback, token, _localization);
                 },
                 [BotCommands.Test] = async (obj, token) =>
                     {
-                        var msg = obj as Message;
+                        var msg = obj as Message ?? throw new ArgumentNullException(nameof(obj));
 
                         await BotActions.Test(msg, token, _localization);
                 },
@@ -134,7 +173,7 @@ namespace WistBot
             return actions;
         }
 
-        private async Task HandleUpdate(ITelegramBotClient bot, Update upd, CancellationToken token)
+       /* private async Task HandleUpdate(ITelegramBotClient bot, Update upd, CancellationToken token)
         {
             try
             {
@@ -158,7 +197,7 @@ namespace WistBot
                 Console.WriteLine($"Error while processing update: {ex}");
             }
         }
-
+*/
         private async Task HandleMessage(Message message, ITelegramBotClient bot, CancellationToken token)
         {
             if (message == null)

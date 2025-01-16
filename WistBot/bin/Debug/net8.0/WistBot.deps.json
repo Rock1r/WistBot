@@ -16,6 +16,14 @@
         },
         "runtime": {
           "WistBot.dll": {}
+        },
+        "resources": {
+          "en/WistBot.resources.dll": {
+            "locale": "en"
+          },
+          "uk/WistBot.resources.dll": {
+            "locale": "uk"
+          }
         }
       },
       "EntityFramework/6.4.4": {

@@ -17,6 +17,11 @@ namespace WistBot.Data.Repos
             return await _context.Users.AsNoTracking().AnyAsync(x => x.TelegramId == telegramId);
         }
 
+        public async Task<string> GetLanguage(long telegramId)
+        {
+            return await _context.Users.AsNoTracking().Where(x => x.TelegramId == telegramId).Select(x => x.Language).FirstOrDefaultAsync() ?? LanguageCodes.English;
+        }
+
         public async Task<UserEntity> GetById(int userId)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.TelegramId == userId)?? throw new Exception();

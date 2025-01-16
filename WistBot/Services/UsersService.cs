@@ -3,7 +3,7 @@ using WistBot.Data.Repos;
 
 namespace WistBot.Services
 {
-    internal class UsersService
+    public class UsersService
     {
         private readonly UsersRepo _usersRepo;
 
@@ -15,6 +15,11 @@ namespace WistBot.Services
         public async Task<bool> UserExists(long telegramId)
         {
             return await _usersRepo.UserExists(telegramId);
+        }
+
+        public async Task<string> GetLanguage(long telegramId)
+        {
+            return await _usersRepo.GetLanguage(telegramId);
         }
 
         public async Task<UserEntity> GetByUsername(string username)

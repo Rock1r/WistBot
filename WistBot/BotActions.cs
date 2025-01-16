@@ -1,63 +1,47 @@
-﻿using Telegram.Bot;
+﻿using System.Globalization;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using WistBot.Core.UserStates;
 using WistBot.Data.Models;
 using WistBot.Services;
-using WistBot.States;
-using WistBot.UserStates;
 
 namespace WistBot
 {
     static class BotActions
     {
         private static IReplyMarkup keyboard = new ReplyKeyboardMarkup();
-        private static UsersService? _usersService;
-        private static WishListsService? _wishListsService;
-        private static WishListItemsService? _wishListItemsService;
-        private static ITelegramBotClient? bot;
-        private static UserStateManager? _userStateManager;
+        private static UsersService _usersService = null!;
+        private static WishListsService _wishListsService = null!;
+        private static WishListItemsService _wishListItemsService = null!;
+        private static ITelegramBotClient bot = null!;
+        private static UserStateManager _userStateManager = null!;
+        private static LocalizationService _localization = null!;
 
-        public static void Initialize(UsersService usersService, WishListsService wishListsService, WishListItemsService wishListItemsService, ITelegramBotClient telegramBotClient, UserStateManager userStateManager)
+        public static void Initialize(UsersService usersService, WishListsService wishListsService, WishListItemsService wishListItemsService, ITelegramBotClient telegramBotClient, UserStateManager userStateManager, LocalizationService localizationService)
         {
             _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
             _wishListsService = wishListsService ?? throw new ArgumentNullException(nameof(wishListsService));
             _wishListItemsService = wishListItemsService ?? throw new ArgumentNullException(nameof(wishListItemsService));
             bot = telegramBotClient ?? throw new ArgumentNullException(nameof(telegramBotClient));
             _userStateManager = userStateManager ?? throw new ArgumentNullException(nameof(userStateManager));
+            _localization = localizationService ?? throw new ArgumentNullException(nameof(localizationService));
         }
 
-        public static async Task StartAction(Message message, CancellationToken token, LocalizationService _localization)
+        public static async Task StartAction(Message message, CancellationToken token)
         {
-            var chatId = message.Chat.Id;
-            try
-            {
-                var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
-                if (!await _usersService.UserExists(user.Id))
-                {
-                    await _usersService.Add(user.Id, message.From.Username ?? throw new Exception("Username is null"));
-                }
-                keyboard = new ReplyKeyboardRemove();
-                await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.StartMessage), replyMarkup: keyboard, cancellationToken: token);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error StartAction: {ex.Message}");
-            }
+           
         }
 
-        public static async Task LanguageAction(Message message, CancellationToken token, LocalizationService _localization)
+        public static async Task LanguageAction(Message message, CancellationToken token)
         {
-            var chatId = message.Chat.Id;
-            keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(Button.Ukrainian), new KeyboardButton(Button.English));
-            await bot.SendMessage(chatId, _localization.Get(LocalizationKeys.ChangeLanguage), replyMarkup: keyboard, cancellationToken: token);
+           
         }
 
-        public static async Task ChangeLanguageButton(Message message, CancellationToken token, LocalizationService _localization, string result)
+        public static async Task ChangeLanguageButton(Message message, CancellationToken token, string result)
         {
-            await _usersService.SetLanguage(message.From.Id, result);
-            keyboard = new ReplyKeyboardRemove();
-            await bot.SendMessage(message.Chat.Id, _localization.Get(LocalizationKeys.LanguageChanged), replyMarkup: keyboard, cancellationToken: token);
+            
         }
 
         public static async Task ShowList(Message message, CancellationToken token, LocalizationService _localization, WishListEntity list)
@@ -199,7 +183,7 @@ namespace WistBot
                     new[]
                     {
                         InlineKeyboardButton.WithCallbackData(_localization.Get(Button.ChangeListName), BotCallbacks.ChangeListName),
-                        InlineKeyboardButton.WithCallbackData(_localization.Get(Button.ChangeVisability), BotCallbacks.ChangeVisability)
+                        InlineKeyboardButton.WithCallbackData(_localization.Get(Button.ChangeVisіbility), BotCallbacks.ChangeVisіbility)
                     }
                 });
                 await bot.SendMessage(message.Chat.Id, list.Name, replyMarkup: inlineReply);
@@ -472,12 +456,15 @@ namespace WistBot
 
         public static async Task Test(object msg, CancellationToken token, LocalizationService _localization)
         {
-            var message = msg as Message;
-            var chatId = message.Chat.Id;
-            var userId = message.From.Id;
-            
-            
-            Console.WriteLine("successfully.");
+            var message = msg as Message ?? throw new ArgumentNullException(nameof(msg));
+            var userLanguage = await _usersService.GetLanguage(message.From.Id);
+
+            // Зміна культури відповідно до мови користувача
+            var culture = new CultureInfo(userLanguage);
+            CultureInfo.CurrentCulture = culture;
+            CultureInfo.CurrentUICulture = culture;
+
+            // Отримання перекладу
 
         }
     }
