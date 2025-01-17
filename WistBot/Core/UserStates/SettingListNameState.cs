@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using WistBot.Data.Models;
 using WistBot.Services;
+using WistBot.Core.Actions;
 
 namespace WistBot.Core.UserStates
 {
@@ -23,6 +24,13 @@ namespace WistBot.Core.UserStates
                 await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
                 return;
             }
+            var counter = 0;
+            var lists = await wishListsService.Get();
+            while (lists.Any(x => x.Name == newListName))
+            {
+                counter++;
+                newListName = $"{message.Text} ({counter})";
+            }
 
             if (_wishList != null)
             {
@@ -32,7 +40,7 @@ namespace WistBot.Core.UserStates
             {
                 await wishListsService.Add(newListName, false, userId);
             }
-            await BotActions.ListsAction(message, token, localization);
+            await new ListsAction(bot, wishListsService, localization).ExecuteMessage(message, token);
         }
     }
 }

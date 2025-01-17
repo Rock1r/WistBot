@@ -1,27 +1,61 @@
-﻿using Telegram.Bot.Types;
+﻿using System;
+using System.Globalization;
+using Telegram.Bot.Types;
 using WistBot.Core.Actions;
 
 namespace WistBot.Services
 {
     public class ActionService
     {
-        private readonly Dictionary<string, IBotAction> _actions = new();
+        private readonly Dictionary<string, IBotAction> _localizedActions;
 
-        public ActionService(IEnumerable<IBotAction> actions)
+        private ActionService(Dictionary<string, IBotAction> localizedActions)
         {
-           
+            _localizedActions = localizedActions;
+        }
+
+        public static async Task<ActionService> CreateAsync(
+            IEnumerable<IBotAction> actions,
+            LocalizationService localizationService)
+        {
+            var localizedActions = new Dictionary<string, IBotAction>();
+
             foreach (var action in actions)
             {
-                if (!_actions.TryAdd(action.Command, action))
+                if (action.Command.Contains("callback"))
                 {
-                    throw new InvalidOperationException($"Command '{action.Command}' is already registered.");
+                    if (!localizedActions.TryAdd(action.Command, action))
+                    {
+                        throw new InvalidOperationException($"Callback command '{action.Command}' is already registered.");
+                    }
+                }
+                else if (action.Command.StartsWith("/"))
+                {
+                    if (!localizedActions.TryAdd(action.Command, action))
+                    {
+                        throw new InvalidOperationException($"Command '{action.Command}' is already registered.");
+                    }
+                }
+                else 
+                {
+                    foreach (var language in localizationService.AvailableLanguages)
+                    {
+                        var localizedCommand = await localizationService.Get(action.Command, new CultureInfo(language));
+                        if (!localizedActions.TryAdd(localizedCommand, action))
+                        {
+                            throw new InvalidOperationException($"Command '{localizedCommand}' is already registered.");
+                        }
+                    }
                 }
             }
+
+
+            return new ActionService(localizedActions);
         }
 
         public async Task ExecuteMessage(string command, Message message, CancellationToken token)
         {
-            if (_actions.TryGetValue(command, out var action))
+            if (_localizedActions.TryGetValue(command, out var action))
             {
                 await action.ExecuteMessage(message, token);
             }
@@ -33,7 +67,7 @@ namespace WistBot.Services
 
         public async Task ExecuteCallback(string command, CallbackQuery callback, CancellationToken token)
         {
-            if (_actions.TryGetValue(command, out var action))
+            if (_localizedActions.TryGetValue(command, out var action))
             {
                 await action.ExecuteCallback(callback, token);
             }

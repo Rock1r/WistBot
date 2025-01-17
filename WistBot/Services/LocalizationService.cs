@@ -9,6 +9,7 @@ namespace WistBot.Services
         private readonly UsersService _usersService;
         private readonly ResourceManager _resourceManager;
 
+        public string[] AvailableLanguages => new[] { LanguageCodes.English, LanguageCodes.Ukrainian };
         public LocalizationService(UsersService usersService, ResourceManager resourceManager)
         {
             _usersService = usersService;
@@ -23,9 +24,16 @@ namespace WistBot.Services
             }
         }
 
-        public async Task<string> GetLanguage(long userId)
+        public async Task SwitchLanguage(long userId)
         {
-            return await _usersService.GetLanguage(userId);
+            var currentLanguage = await _usersService.GetLanguage(userId);
+            var newLanguage = currentLanguage == LanguageCodes.English ? LanguageCodes.Ukrainian : LanguageCodes.English;
+            await _usersService.SetLanguage(userId, newLanguage);
+        }
+
+        public async Task<CultureInfo> GetLanguage(long userId)
+        {
+            return new CultureInfo(await _usersService.GetLanguage(userId));
         }
 
         public string Get(string key)
@@ -35,20 +43,26 @@ namespace WistBot.Services
 
         public async Task<string> Get(string key, long userId)
         {
-            var language = await GetLanguage(userId);
-            var cultureInfo = new CultureInfo(language);
-            return Get(key, cultureInfo);
+            return await Get(key, await GetLanguage(userId));
         }
 
         public async Task<string> Get(string key, long userId, params object[] args)
         {
             var cultureInfo = new CultureInfo(await _usersService.GetLanguage(userId));
-            return Get(key, cultureInfo, args);
+            return await Get(key, cultureInfo, args);
         }
 
-        private string Get(string key, CultureInfo cultureInfo, params object[] args)
+        public async Task<string> Get(string key, CultureInfo cultureInfo, params object[] args)
         {
-            return string.Format(_resourceManager.GetString(key, cultureInfo) ?? throw new LocalizedStringNotFoundException(key), args);
+            return await Task.Run(() =>
+            {
+                var resourceValue = _resourceManager.GetString(key, cultureInfo);
+                if (resourceValue == null)
+                {
+                    throw new LocalizedStringNotFoundException(key);
+                }
+                return string.Format(resourceValue, args);
+            });
         }
     }
 }

@@ -27,7 +27,7 @@ namespace WistBot.Core.UserStates
             _wishListItem.Link = link;
             await wishListItemsService.Update(_wishListItem);
 
-            await BotActions.ShowList(message, token, localization, await wishListsService.GetById(_wishListItem.ListId));
+            //await BotActions.ShowList(message, token, localization, await wishListsService.GetById(_wishListItem.ListId));
         }
     }
 

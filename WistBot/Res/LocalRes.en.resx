@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItemButton" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="AddListButton" xml:space="preserve">
+    <value>Add list</value>
+  </data>
   <data name="ChangeListNameButton" xml:space="preserve">
     <value>Change name</value>
   </data>
@@ -126,11 +132,17 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>Choose language:</value>
   </data>
+  <data name="ClearListButton" xml:space="preserve">
+    <value>Clear list</value>
+  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>Delete list</value>
   </data>
   <data name="LanguageChanged" xml:space="preserve">
     <value>Language changed to english.</value>
+  </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>{0}, list {1} is empty, add item using button below</value>
   </data>
   <data name="ListsMessage" xml:space="preserve">
     <value>{0}, your lists:</value>
@@ -144,10 +156,46 @@
   <data name="NoLists" xml:space="preserve">
     <value>{0}, you have no lists, press button below to create one</value>
   </data>
+  <data name="SetListName" xml:space="preserve">
+    <value>Set list name</value>
+  </data>
+  <data name="ChangeItemNameButton" xml:space="preserve">
+    <value>Change name</value>
+  </data>
   <data name="StartMessage" xml:space="preserve">
     <value>Hello</value>
   </data>
+  <data name="ViewListMessage" xml:space="preserve">
+    <value>{0}, here must be instructions about using managing your list</value>
+  </data>
   <data name="WatchList" xml:space="preserve">
     <value>View</value>
+  </data>
+  <data name="SetDescriptionButton" xml:space="preserve">
+    <value>Set description</value>
+  </data>
+  <data name="SetMediaButton" xml:space="preserve">
+    <value>Set photo/video</value>
+  </data>
+  <data name="SetLinkButton" xml:space="preserve">
+    <value>Set link</value>
+  </data>
+  <data name="DeleteItemButton" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
+  <data name="ChangeLanguageButton" xml:space="preserve">
+    <value>🇬🇧 English</value>
+  </data>
+  <data name="LanguageAlreadySet" xml:space="preserve">
+    <value>Language already set</value>
+  </data>
+  <data name="ListDeleted" xml:space="preserve">
+    <value>List deleted</value>
+  </data>
+  <data name="TypeList" xml:space="preserve">
+    <value>Type '/lists' to view your lists.</value>
+  </data>
+  <data name="ListNotFound" xml:space="preserve">
+    <value>List not found.</value>
   </data>
 </root>

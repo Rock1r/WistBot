@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using System.Globalization;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Services;
@@ -26,7 +27,7 @@ namespace WistBot.Core.Actions
             try
             {
                 var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
-                var keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(Button.Ukrainian), new KeyboardButton(Button.English));
+                var keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(await _localization.Get(KButton.ChangeLanguage, new CultureInfo(LanguageCodes.English))), new KeyboardButton(await _localization.Get(KButton.ChangeLanguage, new CultureInfo(LanguageCodes.Ukrainian))));
                 await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.ChooseLanguage, user.Id), replyMarkup: keyboard, cancellationToken: token);
             }
             catch (Exception ex)

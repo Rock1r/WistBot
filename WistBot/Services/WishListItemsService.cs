@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using Telegram.Bot;
+using Telegram.Bot.Types;
 using WistBot.Data.Models;
 using WistBot.Data.Repos;
 using WistBot.Enums;
@@ -58,5 +59,9 @@ namespace WistBot.Services
             await _wishListItemsRepo.Delete(id);
         }
 
+        public async Task ViewItem(ITelegramBotClient bot, long userId, string itemName, LocalizationService localization, CancellationToken token)
+        {
+
+        }
     }
 }

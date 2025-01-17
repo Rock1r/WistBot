@@ -11,7 +11,7 @@ namespace WistBot.Core.Actions
         private readonly WishListsService _wishListsService;
         private readonly LocalizationService _localization;
 
-        public string Command => BotCommands.List;
+        public string Command => BotCommands.Lists;
 
         public ListsAction(ITelegramBotClient bot, WishListsService wishListsService, LocalizationService localizationService)
         {
@@ -26,7 +26,7 @@ namespace WistBot.Core.Actions
             try
             {
                 var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
-                var keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(_localization.Get(Button.AddList)));
+                var keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(await _localization.Get(KButton.AddList, user.Id)));
                 var wishLists = await _wishListsService.GetByOwnerId(user.Id);
                 var username = user.Username ?? user.FirstName;
                 var messageToSend = string.Empty;
@@ -41,23 +41,23 @@ namespace WistBot.Core.Actions
                 await _bot.SendMessage(message.Chat.Id, messageToSend, replyMarkup: keyboard, cancellationToken: token);
                 foreach (var list in wishLists)
                 {
-                    var visibilityButtonText = await _localization.Get(Button.ChangeVisіbility, user.Id, list.IsPublic ? 
+                    var visibilityButtonText = await _localization.Get(InlineButton.ChangeVisіbility, user.Id, list.IsPublic ? 
                         await _localization.Get(LocalizationKeys.MakePrivate, user.Id)  :
                         await _localization.Get(LocalizationKeys.MakePublic, user.Id));
                     var inlineReply = new InlineKeyboardMarkup(new[]
                     {
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(LocalizationKeys.WatchList, user.Id), BotCallbacks.List)
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.WatchList, user.Id), BotCallbacks.List)
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(Button.DeleteList, user.Id), BotCallbacks.DeleteList),
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteList, user.Id), BotCallbacks.DeleteList),
                         //InlineKeyboardButton.WithCallbackData(await _localization.Get(Button.ShareList, user.Id), BotCallbacks.ShareList)
                     },
                     new[]
                     {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(Button.ChangeListName, user.Id), BotCallbacks.ChangeListName),
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.ChangeListName, user.Id), BotCallbacks.ChangeListName),
                         InlineKeyboardButton.WithCallbackData(visibilityButtonText, BotCallbacks.ChangeVisіbility)
                     }
                 });

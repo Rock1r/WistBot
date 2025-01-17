@@ -1,22 +1,23 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using WistBot.Core.UserStates;
 using WistBot.Services;
 
 namespace WistBot.Core.Actions
 {
-    public class ChangeLanguageToUkrainianAction : IBotAction
+    public class AddListAction : IBotAction
     {
         private readonly ITelegramBotClient _bot;
-        private readonly UsersService _usersService;
+        private readonly UserStateManager _userStateManager;
         private readonly LocalizationService _localization;
 
-        public string Command => Button.Ukrainian;
+        public string Command => KButton.AddList;
 
-        public ChangeLanguageToUkrainianAction(ITelegramBotClient bot, UsersService usersService, LocalizationService localizationService)
+        public AddListAction(ITelegramBotClient bot, UserStateManager userStateManager, LocalizationService localizationService)
         {
             _bot = bot;
-            _usersService = usersService;
+            _userStateManager = userStateManager;
             _localization = localizationService;
         }
 
@@ -26,13 +27,12 @@ namespace WistBot.Core.Actions
             try
             {
                 var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
-                await _usersService.SetLanguage(user.Id, LanguageCodes.Ukrainian);
-
-                await _bot.SendMessage(message.Chat.Id, await _localization.Get(LocalizationKeys.LanguageChanged, user.Id), replyMarkup: new ReplyKeyboardRemove(), cancellationToken: token);
+                _userStateManager.SetState(user.Id, new SettingListNameState(null!));
+                await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.SetListName, user.Id), replyMarkup: new ReplyKeyboardRemove(), cancellationToken: token);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error ChangeLanguageToUkrainianAction: {ex.Message}");
+                Console.WriteLine($"Error AddListAction: {ex.Message}");
             }
         }
 

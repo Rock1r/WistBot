@@ -19,10 +19,6 @@ namespace WistBot
             if (_userStates.TryGetValue(userId, out var stateHandler))
             {
                 await stateHandler.HandleStateAsync(userId, message, bot, token, localization, wishListsService, wishListItemsService);
-                if (stateHandler is ViewingListState)
-                {
-                    return;
-                }
                 _userStates.Remove(userId);
             }
         }

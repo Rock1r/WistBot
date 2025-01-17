@@ -1,11 +1,30 @@
-﻿using WistBot.Data.Models;
+﻿using Telegram.Bot;
+using Telegram.Bot.Types;
+using WistBot.Data.Models;
 using WistBot.Data.Repos;
+using WistBot.Exceptions;
 
 namespace WistBot.Services
 {
     public class UsersService
     {
         private readonly UsersRepo _usersRepo;
+        private readonly Dictionary<long, Guid> _currentList = new();
+
+        public void SetListContext(long userId, Guid listId)
+        {
+            _currentList[userId] = listId;
+        }
+
+        public Guid GetListContext(long userId)
+        {
+            return _currentList.TryGetValue(userId, out var listId) ? listId : throw new CurrentListNotFoundException(listId);
+        }
+
+        public void ClearListContext(long userId)
+        {
+            _currentList.Remove(userId);
+        }
 
         public UsersService(UsersRepo usersRepo)
         {
@@ -66,5 +85,6 @@ namespace WistBot.Services
         {
             await _usersRepo.SetLanguage(telegramId, language);
         }
+
     }
 }

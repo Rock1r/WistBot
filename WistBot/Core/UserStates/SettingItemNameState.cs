@@ -38,8 +38,7 @@ namespace WistBot.Core.UserStates
             _wishListItem.Name = itemName;
 
             await wishListItemsService.Update(_wishListItem);
-
-            await BotActions.ShowList(message, token, localization, list);
+            //await BotActions.ShowList(message, token, localization, list);
         }
     }
 }

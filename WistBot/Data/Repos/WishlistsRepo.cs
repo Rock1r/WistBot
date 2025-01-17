@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WistBot.Data.Models;
+using WistBot.Exceptions;
 
 namespace WistBot.Data.Repos
 {
@@ -14,7 +15,7 @@ namespace WistBot.Data.Repos
 
         public async Task<WishListEntity> GetById(Guid id)
         {
-            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception();
+            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.Id == id) ?? throw new ListWithIdNotFoundException(id);
         }
 
         public async Task<List<WishListEntity>> GetByOwnerId(long ownerId)
@@ -24,12 +25,7 @@ namespace WistBot.Data.Repos
 
         public async Task<WishListEntity> GetByName(long ownerId, string name)
         {
-            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.OwnerId == ownerId && x.Name == name) ?? throw new Exception();
-        }
-
-        public async Task<WishListEntity> GetByName(string name)
-        {
-            return await _context.WishLists.AsNoTracking().FirstOrDefaultAsync(x => x.Name == name) ?? throw new Exception();
+            return await _context.WishLists.AsNoTracking().Include(x => x.Items).FirstOrDefaultAsync(x => x.OwnerId == ownerId && x.Name == name) ?? throw new ListNotFoundException(name);
         }
 
         public async Task<List<WishListEntity>> Get()

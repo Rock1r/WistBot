@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItemButton" xml:space="preserve">
+    <value>AddItemButton</value>
+    <comment>KButton</comment>
+  </data>
+  <data name="AddListButton" xml:space="preserve">
+    <value>AddListButton</value>
+    <comment>KButton</comment>
+  </data>
   <data name="ChangeListNameButton" xml:space="preserve">
     <value>ChangeListNameButton</value>
     <comment>Button</comment>
@@ -128,12 +136,19 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>ChooseLanguage</value>
   </data>
+  <data name="ClearListButton" xml:space="preserve">
+    <value>ClearListButton</value>
+    <comment>KButton</comment>
+  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>DeleteListButton</value>
     <comment>Button</comment>
   </data>
   <data name="LanguageChanged" xml:space="preserve">
     <value>LanguageChanged</value>
+  </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>ListIsEmpty</value>
   </data>
   <data name="ListsMessage" xml:space="preserve">
     <value>ListsMessage</value>
@@ -149,10 +164,50 @@
   <data name="NoLists" xml:space="preserve">
     <value>NoLists</value>
   </data>
+  <data name="SetListName" xml:space="preserve">
+    <value>SetListName</value>
+    <comment>Button</comment>
+  </data>
+  <data name="ChangeItemNameButton" xml:space="preserve">
+    <value>ChangeItemNameButton</value>
+    <comment>Button</comment>
+  </data>
   <data name="StartMessage" xml:space="preserve">
     <value>StartMessage</value>
   </data>
+  <data name="ViewListMessage" xml:space="preserve">
+    <value>ViewListMessage</value>
+  </data>
   <data name="WatchList" xml:space="preserve">
     <value>WatchList</value>
+  </data>
+  <data name="SetDescriptionButton" xml:space="preserve">
+    <value>SetDescriptionButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SetMediaButton" xml:space="preserve">
+    <value>SetMediaButton</value>
+  </data>
+  <data name="SetLinkButton" xml:space="preserve">
+    <value>SetLinkButton</value>
+  </data>
+  <data name="DeleteItemButton" xml:space="preserve">
+    <value>DeleteItemButton</value>
+  </data>
+  <data name="ChangeLanguageButton" xml:space="preserve">
+    <value>ChangeLanguageButton</value>
+    <comment>KButton</comment>
+  </data>
+  <data name="LanguageAlreadySet" xml:space="preserve">
+    <value>LanguageAlreadySet</value>
+  </data>
+  <data name="ListDeleted" xml:space="preserve">
+    <value>ListDeleted</value>
+  </data>
+  <data name="TypeList" xml:space="preserve">
+    <value>TypeList</value>
+  </data>
+  <data name="ListNotFound" xml:space="preserve">
+    <value>ListNotFound</value>
   </data>
 </root>

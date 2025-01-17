@@ -114,13 +114,13 @@ namespace WistBot.Migrations
 
             modelBuilder.Entity("WistBot.Data.Models.WishListItemEntity", b =>
                 {
-                    b.HasOne("WistBot.Data.Models.WishListEntity", "List")
+                    b.HasOne("WistBot.Data.Models.WishListEntity", "Lists")
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("List");
+                    b.Navigation("Lists");
                 });
 
             modelBuilder.Entity("WistBot.Data.Models.UserEntity", b =>

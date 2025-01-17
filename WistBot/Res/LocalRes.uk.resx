@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItemButton" xml:space="preserve">
+    <value>Додати бажання</value>
+  </data>
+  <data name="AddListButton" xml:space="preserve">
+    <value>Добавити список</value>
+  </data>
   <data name="ChangeListNameButton" xml:space="preserve">
     <value>Змінити назву</value>
   </data>
@@ -126,28 +132,70 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>Оберіть мову:</value>
   </data>
+  <data name="ClearListButton" xml:space="preserve">
+    <value>Очистити список</value>
+  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>Видалити список</value>
   </data>
   <data name="LanguageChanged" xml:space="preserve">
     <value>Мова змінена на українську</value>
   </data>
+  <data name="ListIsEmpty" xml:space="preserve">
+    <value>{0}, список {1} порожній, додай бажання за допомогою кнопки внизу</value>
+  </data>
   <data name="ListsMessage" xml:space="preserve">
     <value>{0}, ваші списки:</value>
   </data>
   <data name="MakePrivate" xml:space="preserve">
-    <value>Зробити невидимим</value>
+    <value>Зробити приватним</value>
   </data>
   <data name="MakePublic" xml:space="preserve">
-    <value>Зробити видимим</value>
+    <value>Зробити загальнодоступним</value>
   </data>
   <data name="NoLists" xml:space="preserve">
     <value>{0}, у вас немає списків, натисніть кнопку щоб створити новий</value>
   </data>
+  <data name="SetListName" xml:space="preserve">
+    <value>Дайте списку назву</value>
+  </data>
+  <data name="ChangeItemNameButton" xml:space="preserve">
+    <value>Змінити назву</value>
+  </data>
   <data name="StartMessage" xml:space="preserve">
     <value>Привіт</value>
   </data>
+  <data name="ViewListMessage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
   <data name="WatchList" xml:space="preserve">
     <value>Переглянути</value>
+  </data>
+  <data name="SetDescriptionButton" xml:space="preserve">
+    <value>Опис</value>
+  </data>
+  <data name="SetMediaButton" xml:space="preserve">
+    <value>Фото/відео</value>
+  </data>
+  <data name="SetLinkButton" xml:space="preserve">
+    <value>Посилання</value>
+  </data>
+  <data name="DeleteItemButton" xml:space="preserve">
+    <value>Видалити бажання</value>
+  </data>
+  <data name="ChangeLanguageButton" xml:space="preserve">
+    <value>🇺🇦 Українська</value>
+  </data>
+  <data name="LanguageAlreadySet" xml:space="preserve">
+    <value>Шо ти тицяєш, вона і так вже встановлена.</value>
+  </data>
+  <data name="ListDeleted" xml:space="preserve">
+    <value>Список видалено</value>
+  </data>
+  <data name="TypeList" xml:space="preserve">
+    <value>Введіть '/lists' щоб переглянути ваші списки.</value>
+  </data>
+  <data name="ListNotFound" xml:space="preserve">
+    <value>Такого списка не існує(</value>
   </data>
 </root>

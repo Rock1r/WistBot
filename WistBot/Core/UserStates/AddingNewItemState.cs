@@ -16,25 +16,32 @@ namespace WistBot.Core.UserStates
 
         public async Task HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, WishListItemsService wishListItemsService)
         {
-            var itemName = message.Text;
-
-            if (string.IsNullOrWhiteSpace(itemName))
+            try
             {
-                await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
-                return;
+                var itemName = message.Text;
+
+                if (string.IsNullOrWhiteSpace(itemName))
+                {
+                    await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
+                    return;
+                }
+
+                var baseName = itemName;
+                var counter = 1;
+
+                while (_wishList.Items.Any(x => x.Name == itemName))
+                {
+                    itemName = $"{baseName}{counter}";
+                    counter++;
+                }
+
+                await wishListItemsService.Add(new WishListItemEntity { Name = itemName, ListId = _wishList.Id });
+                await wishListsService.ViewList(bot, message.Chat.Id, userId, await wishListsService.GetById(_wishList.Id), localization, token);
             }
-
-            var baseName = itemName;
-            var counter = 1;
-
-            while (_wishList.Items.Any(x => x.Name == itemName))
+            catch (Exception ex)
             {
-                itemName = $"{baseName}{counter}";
-                counter++;
+                Console.WriteLine($"Error AddingNewItemState: {ex.Message}");
             }
-
-            await wishListItemsService.Add(new WishListItemEntity { Name = itemName, ListId = _wishList.Id });
-            await BotActions.ShowList(message, token, localization, await wishListsService.GetById(_wishList.Id));
         }
     }
 }

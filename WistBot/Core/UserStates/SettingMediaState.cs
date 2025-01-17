@@ -43,7 +43,7 @@ namespace WistBot.Core.UserStates
             }
 
             await wishListItemsService.Update(_wishListItem);
-            await BotActions.ShowList(message, token, localization, await wishListsService.GetById(_wishListItem.ListId));
+            //await BotActions.ShowList(message, token, localization, await wishListsService.GetById(_wishListItem.ListId));
         }
     }
 

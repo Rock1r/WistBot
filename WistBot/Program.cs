@@ -1,14 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
-using System.Globalization;
 using System.Resources;
+using System.Text;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 using WistBot;
 using WistBot.Core.Actions;
 using WistBot.Data;
@@ -18,6 +15,8 @@ using WistBot.Services;
 
 try
 {
+    Console.OutputEncoding = Encoding.UTF8;
+
     var builder = WebApplication.CreateBuilder(args);
     builder.Configuration.AddJsonFile("config.json");
     builder.Services.AddDbContext<WistBotDbContext>();
@@ -47,7 +46,13 @@ try
 
         return new TelegramBotClient(token);
     });
-    builder.Services.AddSingleton<ActionService>();
+    builder.Services.AddSingleton<ActionService>(provider =>
+    {
+        var actions = provider.GetServices<IBotAction>();
+        var localizationService = provider.GetRequiredService<LocalizationService>();
+        return ActionService.CreateAsync(actions, localizationService).Result;
+    }
+    );
     builder.Services.AddScoped<BotService>();
 
     var actionTypes = typeof(Program).Assembly.GetTypes()
