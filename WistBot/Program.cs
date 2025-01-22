@@ -3,29 +3,29 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Resources;
-using System.Text;
 using Telegram.Bot;
-using WistBot;
 using WistBot.Core.Actions;
 using WistBot.Data;
 using WistBot.Data.Repos;
+using WistBot.Managers;
 using WistBot.Res;
 using WistBot.Services;
 
 try
 {
-    Console.OutputEncoding = Encoding.UTF8;
-
     var builder = WebApplication.CreateBuilder(args);
+    builder.Logging.AddConsole();
+
     builder.Configuration.AddJsonFile("config.json");
     builder.Services.AddDbContext<WistBotDbContext>();
     builder.Services.AddScoped<UsersRepo>();
     builder.Services.AddScoped<WishlistsRepo>();
-    builder.Services.AddScoped<WishlistItemsRepo>();
+    builder.Services.AddScoped<ItemsRepo>();
     builder.Services.AddScoped<UsersService>();
     builder.Services.AddScoped<WishListsService>();
-    builder.Services.AddScoped<WishListItemsService>();
+    builder.Services.AddScoped<ItemsService>();
     builder.Services.AddScoped<UserStateManager>();
     builder.Services.AddScoped<LocalizationService>();
     builder.Services.AddSingleton<ResourceManager>(provider =>
@@ -54,7 +54,6 @@ try
     }
     );
     builder.Services.AddScoped<BotService>();
-
     var actionTypes = typeof(Program).Assembly.GetTypes()
     .Where(type => typeof(IBotAction).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract);
     foreach (var actionType in actionTypes)
@@ -64,7 +63,6 @@ try
 
     var services = builder.Services.BuildServiceProvider();
     var app = builder.Build();
-
     var bot = services.GetRequiredService<BotService>();
     bot.StartReceiving();
     app.Run();

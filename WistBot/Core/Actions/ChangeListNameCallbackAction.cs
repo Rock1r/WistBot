@@ -1,7 +1,10 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Core.UserStates;
 using WistBot.Exceptions;
+using WistBot.Managers;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot.Core.Actions
@@ -37,7 +40,13 @@ namespace WistBot.Core.Actions
                 var listName = message.Text ?? throw new ArgumentNullException(nameof(message.Text));
                 var list = await _wishListsService.GetByName(userId, listName);
                 _userStateManager.SetState(userId, new SettingListNameState(list));
-                await _bot.SendMessage(message.Chat.Id, await _localization.Get(LocalizationKeys.SetListName, userId), cancellationToken: token);
+                var markup = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(await _localization.Get(LocalizationKeys.DefaultListNaming, userId)));
+                var mesToDel = await _bot.SendMessage(message.Chat.Id, await _localization.Get(LocalizationKeys.SetListName, userId), replyMarkup: markup, cancellationToken: token);
+                UserContextManager.SetContext(userId, new UserContext(mesToDel) { MessageToEdit = message });
+            }
+            catch (ListNotFoundException ex)
+            {
+                await _bot.AnswerCallbackQuery(callback.Id, ex.Message, cancellationToken: token);
             }
             catch (Exception ex)
             {

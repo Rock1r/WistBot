@@ -64,13 +64,17 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[9.0.1, )"
+            },
             "System.Data.SQLite": {
               "target": "Package",
               "version": "[1.0.119, )"
             },
             "Telegram.Bot": {
               "target": "Package",
-              "version": "[22.2.0, )"
+              "version": "[22.3.0, )"
             }
           },
           "imports": [

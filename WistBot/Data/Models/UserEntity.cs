@@ -1,4 +1,6 @@
-﻿namespace WistBot.Data.Models
+﻿using WistBot.Res;
+
+namespace WistBot.Data.Models
 {
     public class UserEntity
     {

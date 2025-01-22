@@ -2,6 +2,8 @@
 using Telegram.Bot;
 using WistBot.Data.Models;
 using WistBot.Services;
+using WistBot.Res;
+using WistBot.Managers;
 
 namespace WistBot.Core.UserStates
 {
@@ -14,7 +16,7 @@ namespace WistBot.Core.UserStates
             _wishList = wishList ?? throw new ArgumentNullException(nameof(wishList));
         }
 
-        public async Task HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, WishListItemsService wishListItemsService)
+        public async Task<bool> HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService)
         {
             try
             {
@@ -22,8 +24,11 @@ namespace WistBot.Core.UserStates
 
                 if (string.IsNullOrWhiteSpace(itemName))
                 {
-                    await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
-                    return;
+                    var warning = await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.ListNameCantBeEmpty), cancellationToken: token);
+                    var context = UserContextManager.GetContext(userId);
+                    context.MessagesToDelete.Add(message);
+                    context.MessagesToDelete.Add(warning);
+                    return false;
                 }
 
                 var baseName = itemName;
@@ -35,12 +40,14 @@ namespace WistBot.Core.UserStates
                     counter++;
                 }
 
-                await wishListItemsService.Add(new WishListItemEntity { Name = itemName, ListId = _wishList.Id });
-                await wishListsService.ViewList(bot, message.Chat.Id, userId, await wishListsService.GetById(_wishList.Id), localization, token);
+                await wishListItemsService.Add(new ItemEntity { Name = itemName, ListId = _wishList.Id, OwnerId = userId });
+                await WishListsService.ViewList(bot, message.Chat.Id, userId, await wishListsService.GetById(_wishList.Id), localization, token);
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error AddingNewItemState: {ex.Message}");
+                return false; // Ensure a return value in case of exception
             }
         }
     }

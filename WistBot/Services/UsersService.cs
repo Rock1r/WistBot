@@ -1,39 +1,26 @@
-﻿using Telegram.Bot;
-using Telegram.Bot.Types;
-using WistBot.Data.Models;
+﻿using WistBot.Data.Models;
 using WistBot.Data.Repos;
-using WistBot.Exceptions;
 
 namespace WistBot.Services
 {
     public class UsersService
     {
         private readonly UsersRepo _usersRepo;
-        private readonly Dictionary<long, Guid> _currentList = new();
-
-        public void SetListContext(long userId, Guid listId)
-        {
-            _currentList[userId] = listId;
-        }
-
-        public Guid GetListContext(long userId)
-        {
-            return _currentList.TryGetValue(userId, out var listId) ? listId : throw new CurrentListNotFoundException(listId);
-        }
-
-        public void ClearListContext(long userId)
-        {
-            _currentList.Remove(userId);
-        }
+       
 
         public UsersService(UsersRepo usersRepo)
         {
             _usersRepo = usersRepo;
         }
 
-        public async Task<bool> UserExists(long telegramId)
+        public async Task<bool> UserExists(long id)
         {
-            return await _usersRepo.UserExists(telegramId);
+            return await _usersRepo.UserExists(id);
+        }
+
+        public async Task<bool> UserExists(string name)
+        {
+            return await _usersRepo.UserExists(name);
         }
 
         public async Task<string> GetLanguage(long telegramId)
@@ -46,7 +33,7 @@ namespace WistBot.Services
             return await _usersRepo.GetByUsername(username);
         }
 
-        public async Task<UserEntity> GetById(int userId)
+        public async Task<UserEntity> GetById(long userId)
         {
             return await _usersRepo.GetById(userId);
         }
@@ -85,6 +72,7 @@ namespace WistBot.Services
         {
             await _usersRepo.SetLanguage(telegramId, language);
         }
+
 
     }
 }

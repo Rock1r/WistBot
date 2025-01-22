@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Resources;
 using WistBot.Exceptions;
+using WistBot.Res;
 
 namespace WistBot.Services
 {

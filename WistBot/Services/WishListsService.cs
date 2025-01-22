@@ -4,6 +4,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Data.Models;
 using WistBot.Data.Repos;
+using WistBot.Res;
 
 namespace WistBot.Services
 {
@@ -41,6 +42,11 @@ namespace WistBot.Services
             return await _wishListsRepo.GetWithItems();
         }
 
+        public async Task<List<WishListEntity>> GetPublic(long ownerId)
+        {
+            return await _wishListsRepo.GetPublic(ownerId);
+        }
+
         public async Task Add(string name, bool isPublic, long ownerId)
         {
             await _wishListsRepo.Add(name, isPublic, ownerId);
@@ -61,57 +67,78 @@ namespace WistBot.Services
             await _wishListsRepo.Delete(name);
         }
 
-        public async Task ViewList(ITelegramBotClient _bot, long chatId, long userId, WishListEntity list, LocalizationService _localization, CancellationToken token)
+        public static async Task<InlineKeyboardMarkup> GetListMarkup(WishListEntity list, LocalizationService localizationService)
+        {
+            var visibilityButtonText = await localizationService.Get(InlineButton.ChangeVisіbility, list.OwnerId, list.IsPublic ?
+                        await localizationService.Get(LocalizationKeys.MakePrivate, list.OwnerId) :
+                        await localizationService.Get(LocalizationKeys.MakePublic, list.OwnerId));
+            return new InlineKeyboardMarkup(new[]
+            {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await localizationService.Get(InlineButton.WatchList, list.OwnerId), BotCallbacks.List)
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await localizationService.Get(InlineButton.ChangeListName, list.OwnerId), BotCallbacks.ChangeListName),
+                        InlineKeyboardButton.WithCallbackData(visibilityButtonText, BotCallbacks.ChangeVisіbility)
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await localizationService.Get(InlineButton.DeleteList, list.OwnerId), BotCallbacks.DeleteList),
+                        //InlineKeyboardButton.WithCallbackData(await _localization.Get(Button.ShareList, list.OwnerId), BotCallbacks.ShareList)
+                    }
+                    
+                });
+        }
+
+        public static async Task ViewList(ITelegramBotClient _bot, long chatId, long userId, WishListEntity list, LocalizationService _localization, CancellationToken token)
         {
             var culture = await _localization.GetLanguage(userId);
-            var keyboard = new ReplyKeyboardMarkup(new KeyboardButton[][]
+            var keyboard = new InlineKeyboardMarkup(new[]
             {
-                 new KeyboardButton[] { await _localization.Get(KButton.AddItem, culture)  },
-                new KeyboardButton[] { await _localization.Get(KButton.ClearList, culture) }
-                })
-            {
-                ResizeKeyboard = true
-            };
-            await _bot.SendMessage(chatId, list.Name, replyMarkup: keyboard, cancellationToken: token);
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.AddItem, userId), BotCallbacks.AddItem)
+                },
+            });
+            var mes = await _bot.SendMessage(chatId, list.Name, replyMarkup: keyboard, cancellationToken: token);
             if (list.Items.Count > 0)
             {
                 foreach (var item in list.Items)
                 {
-                    var inlineReply = new InlineKeyboardMarkup(new[]
+                    await ItemsService.BuildItemMarkup(userId, _localization);
+                    await ItemsService.ViewItem(_bot, chatId, item, await ItemsService.BuildItemMarkup(userId, _localization), token);
+                }
+            }
+        }
+
+        public static async Task ViewUserList(ITelegramBotClient _bot, long chatId, User sender, WishListEntity list, LocalizationService _localization, UsersService usersService, CancellationToken token)
+        {
+            try
+            {
+
+                if (list.Items.Count > 0)
+                {
+                    foreach (var item in list.Items)
                     {
-                        new[]
+                        var markup = await ItemsService.BuildUserItemMarkup(sender, _localization, (await usersService.GetById(list.OwnerId)).Username, item);
+                        var name = item.Name;
+                        var text = MessageBuilder.BuildUserItemMessage(item);
+                        if (!string.IsNullOrWhiteSpace(item.Media))
                         {
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.ChangeItemName, culture), BotCallbacks.SetName),
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.SetDescription, culture), BotCallbacks.SetDescription)
-                        }, new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.SetMedia, culture), BotCallbacks.SetMedia),
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.SetLink, culture), BotCallbacks.SetLink)
-                        }, new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteItem, culture), BotCallbacks.DeleteItem),
+                            await _bot.SendPhoto(chatId, item.Media, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
                         }
-                    });
-                    if (!string.IsNullOrWhiteSpace(item.Media))
-                    {
-                        var file = await _bot.GetFile(item.Media);
-                        if (file != null)
+                        else
                         {
-                            if (file.FilePath.EndsWith(".jpg") || file.FilePath.EndsWith(".png"))
-                            {
-                                await _bot.SendPhoto(chatId, item.Media, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
-                            }
-                            else
-                            {
-                                await _bot.SendVideo(chatId, item.Media, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
-                            }
+                            await _bot.SendMessage(chatId, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
                         }
-                    }
-                    else
-                    {
-                        await _bot.SendMessage(chatId, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: inlineReply, cancellationToken: token, parseMode: ParseMode.Html);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error ViewUserList: {ex.Message}");
             }
         }
     }

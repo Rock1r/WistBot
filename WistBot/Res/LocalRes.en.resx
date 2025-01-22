@@ -132,9 +132,6 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>Choose language:</value>
   </data>
-  <data name="ClearListButton" xml:space="preserve">
-    <value>Clear list</value>
-  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>Delete list</value>
   </data>
@@ -157,7 +154,7 @@
     <value>{0}, you have no lists, press button below to create one</value>
   </data>
   <data name="SetListName" xml:space="preserve">
-    <value>Set list name</value>
+    <value>Type list name</value>
   </data>
   <data name="ChangeItemNameButton" xml:space="preserve">
     <value>Change name</value>
@@ -166,7 +163,7 @@
     <value>Hello</value>
   </data>
   <data name="ViewListMessage" xml:space="preserve">
-    <value>{0}, here must be instructions about using managing your list</value>
+    <value>{0}</value>
   </data>
   <data name="WatchList" xml:space="preserve">
     <value>View</value>
@@ -197,5 +194,92 @@
   </data>
   <data name="ListNotFound" xml:space="preserve">
     <value>List not found.</value>
+  </data>
+  <data name="DefaultItemNaming" xml:space="preserve">
+    <value>My wish</value>
+  </data>
+  <data name="SetItemName" xml:space="preserve">
+    <value>Set item name</value>
+  </data>
+  <data name="DefaultListNaming" xml:space="preserve">
+    <value>My WishList</value>
+  </data>
+  <data name="ListNameCantBeEmpty" xml:space="preserve">
+    <value>List name can't be empty. Try again.</value>
+  </data>
+  <data name="ItemNameCantBeEmpty" xml:space="preserve">
+    <value>Item name can't be empty. Try again.</value>
+  </data>
+  <data name="SetDescription" xml:space="preserve">
+    <value>Type description</value>
+  </data>
+  <data name="DescriptionCantBeEmpty" xml:space="preserve">
+    <value>Description can't be empty, try again</value>
+  </data>
+  <data name="DeleteDescriptionButton" xml:space="preserve">
+    <value>Delete description</value>
+  </data>
+  <data name="SetOrDeleteDescription" xml:space="preserve">
+    <value>Set new descrption or press the button to delete existing</value>
+  </data>
+  <data name="DeleteMediaButton" xml:space="preserve">
+    <value>Delete media</value>
+  </data>
+  <data name="SetOrDeleteMedia" xml:space="preserve">
+    <value>Set new media or press button to delete existing</value>
+  </data>
+  <data name="SetMedia" xml:space="preserve">
+    <value>Send video (duration &lt; 60 s) or photo (.jpg or .png)</value>
+  </data>
+  <data name="DocumentNotSupported" xml:space="preserve">
+    <value>Documents not supported</value>
+  </data>
+  <data name="DeleteLinkButton" xml:space="preserve">
+    <value>Delete link</value>
+  </data>
+  <data name="SetOrDeleteLink" xml:space="preserve">
+    <value>Set new link or press button to delete existing</value>
+  </data>
+  <data name="SetLink" xml:space="preserve">
+    <value>Send link</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>Link is invalid, try again</value>
+  </data>
+  <data name="ItemDeleted" xml:space="preserve">
+    <value>Item deleted</value>
+  </data>
+  <data name="UsersListsMessage" xml:space="preserve">
+    <value>{0}'s public lists:</value>
+  </data>
+  <data name="NoPublicLists" xml:space="preserve">
+    <value>{0} has no public lists</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="UserListIsEmpty" xml:space="preserve">
+    <value>{0}, {1}'s list {2} is empty</value>
+  </data>
+  <data name="WantToPresentButton" xml:space="preserve">
+    <value>I want to present</value>
+  </data>
+  <data name="SetFreeButton" xml:space="preserve">
+    <value>Set free</value>
+  </data>
+  <data name="SetInProcessButton" xml:space="preserve">
+    <value>In process</value>
+  </data>
+  <data name="SetDoneButton" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="InvalidMedia" xml:space="preserve">
+    <value>Invalid media</value>
+  </data>
+  <data name="VideoTooLong" xml:space="preserve">
+    <value>Video is too long</value>
+  </data>
+  <data name="PromiseToPresent" xml:space="preserve">
+    <value>{0}, promise me, that you will present {1} {2}</value>
   </data>
 </root>

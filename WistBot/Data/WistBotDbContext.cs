@@ -14,7 +14,7 @@ namespace WistBot.Data
 
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<WishListEntity> WishLists { get; set; }
-        public DbSet<WishListItemEntity> WishListItems { get; set; }
+        public DbSet<ItemEntity> Items { get; set; }
 
         public WistBotDbContext(IConfiguration configuration)
         {
@@ -25,7 +25,7 @@ namespace WistBot.Data
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new WishListConfiguration());
-            modelBuilder.ApplyConfiguration(new WishListItemConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

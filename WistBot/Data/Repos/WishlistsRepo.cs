@@ -38,6 +38,11 @@ namespace WistBot.Data.Repos
             return await _context.WishLists.AsNoTracking().Include(x => x.Items).ToListAsync();
         }
 
+        public async Task<List<WishListEntity>> GetPublic(long ownerId)
+        {
+            return await _context.WishLists.AsNoTracking().Where(x => x.OwnerId == ownerId && x.IsPublic).ToListAsync() ?? new List<WishListEntity> { };
+        }
+
         public async Task Add(string name, bool isPublic, long ownerId)
         {
             var wishlist = new WishListEntity

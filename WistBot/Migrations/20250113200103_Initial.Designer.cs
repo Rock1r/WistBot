@@ -98,7 +98,7 @@ namespace WistBot.Migrations
 
                     b.HasIndex("ListId");
 
-                    b.ToTable("WishListItems");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("WistBot.Data.Models.WishListEntity", b =>

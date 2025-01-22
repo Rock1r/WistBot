@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WistBot.Data.Models;
+using WistBot.Res;
 
 namespace WistBot.Data.Repos
 {
@@ -12,9 +13,14 @@ namespace WistBot.Data.Repos
             _context = context;
         }
 
-        public async Task<bool> UserExists(long telegramId)
+        public async Task<bool> UserExists(long id)
         {
-            return await _context.Users.AsNoTracking().AnyAsync(x => x.TelegramId == telegramId);
+            return await _context.Users.AsNoTracking().AnyAsync(x => x.TelegramId == id);
+        }
+
+        public async Task<bool> UserExists(string name)
+        {
+            return await _context.Users.AsNoTracking().AnyAsync(x => x.Username == name);
         }
 
         public async Task<string> GetLanguage(long telegramId)
@@ -22,7 +28,7 @@ namespace WistBot.Data.Repos
             return await _context.Users.AsNoTracking().Where(x => x.TelegramId == telegramId).Select(x => x.Language).FirstOrDefaultAsync() ?? LanguageCodes.English;
         }
 
-        public async Task<UserEntity> GetById(int userId)
+        public async Task<UserEntity> GetById(long userId)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.TelegramId == userId)?? throw new Exception();
         }

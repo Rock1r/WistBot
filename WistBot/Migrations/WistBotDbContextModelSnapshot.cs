@@ -17,6 +17,50 @@ namespace WistBot.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
+            modelBuilder.Entity("WistBot.Data.Models.ItemEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CurrentState")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ListId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Media")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<long>("OwnerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PerformerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ListId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Items");
+                });
+
             modelBuilder.Entity("WistBot.Data.Models.UserEntity", b =>
                 {
                     b.Property<long>("TelegramId")
@@ -59,43 +103,23 @@ namespace WistBot.Migrations
                     b.ToTable("WishLists");
                 });
 
-            modelBuilder.Entity("WistBot.Data.Models.WishListItemEntity", b =>
+            modelBuilder.Entity("WistBot.Data.Models.ItemEntity", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                    b.HasOne("WistBot.Data.Models.WishListEntity", "List")
+                        .WithMany("Items")
+                        .HasForeignKey("ListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("CurrentState")
-                        .HasColumnType("INTEGER");
+                    b.HasOne("WistBot.Data.Models.UserEntity", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Navigation("List");
 
-                    b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ListId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Media")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PerformerName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ListId");
-
-                    b.ToTable("WishListItems");
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("WistBot.Data.Models.WishListEntity", b =>
@@ -107,17 +131,6 @@ namespace WistBot.Migrations
                         .IsRequired();
 
                     b.Navigation("Owner");
-                });
-
-            modelBuilder.Entity("WistBot.Data.Models.WishListItemEntity", b =>
-                {
-                    b.HasOne("WistBot.Data.Models.WishListEntity", "Lists")
-                        .WithMany("Items")
-                        .HasForeignKey("ListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lists");
                 });
 
             modelBuilder.Entity("WistBot.Data.Models.UserEntity", b =>

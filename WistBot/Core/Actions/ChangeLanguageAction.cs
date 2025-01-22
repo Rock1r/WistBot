@@ -3,6 +3,7 @@ using System.Resources;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot.Core.Actions

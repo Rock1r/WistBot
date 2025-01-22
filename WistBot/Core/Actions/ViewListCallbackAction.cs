@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using WistBot.Exceptions;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot.Core.Actions
@@ -10,16 +11,14 @@ namespace WistBot.Core.Actions
         private readonly ITelegramBotClient _bot;
         private readonly WishListsService _wishListsService;
         private readonly LocalizationService _localization;
-        private readonly UsersService _usersService;
 
         public string Command => BotCallbacks.List;
 
-        public ViewListCallbackAction(ITelegramBotClient bot, WishListsService wishListsService, UsersService usersService, LocalizationService localizationService)
+        public ViewListCallbackAction(ITelegramBotClient bot, WishListsService wishListsService, LocalizationService localizationService)
         {
             _bot = bot;
             _wishListsService = wishListsService;
             _localization = localizationService;
-            _usersService = usersService;
         }
 
         public Task ExecuteMessage(Message message, CancellationToken token)
@@ -41,10 +40,9 @@ namespace WistBot.Core.Actions
                 {
                     messageToSend = await _localization.Get(LocalizationKeys.ListIsEmpty, culture, user.Username ?? user.FirstName, list.Name);
                 }
-                _usersService.SetListContext(user.Id, list.Id);
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
 
-                await _wishListsService.ViewList(_bot, chatId, user.Id, list, _localization, token);
+                await WishListsService.ViewList(_bot, chatId, user.Id, list, _localization, token);
             }
             catch(ListNotFoundException)
             {

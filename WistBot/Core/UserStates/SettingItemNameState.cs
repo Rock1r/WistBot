@@ -1,44 +1,78 @@
-﻿using Telegram.Bot.Types;
-using Telegram.Bot;
+﻿using Telegram.Bot;
+using Telegram.Bot.Types;
 using WistBot.Data.Models;
+using WistBot.Managers;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot.Core.UserStates
 {
     public class SettingItemNameState : IUserStateHandler
     {
-        private readonly WishListItemEntity _wishListItem;
+        private readonly ItemEntity _wishListItem;
 
-        public SettingItemNameState(WishListItemEntity wishListItem)
+        public SettingItemNameState(ItemEntity wishListItem)
         {
             _wishListItem = wishListItem ?? throw new ArgumentNullException(nameof(wishListItem));
         }
 
-        public async Task HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, WishListItemsService wishListItemsService)
+        public async Task<bool> HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService)
         {
-            var itemName = message.Text;
-
-            if (string.IsNullOrWhiteSpace(itemName))
+            try
             {
-                await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.NameCantBeEmpty), cancellationToken: token);
-                return;
+
+                var itemName = message.Text;
+
+                if (string.IsNullOrWhiteSpace(itemName))
+                {
+                    var warning = await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.ItemNameCantBeEmpty), cancellationToken: token);
+                    var usercontext = UserContextManager.GetContext(userId);
+                    usercontext.MessagesToDelete.Add(message);
+                    usercontext.MessagesToDelete.Add(warning);
+                    return false;
+                }
+
+                var baseName = itemName;
+                var counter = 1;
+
+                var list = await wishListsService.GetById(_wishListItem.ListId);
+
+                while (list.Items.Any(x => x.Name == itemName))
+                {
+                    itemName = $"{baseName} ({counter})";
+                    counter++;
+                }
+
+                _wishListItem.Name = itemName;
+
+                await wishListItemsService.Update(_wishListItem);
+                var context = UserContextManager.GetContext(userId) ?? throw new ArgumentNullException();
+                var mes = context.MessageToEdit ?? throw new ArgumentNullException();
+                var newText = MessageBuilder.BuildItemMessage(_wishListItem);
+                var replyMarkup = await ItemsService.BuildItemMarkup(userId, localization);
+                if (!string.IsNullOrEmpty(_wishListItem.Media))
+                {
+                    await bot.EditMessageCaption(mes.Chat.Id, mes.Id, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                }
+                else
+                {
+                    await bot.EditMessageText(mes.Chat.Id, mes.Id, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                }
+                var messagesToDelete = new List<int>();
+                messagesToDelete.Add(message.MessageId);
+                foreach (var msg in context.MessagesToDelete)
+                {
+                    messagesToDelete.Add(msg.MessageId);
+                }
+                await bot.DeleteMessages(message.Chat.Id, messagesToDelete, cancellationToken: token);
+                UserContextManager.ClearContext(userId);
+                return true;
             }
-
-            var baseName = itemName;
-            var counter = 1;
-
-            var list = await wishListsService.GetById(_wishListItem.ListId);
-
-            while (list.Items.Any(x => x.Name == itemName))
+            catch (Exception ex)
             {
-                itemName = $"{baseName}{counter}";
-                counter++;
+                Console.WriteLine($"Error SettingItemNameState: {ex.Message}");
+                return false;
             }
-
-            _wishListItem.Name = itemName;
-
-            await wishListItemsService.Update(_wishListItem);
-            //await BotActions.ShowList(message, token, localization, list);
         }
     }
 }

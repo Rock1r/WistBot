@@ -132,9 +132,6 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>Оберіть мову:</value>
   </data>
-  <data name="ClearListButton" xml:space="preserve">
-    <value>Очистити список</value>
-  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>Видалити список</value>
   </data>
@@ -157,7 +154,7 @@
     <value>{0}, у вас немає списків, натисніть кнопку щоб створити новий</value>
   </data>
   <data name="SetListName" xml:space="preserve">
-    <value>Дайте списку назву</value>
+    <value>Введіть назву списку</value>
   </data>
   <data name="ChangeItemNameButton" xml:space="preserve">
     <value>Змінити назву</value>
@@ -197,5 +194,92 @@
   </data>
   <data name="ListNotFound" xml:space="preserve">
     <value>Такого списка не існує(</value>
+  </data>
+  <data name="DefaultItemNaming" xml:space="preserve">
+    <value>Моє бажання</value>
+  </data>
+  <data name="SetItemName" xml:space="preserve">
+    <value>Назвіть бажання</value>
+  </data>
+  <data name="DefaultListNaming" xml:space="preserve">
+    <value>Мій список бажань</value>
+  </data>
+  <data name="ListNameCantBeEmpty" xml:space="preserve">
+    <value>Давай напиши нормально, текстом.</value>
+  </data>
+  <data name="ItemNameCantBeEmpty" xml:space="preserve">
+    <value>Давай нормально текстом напиши.</value>
+  </data>
+  <data name="SetDescription" xml:space="preserve">
+    <value>Введіть опис</value>
+  </data>
+  <data name="DescriptionCantBeEmpty" xml:space="preserve">
+    <value>Опис не може бути таким, напиши ще раз.</value>
+  </data>
+  <data name="DeleteDescriptionButton" xml:space="preserve">
+    <value>Видалити опис</value>
+  </data>
+  <data name="SetOrDeleteDescription" xml:space="preserve">
+    <value>Напишіть новий опис, або натисніть кнопку щоб видалити опис.</value>
+  </data>
+  <data name="DeleteMediaButton" xml:space="preserve">
+    <value>Видалити фото/відео</value>
+  </data>
+  <data name="SetOrDeleteMedia" xml:space="preserve">
+    <value>Надішліть нове фото/відео або натисніть кнопку щоб видалити існуюче</value>
+  </data>
+  <data name="SetMedia" xml:space="preserve">
+    <value>Надішліть відео (тривалість не більше 60 секунд) або фото у форматі .jpg або .png</value>
+  </data>
+  <data name="DocumentNotSupported" xml:space="preserve">
+    <value>Документи не підтримуються</value>
+  </data>
+  <data name="DeleteLinkButton" xml:space="preserve">
+    <value>Видалити посилання</value>
+  </data>
+  <data name="SetOrDeleteLink" xml:space="preserve">
+    <value>Надішліть нове посилання, або натисніть кнопку щоб видалити існуюче</value>
+  </data>
+  <data name="SetLink" xml:space="preserve">
+    <value>Надішліть посилання на ваше бажання</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>І ти це називаєш посиланням? Надішли нормальне</value>
+  </data>
+  <data name="ItemDeleted" xml:space="preserve">
+    <value>Бажання видалено</value>
+  </data>
+  <data name="UsersListsMessage" xml:space="preserve">
+    <value>Загальнодоступні списки користувача {0}</value>
+  </data>
+  <data name="NoPublicLists" xml:space="preserve">
+    <value>У {0} немає загальнодоступних списків</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Це хто? Не знаю такого</value>
+  </data>
+  <data name="UserListIsEmpty" xml:space="preserve">
+    <value>{0}, {1} забув добавити бажання в {2}</value>
+  </data>
+  <data name="WantToPresentButton" xml:space="preserve">
+    <value>Я бажаю подарувати</value>
+  </data>
+  <data name="SetFreeButton" xml:space="preserve">
+    <value>Звільнити</value>
+  </data>
+  <data name="SetInProcessButton" xml:space="preserve">
+    <value>В процесі</value>
+  </data>
+  <data name="SetDoneButton" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="InvalidMedia" xml:space="preserve">
+    <value>Надішли нормальне фото, або відео</value>
+  </data>
+  <data name="VideoTooLong" xml:space="preserve">
+    <value>Відео задовге.</value>
+  </data>
+  <data name="PromiseToPresent" xml:space="preserve">
+    <value>{0}, пообіцяй мені, що ти подаруєш {1} {2}</value>
   </data>
 </root>

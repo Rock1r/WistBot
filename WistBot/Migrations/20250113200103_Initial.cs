@@ -46,7 +46,7 @@ namespace WistBot.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WishListItems",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -71,7 +71,7 @@ namespace WistBot.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_WishListItems_ListId",
-                table: "WishListItems",
+                table: "Items",
                 column: "ListId");
 
             migrationBuilder.CreateIndex(
@@ -84,7 +84,7 @@ namespace WistBot.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "WishListItems");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "WishLists");

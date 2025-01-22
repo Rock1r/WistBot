@@ -6,7 +6,7 @@ namespace WistBot.Core.UserStates
 {
     public interface IUserStateHandler
     {
-        public Task HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, WishListItemsService wishListItemsService);
+        public Task<bool> HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService);
     }
 
 }

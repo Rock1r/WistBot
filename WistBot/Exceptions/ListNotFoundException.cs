@@ -2,7 +2,7 @@
 {
     public class ListNotFoundException : Exception
     {
-        public ListNotFoundException(string name) : base($"Lists with name {name} not found.")
+        public ListNotFoundException(string name) : base($"List with name {name} not found.")
         {
         }
     }

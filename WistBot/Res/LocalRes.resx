@@ -136,10 +136,6 @@
   <data name="ChooseLanguage" xml:space="preserve">
     <value>ChooseLanguage</value>
   </data>
-  <data name="ClearListButton" xml:space="preserve">
-    <value>ClearListButton</value>
-    <comment>KButton</comment>
-  </data>
   <data name="DeleteListButton" xml:space="preserve">
     <value>DeleteListButton</value>
     <comment>Button</comment>
@@ -190,6 +186,7 @@
   </data>
   <data name="SetLinkButton" xml:space="preserve">
     <value>SetLinkButton</value>
+    <comment>Button</comment>
   </data>
   <data name="DeleteItemButton" xml:space="preserve">
     <value>DeleteItemButton</value>
@@ -209,5 +206,97 @@
   </data>
   <data name="ListNotFound" xml:space="preserve">
     <value>ListNotFound</value>
+  </data>
+  <data name="DefaultItemNaming" xml:space="preserve">
+    <value>DefaultItemNaming</value>
+  </data>
+  <data name="SetItemName" xml:space="preserve">
+    <value>SetItemName</value>
+  </data>
+  <data name="DefaultListNaming" xml:space="preserve">
+    <value>DefaultListNaming</value>
+  </data>
+  <data name="ListNameCantBeEmpty" xml:space="preserve">
+    <value>ListNameCantBeEmpty</value>
+  </data>
+  <data name="ItemNameCantBeEmpty" xml:space="preserve">
+    <value>ItemNameCantBeEmpty</value>
+  </data>
+  <data name="SetDescription" xml:space="preserve">
+    <value>SetDescription</value>
+  </data>
+  <data name="DescriptionCantBeEmpty" xml:space="preserve">
+    <value>DescriptionCantBeEmpty</value>
+  </data>
+  <data name="DeleteDescriptionButton" xml:space="preserve">
+    <value>DeleteDescriptionButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SetOrDeleteDescription" xml:space="preserve">
+    <value>SetOrDeleteDescription</value>
+  </data>
+  <data name="DeleteMediaButton" xml:space="preserve">
+    <value>DeleteMediaButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SetOrDeleteMedia" xml:space="preserve">
+    <value>SetOrDeleteMedia</value>
+  </data>
+  <data name="SetMedia" xml:space="preserve">
+    <value>SetMedia</value>
+  </data>
+  <data name="DocumentNotSupported" xml:space="preserve">
+    <value>DocumentNotSupported</value>
+  </data>
+  <data name="DeleteLinkButton" xml:space="preserve">
+    <value>DeleteLinkButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SetOrDeleteLink" xml:space="preserve">
+    <value>SetOrDeleteLink</value>
+  </data>
+  <data name="SetLink" xml:space="preserve">
+    <value>SetLink</value>
+  </data>
+  <data name="InvalidLink" xml:space="preserve">
+    <value>InvalidLink</value>
+  </data>
+  <data name="ItemDeleted" xml:space="preserve">
+    <value>ItemDeleted</value>
+  </data>
+  <data name="UsersListsMessage" xml:space="preserve">
+    <value>UsersListsMessage</value>
+  </data>
+  <data name="NoPublicLists" xml:space="preserve">
+    <value>NoPublicLists</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>UserNotFound</value>
+  </data>
+  <data name="UserListIsEmpty" xml:space="preserve">
+    <value>UserListIsEmpty</value>
+  </data>
+  <data name="WantToPresentButton" xml:space="preserve">
+    <value>WantToPresentButton</value>
+  </data>
+  <data name="SetFreeButton" xml:space="preserve">
+    <value>SetFreeButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="SetInProcessButton" xml:space="preserve">
+    <value>SetInProcessButton</value>
+  </data>
+  <data name="SetDoneButton" xml:space="preserve">
+    <value>SetDoneButton</value>
+    <comment>Button</comment>
+  </data>
+  <data name="InvalidMedia" xml:space="preserve">
+    <value>InvalidMedia</value>
+  </data>
+  <data name="VideoTooLong" xml:space="preserve">
+    <value>VideoTooLong</value>
+  </data>
+  <data name="PromiseToPresent" xml:space="preserve">
+    <value>PromiseToPresent</value>
   </data>
 </root>

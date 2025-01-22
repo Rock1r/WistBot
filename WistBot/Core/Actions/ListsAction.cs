@@ -1,6 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using WistBot.Res;
 using WistBot.Services;
 
 namespace WistBot.Core.Actions
@@ -26,7 +27,11 @@ namespace WistBot.Core.Actions
             try
             {
                 var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
-                var keyboard = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(await _localization.Get(KButton.AddList, user.Id)));
+                var keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton
+                {
+                    Text = await _localization.Get(InlineButton.AddList, user.Id),
+                    CallbackData = BotCallbacks.AddList
+                });
                 var wishLists = await _wishListsService.GetByOwnerId(user.Id);
                 var username = user.Username ?? user.FirstName;
                 var messageToSend = string.Empty;
@@ -41,27 +46,8 @@ namespace WistBot.Core.Actions
                 await _bot.SendMessage(message.Chat.Id, messageToSend, replyMarkup: keyboard, cancellationToken: token);
                 foreach (var list in wishLists)
                 {
-                    var visibilityButtonText = await _localization.Get(InlineButton.ChangeVisіbility, user.Id, list.IsPublic ? 
-                        await _localization.Get(LocalizationKeys.MakePrivate, user.Id)  :
-                        await _localization.Get(LocalizationKeys.MakePublic, user.Id));
-                    var inlineReply = new InlineKeyboardMarkup(new[]
-                    {
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.WatchList, user.Id), BotCallbacks.List)
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteList, user.Id), BotCallbacks.DeleteList),
-                        //InlineKeyboardButton.WithCallbackData(await _localization.Get(Button.ShareList, user.Id), BotCallbacks.ShareList)
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.ChangeListName, user.Id), BotCallbacks.ChangeListName),
-                        InlineKeyboardButton.WithCallbackData(visibilityButtonText, BotCallbacks.ChangeVisіbility)
-                    }
-                });
-                    await _bot.SendMessage(message.Chat.Id, list.Name, replyMarkup: inlineReply);
+                    var inlineReply = await WishListsService.GetListMarkup(list, _localization);
+                    await _bot.SendMessage(message.Chat.Id, $"<b><i>{list.Name}</i></b>", replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
                 }
             }
             catch (Exception ex)
