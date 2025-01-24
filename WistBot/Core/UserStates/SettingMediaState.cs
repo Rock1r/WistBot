@@ -4,6 +4,7 @@ using WistBot.Data.Models;
 using WistBot.Services;
 using WistBot.Res;
 using WistBot.Managers;
+using WistBot.Enums;
 
 namespace WistBot.Core.UserStates
 {
@@ -32,6 +33,7 @@ namespace WistBot.Core.UserStates
                 if (message.Photo != null)
                 {
                     _wishListItem.Media = message.Photo.First().FileId;
+                    _wishListItem.MediaType = MediaTypes.Photo;
                 }
                 else if (message.Video != null)
                 {
@@ -42,6 +44,7 @@ namespace WistBot.Core.UserStates
                         return false;
                     }
                     _wishListItem.Media = message.Video.FileId;
+                    _wishListItem.MediaType = MediaTypes.Video;
                 }
                 else
                 {
@@ -67,7 +70,14 @@ namespace WistBot.Core.UserStates
                 else
                 {
                     messagesToDelete.Add(context.MessageToEdit.MessageId);
-                    await bot.SendPhoto(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                    if (_wishListItem.MediaType == MediaTypes.Photo)
+                    {
+                        await bot.SendPhoto(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                    }
+                    else
+                    {
+                        await bot.SendVideo(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                    }
                 }
                 await bot.DeleteMessages(message.Chat.Id, messagesToDelete, cancellationToken: token);
                 UserContextManager.ClearContext(userId);

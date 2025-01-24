@@ -1,4 +1,6 @@
-﻿using Telegram.Bot;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -33,28 +35,25 @@ namespace WistBot.Services
             return await _wishListItemsRepo.Get();
         }
 
-        public async Task Add(string name, string description, string link, PhotoSize? photo, Video? video, string performerName, State currentState, Guid listId, long userId)
+        public async Task Add(string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, Guid listId, long userId)
         {
-            var media = photo != null ? photo.FileId : video != null ? video.FileId : string.Empty;
-
-            await _wishListItemsRepo.Add(name, description, link, media, performerName, currentState, listId, userId);
+            await _wishListItemsRepo.Add(name, description, link, media, type, performerName, currentState, listId, userId);
         }
 
         public async Task Add(ItemEntity item)
         {
 
-            await _wishListItemsRepo.Add(item.Name, item.Description, item.Link, item.Media, item.PerformerName, item.CurrentState, item.ListId, item.OwnerId);
+            await _wishListItemsRepo.Add(item.Name, item.Description, item.Link, item.Media, item.MediaType, item.PerformerName, item.CurrentState, item.ListId, item.OwnerId);
         }
 
-        public async Task Update(Guid id, string name, string description, string link, PhotoSize? photo, Video? video, string performerName, State currentState, long userId)
+        public async Task Update(Guid id, string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, long userId)
         {
-            var media = photo != null ? photo.FileId : video != null ? video.FileId : string.Empty;
-            await _wishListItemsRepo.Update(id, name, description, link, media, performerName, currentState, userId);
+            await _wishListItemsRepo.Update(id, name, description, link, media, type, performerName, currentState, userId);
         }
 
         public async Task Update(ItemEntity item)
         {
-            await _wishListItemsRepo.Update(item.Id, item.Name, item.Description, item.Link, item.Media, item.PerformerName, item.CurrentState, item.OwnerId);
+            await _wishListItemsRepo.Update(item.Id, item.Name, item.Description, item.Link, item.Media, item.MediaType, item.PerformerName, item.CurrentState, item.OwnerId);
         }
 
         public async Task Delete(Guid id)
@@ -71,11 +70,10 @@ namespace WistBot.Services
         {
             if (!string.IsNullOrWhiteSpace(item.Media))
             {
-                var file = await bot.GetFile(item.Media);
+                var file = await bot.GetFile(item.Media, token);
                 if (file != null)
                 {
-                    var filePath = file.FilePath ?? throw new ArgumentNullException(nameof(file));
-                    if (filePath.EndsWith(".jpg") || filePath.EndsWith(".png"))
+                    if (item.MediaType == MediaTypes.Photo)
                     {
                         await bot.SendPhoto(chatId, item.Media, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
                     }
@@ -88,6 +86,28 @@ namespace WistBot.Services
             else
             {
                 await bot.SendMessage(chatId, $"<b>{item.Name}</b>" + "\n" + item.Description + "\n" + item.Link, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
+            }
+        }
+
+        public static async Task ViewAnotherUserItem(ITelegramBotClient bot, long chatId, User sender, ItemEntity item, LocalizationService localizationService, UsersService usersService, CancellationToken token)
+        {
+            var markup = await ItemsService.BuildUserItemMarkup(sender, localizationService, (usersService.GetById(item.OwnerId).Result.Username), item);
+            var name = item.Name;
+            var text = await MessageBuilder.BuildUserItemMessage(item, localizationService, sender.Id);
+            if (!string.IsNullOrWhiteSpace(item.Media))
+            {
+                if (item.MediaType == MediaTypes.Photo)
+                {
+                    await bot.SendPhoto(chatId, item.Media, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
+                }
+                else
+                {
+                    await bot.SendVideo(chatId, item.Media, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
+                }
+            }
+            else
+            {
+                await bot.SendMessage(chatId, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
             }
         }
 

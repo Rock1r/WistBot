@@ -20,11 +20,16 @@ namespace WistBot.Core.UserStates
         {
             try
             {
+                if (_wishList.MaxItemsCount >= _wishList.Items.Count)
+                {
+                    await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.MaxItemsCountReached, userId), cancellationToken: token);
+                    return true;
+                }
                 var itemName = message.Text;
 
                 if (string.IsNullOrWhiteSpace(itemName))
                 {
-                    var warning = await bot.SendMessage(message.Chat.Id, localization.Get(LocalizationKeys.ListNameCantBeEmpty), cancellationToken: token);
+                    var warning = await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.ListNameCantBeEmpty, userId), cancellationToken: token);
                     var context = UserContextManager.GetContext(userId);
                     context.MessagesToDelete.Add(message);
                     context.MessagesToDelete.Add(warning);

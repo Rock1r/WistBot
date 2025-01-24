@@ -29,7 +29,7 @@ namespace WistBot.Data.Repos
             return await _context.Items.AsNoTracking().Include(l => l.List).ToListAsync();
         }
 
-        public async Task Add(string name, string description, string link, string media, string performerName, State currentState, Guid listId, long userId)
+        public async Task Add(string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, Guid listId, long userId)
         {
             var item = new ItemEntity
             {
@@ -38,6 +38,7 @@ namespace WistBot.Data.Repos
                 Description = description,
                 Link = link,
                 Media = media,
+                MediaType = type,
                 PerformerName = performerName,
                 CurrentState = currentState,
                 ListId = listId,
@@ -47,7 +48,7 @@ namespace WistBot.Data.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Guid id, string name, string description, string link, string media, string performerName, State currentState, long userId)
+        public async Task Update(Guid id, string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, long userId)
         {
             await _context.Items
                 .Where(x => x.Id == id)
@@ -56,6 +57,7 @@ namespace WistBot.Data.Repos
                 .SetProperty(n => n.Description, description)
                 .SetProperty(n => n.Link, link)
                 .SetProperty(n => n.Media, media)
+                .SetProperty(n => n.MediaType, type)
                 .SetProperty(n => n.PerformerName, performerName)
                 .SetProperty(n => n.CurrentState, currentState)
                 .SetProperty(n => n.OwnerId, userId));

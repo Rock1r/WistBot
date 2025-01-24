@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Types;
-using WistBot.Enums;
+﻿using WistBot.Enums;
 
 namespace WistBot.Data.Models
 {
@@ -10,6 +9,7 @@ namespace WistBot.Data.Models
         public string Description { get; set; } = string.Empty;
         public string Link { get; set; } = string.Empty;
         public string Media { get; set; } = string.Empty;
+        public MediaTypes MediaType { get; set; } = MediaTypes.Photo;
         public string PerformerName { get; set; } = string.Empty;
         public State CurrentState { get; set; } = State.Free;
         public Guid ListId { get; set; }

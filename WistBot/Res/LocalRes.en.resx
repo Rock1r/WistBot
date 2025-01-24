@@ -282,4 +282,19 @@
   <data name="PromiseToPresent" xml:space="preserve">
     <value>{0}, promise me, that you will present {1} {2}</value>
   </data>
+  <data name="FreeItem" xml:space="preserve">
+    <value>Nobody pressed to present this item, be first!</value>
+  </data>
+  <data name="InProcessItem" xml:space="preserve">
+    <value>In process by @{0}</value>
+  </data>
+  <data name="DoneItem" xml:space="preserve">
+    <value>Done by @{0}</value>
+  </data>
+  <data name="MaxListsCountReached" xml:space="preserve">
+    <value>Max lists count reached. Max count = 20.</value>
+  </data>
+  <data name="MaxItemsCountReached" xml:space="preserve">
+    <value>You reached max count of items in list (20).</value>
+  </data>
 </root>

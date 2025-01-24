@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WistBot.Data;
 
@@ -10,9 +11,11 @@ using WistBot.Data;
 namespace WistBot.Migrations
 {
     [DbContext(typeof(WistBotDbContext))]
-    partial class WistBotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250124122506_AddedMediaTypesToItem")]
+    partial class AddedMediaTypesToItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");

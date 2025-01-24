@@ -299,4 +299,19 @@
   <data name="PromiseToPresent" xml:space="preserve">
     <value>PromiseToPresent</value>
   </data>
+  <data name="FreeItem" xml:space="preserve">
+    <value>FreeItem</value>
+  </data>
+  <data name="InProcessItem" xml:space="preserve">
+    <value>InProcessItem</value>
+  </data>
+  <data name="DoneItem" xml:space="preserve">
+    <value>DoneItem</value>
+  </data>
+  <data name="MaxListsCountReached" xml:space="preserve">
+    <value>MaxListsCountReached</value>
+  </data>
+  <data name="MaxItemsCountReached" xml:space="preserve">
+    <value>MaxItemsCountReached</value>
+  </data>
 </root>

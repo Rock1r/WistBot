@@ -31,8 +31,8 @@ namespace WistBot.Core.Actions
             {
                 var userId = callback.From.Id;
                 var message = callback.Message ?? throw new ArgumentNullException(nameof(callback.Message));
-                var listName = message.Text;
-                await _wishListsService.Delete(listName ?? throw new ArgumentNullException(nameof(listName)));
+                var listName = message.Text ?? throw new ArgumentNullException(nameof(message.Text));
+                await _wishListsService.Delete(userId, listName);
                 await _bot.AnswerCallbackQuery(callback.Id, _localization.Get(LocalizationKeys.ListDeleted), cancellationToken: token);
                 await _bot.DeleteMessage(message.Chat.Id, message.MessageId, cancellationToken: token);
             }

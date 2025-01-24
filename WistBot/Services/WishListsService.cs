@@ -1,6 +1,5 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Data.Models;
 using WistBot.Data.Repos;
@@ -47,9 +46,9 @@ namespace WistBot.Services
             return await _wishListsRepo.GetPublic(ownerId);
         }
 
-        public async Task Add(string name, bool isPublic, long ownerId)
+        public async Task Add(string name, long ownerId)
         {
-            await _wishListsRepo.Add(name, isPublic, ownerId);
+            await _wishListsRepo.Add(name, ownerId);
         }
 
         public async Task Update(Guid id, string name, bool isPublic)
@@ -62,9 +61,9 @@ namespace WistBot.Services
             await _wishListsRepo.Delete(id);
         }
 
-        public async Task Delete(string name)
+        public async Task Delete(long userId, string name)
         {
-            await _wishListsRepo.Delete(name);
+            await _wishListsRepo.Delete(userId, name);
         }
 
         public static async Task<InlineKeyboardMarkup> GetListMarkup(WishListEntity list, LocalizationService localizationService)
@@ -122,17 +121,7 @@ namespace WistBot.Services
                 {
                     foreach (var item in list.Items)
                     {
-                        var markup = await ItemsService.BuildUserItemMarkup(sender, _localization, (await usersService.GetById(list.OwnerId)).Username, item);
-                        var name = item.Name;
-                        var text = MessageBuilder.BuildUserItemMessage(item);
-                        if (!string.IsNullOrWhiteSpace(item.Media))
-                        {
-                            await _bot.SendPhoto(chatId, item.Media, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
-                        }
-                        else
-                        {
-                            await _bot.SendMessage(chatId, text, replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
-                        }
+                        await ItemsService.ViewAnotherUserItem(_bot, chatId, sender, item, _localization, usersService, token);
                     }
                 }
             }

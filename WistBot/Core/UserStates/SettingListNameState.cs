@@ -12,10 +12,12 @@ namespace WistBot.Core.UserStates
     public class SettingListNameState : IUserStateHandler
     {
         private readonly WishListEntity _wishList;
+        private readonly UsersService _usersService;
 
-        public SettingListNameState(WishListEntity wishList)
+        public SettingListNameState(WishListEntity wishList, UsersService usersService)
         {
             _wishList = wishList;
+            _usersService = usersService;
         }
 
         public async Task<bool> HandleStateAsync(long userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService)
@@ -57,8 +59,16 @@ namespace WistBot.Core.UserStates
                 }
                 else
                 {
-                    await wishListsService.Add(newListName, false, userId);
-                    await new ListsAction(bot, wishListsService, localization).ExecuteMessage(message, token);
+                    var user = await _usersService.GetById(userId);
+                    if (user.WishLists.Count < user.MaxListsCount)
+                    {
+                        await wishListsService.Add(newListName, userId);
+                        await new ListsAction(bot, wishListsService, localization).ExecuteMessage(message, token);
+                    }
+                    else
+                    {
+                        await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.MaxListsCountReached, userId), cancellationToken: token);
+                    }
                 }
                 return true;
             }

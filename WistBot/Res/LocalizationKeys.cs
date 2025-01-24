@@ -20,6 +20,7 @@
         public const string ListNotFound = "ListNotFound";
         public const string DefaultListNaming = "DefaultListNaming";
         public const string ListNameCantBeEmpty = "ListNameCantBeEmpty";
+        public const string MaxListsCountReached = "MaxListsCountReached";
         //item
         public const string ItemNameCantBeEmpty = "ItemNameCantBeEmpty";
         public const string DefaultItemNaming = "DefaultItemNaming";
@@ -36,12 +37,16 @@
         public const string ItemDeleted = "ItemDeleted";
         public const string InvalidMedia = "InvalidMedia";
         public const string VideoTooLong = "VideoTooLong";
+        public const string MaxItemsCountReached = "MaxItemsCountReached";
         //user
         public const string UsersListsMessage = "UsersListsMessage";
         public const string NoPublicLists = "NoPublicLists";
         public const string UserNotFound = "UserNotFound";
         public const string UserListIsEmpty = "UserListIsEmpty";
         public const string PromiseToPresent = "PromiseToPresent";
+        public const string FreeItem = "FreeItem";
+        public const string InProcessItem = "InProcessItem";
+        public const string DoneItem = "DoneItem";
     }
 
 }

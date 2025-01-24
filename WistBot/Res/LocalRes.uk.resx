@@ -282,4 +282,19 @@
   <data name="PromiseToPresent" xml:space="preserve">
     <value>{0}, пообіцяй мені, що ти подаруєш {1} {2}</value>
   </data>
+  <data name="FreeItem" xml:space="preserve">
+    <value>Ніхто ще не планує дарувати це, будь першим!</value>
+  </data>
+  <data name="InProcessItem" xml:space="preserve">
+    <value>В процесі @{0}</value>
+  </data>
+  <data name="DoneItem" xml:space="preserve">
+    <value>Готово @{0}</value>
+  </data>
+  <data name="MaxListsCountReached" xml:space="preserve">
+    <value>Куда тобі стільки списків, вспокійсі трохи. Максимальна кількість = 20.</value>
+  </data>
+  <data name="MaxItemsCountReached" xml:space="preserve">
+    <value>Ти досяг максимальної кількості бажань у списку (20)</value>
+  </data>
 </root>

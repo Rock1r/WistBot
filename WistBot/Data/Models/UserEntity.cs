@@ -8,5 +8,6 @@ namespace WistBot.Data.Models
         public string Username { get; set; } = string.Empty;
         public List<WishListEntity> WishLists { get; set; } = [];
         public string Language { get; set; } = LanguageCodes.English;
+        public uint MaxListsCount { get; set; } = 20;
     }
 }

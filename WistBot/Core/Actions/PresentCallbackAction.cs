@@ -38,7 +38,7 @@ namespace WistBot.Core.Actions
                 var user = await _usersService.GetByUsername(username);
                 var sender = callback.From ?? throw new ArgumentNullException(nameof(callback.From));
                 var culture = await _localization.GetLanguage(callback.From.Id);
-                var text = message.Text ?? throw new ArgumentNullException(nameof(message.Text));
+                var text = message.Text ?? message.Caption ?? throw new ArgumentNullException(nameof(message.Text));
                 var itemName = text.Split('\n')[0];
                 var item = await _itemsService.GetByName(user.TelegramId, itemName);
                 item.PerformerName = sender.Username ?? sender.FirstName;
@@ -46,6 +46,8 @@ namespace WistBot.Core.Actions
                 await _itemsService.Update(item);
                 var messageToSend = await _localization.Get(LocalizationKeys.PromiseToPresent, sender.Id, sender.Username ?? sender.FirstName, user.Username, item.Name);
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
+                await _bot.DeleteMessage(chatId, message.MessageId, cancellationToken: token);
+                await ItemsService.ViewAnotherUserItem(_bot, chatId, sender, item, _localization, _usersService, token);
             }
             catch (Exception ex)
             {

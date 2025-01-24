@@ -89,5 +89,14 @@ namespace WistBot.Data.Repos
                 x.SetProperty(n => n.Language, language));
             await _context.SaveChangesAsync();
         }
+
+        public async Task SetListsCount(long telegramId, uint count)
+        {
+            await _context.Users
+                .Where(x => x.TelegramId == telegramId)
+                .ExecuteUpdateAsync(x =>
+                x.SetProperty(n => n.MaxListsCount, count));
+            await _context.SaveChangesAsync();
+        }
     }
 }

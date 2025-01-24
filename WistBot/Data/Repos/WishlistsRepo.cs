@@ -43,13 +43,13 @@ namespace WistBot.Data.Repos
             return await _context.WishLists.AsNoTracking().Where(x => x.OwnerId == ownerId && x.IsPublic).ToListAsync() ?? new List<WishListEntity> { };
         }
 
-        public async Task Add(string name, bool isPublic, long ownerId)
+        public async Task Add(string name, long ownerId)
         {
             var wishlist = new WishListEntity
             {
                 Id = Guid.NewGuid(),
                 Name = name,
-                IsPublic = isPublic,
+                IsPublic = false,
                 OwnerId = ownerId
             };
             _context.WishLists.Add(wishlist);
@@ -74,11 +74,20 @@ namespace WistBot.Data.Repos
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(string name)
+        public async Task Delete(long ownerId, string name)
         {
             await _context.WishLists
-                .Where(x => x.Name == name)
+                .Where(x => x.OwnerId == ownerId && x.Name == name)
                 .ExecuteDeleteAsync();
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SetItemsCount(Guid id, uint count)
+        {
+            await _context.WishLists
+                .Where(x => x.Id == id)
+                .ExecuteUpdateAsync(x =>
+                x.SetProperty(n => n.MaxItemsCount, count));
             await _context.SaveChangesAsync();
         }
     }

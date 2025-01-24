@@ -8,5 +8,6 @@
         public List<ItemEntity> Items { get; set; } = [];
         public long OwnerId { get; set; }
         public UserEntity? Owner { get; set; }
+        public uint MaxItemsCount { get; set; } = 20;
     }
 }
