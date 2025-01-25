@@ -297,4 +297,34 @@
   <data name="MaxItemsCountReached" xml:space="preserve">
     <value>You reached max count of items in list (20).</value>
   </data>
+  <data name="MadeFree" xml:space="preserve">
+    <value>You made this wish available to others</value>
+  </data>
+  <data name="SettedInProcess" xml:space="preserve">
+    <value>Prepare your present and press "Done" if it ready.</value>
+  </data>
+  <data name="SettedDone" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="FeedbackMessage" xml:space="preserve">
+    <value>Send your feedback! You can add anything you want in your message (photo, video, voice etc)</value>
+  </data>
+  <data name="FeedbackSent" xml:space="preserve">
+    <value>Feedback sent!</value>
+  </data>
+  <data name="NoPresents" xml:space="preserve">
+    <value>You have no presents in process</value>
+  </data>
+  <data name="PresentsFor" xml:space="preserve">
+    <value>Presents for {0}</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CantFindYourself" xml:space="preserve">
+    <value>You can't watch at your wishes in such way</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
 </root>

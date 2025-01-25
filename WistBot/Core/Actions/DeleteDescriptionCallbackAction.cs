@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using WistBot.Exceptions;
 using WistBot.Managers;
@@ -42,14 +43,8 @@ namespace WistBot.Core.Actions
                 var item = context.ItemToEdit ?? throw new ArgumentNullException(nameof(context.ItemToEdit));
                 item.Description = string.Empty;
                 await _wishListItemsService.Update(item);
-                List<int> messagesToDelete = new();
-                messagesToDelete.Add(message.MessageId);
-                foreach (var msg in context.MessagesToDelete)
-                {
-                    messagesToDelete.Add(msg.MessageId);
-                }
+                context.MessagesToDelete.Add(message);
                 var messageToEdit = context.MessageToEdit ?? throw new ArgumentNullException(nameof(context.MessageToEdit));
-                await _bot.DeleteMessages(chatId, messagesToDelete, cancellationToken: token);
                 var inlineReply = await ItemsService.BuildItemMarkup(userId, _localization);
                 var newText = MessageBuilder.BuildItemMessage(item);
                 if (!string.IsNullOrEmpty(item.Media))
@@ -60,15 +55,16 @@ namespace WistBot.Core.Actions
                 {
                     await _bot.EditMessageText(chatId, messageToEdit.MessageId, newText, replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                 }
-                UserContextManager.ClearContext(userId);
+                await UserContextManager.DeleteMessages(_bot, userId, chatId, context, token);
             }
             catch (ItemNotFoundException ex)
             {
                 await _bot.AnswerCallbackQuery(callback.Id, ex.Message, cancellationToken: token);
+                Log.Error(ex, "Error DeleteDescriptionCallbackAction, item not found");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error DeleteDescriptionCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error DeleteDescriptionCallbackAction");
             }
         }
     }

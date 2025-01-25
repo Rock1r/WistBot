@@ -32,11 +32,17 @@ namespace WistBot.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var relativePath = _configuration.GetConnectionString(nameof(WistBotDbContext));
+            var relativePath = _configuration.GetConnectionString("WistBotDbContext");
+
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                throw new InvalidOperationException("Database connection string is missing or empty.");
+            }
 
             var dbPath = Path.Combine(AppContext.BaseDirectory, relativePath);
 
-            optionsBuilder.UseSqlite($"Data Source={Path.GetFullPath(dbPath)}");
+            optionsBuilder.UseSqlite($"Data Source={dbPath}");
         }
+
     }
 }

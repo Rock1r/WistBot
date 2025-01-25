@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using WistBot.Managers;
 
@@ -39,6 +40,7 @@ namespace WistBot.Services
         {
             if (update.Message is { } message)
             {
+                Log.Information("Received message from {Username} ({UserId}): {Message}", message.From.Username, message.From.Id, message.Text);
                 try
                 {
                     var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
@@ -51,25 +53,36 @@ namespace WistBot.Services
                 }
                 catch (KeyNotFoundException)
                 {
+                    Log.Warning("Unknown action {Username} ({UserId}): {Message}", message.From.Username, message.From.Id, message.Text);
                     await _client.DeleteMessage(message.Chat.Id, message.MessageId, cancellationToken: token);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error while processing message from {Username} ({UserId}): {Message}", message.From.Username, message.From.Id, message.Text);
                 }
             }
             else if (update.CallbackQuery is { } callback)
             {
+                Log.Information("Received callback from {Username} ({UserId}): {Data}", callback.From.Username, callback.From.Id, callback.Data);
                 try
                 {
                     await _actionService.ExecuteCallback(callback.Data ?? string.Empty, callback, token);
                 }
                 catch (KeyNotFoundException)
                 {
+                    Log.Warning("Unknown action");
                     await _client.AnswerCallbackQuery(callback.Id, "Unknown action", cancellationToken: token);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error while processing callback from {Username} ({UserId}): {Message}", callback.From.Username, callback.From.Id, callback.Data);
                 }
             }
         }
 
         private Task HandleError(ITelegramBotClient bot, Exception exception, CancellationToken token)
         {
-            Console.WriteLine($"Error: {exception.Message}");
+            Log.Error(exception, "Error while receiving updates");
             return Task.CompletedTask;
         }
     }

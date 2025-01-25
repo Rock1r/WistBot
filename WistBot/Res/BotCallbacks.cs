@@ -22,6 +22,7 @@
         public const string SetFree = "set_free_callback";
         public const string SetInProcess = "set_in_process_callback";
         public const string SetDone = "set_done_callback";
+        public const string Cancel = "cancel_callback";
     }
 
 }

@@ -1,4 +1,6 @@
-﻿namespace WistBot.Managers
+﻿using Telegram.Bot;
+
+namespace WistBot.Managers
 {
     public class UserContextManager
     {
@@ -17,6 +19,19 @@
         public static void ClearContext(long userId)
         {
             _userContext.Remove(userId);
+        }
+
+        public static async Task DeleteMessages(ITelegramBotClient bot, long userId, long chatId, UserContext context, CancellationToken token)
+        {
+            var messagesToDelete = new List<int>();
+            foreach (var msg in context.MessagesToDelete)
+            {
+                messagesToDelete.Add(msg.MessageId);
+            }
+            await bot.DeleteMessages(chatId, messagesToDelete, cancellationToken: token);
+
+            ClearContext(userId);
+            
         }
     }
 }

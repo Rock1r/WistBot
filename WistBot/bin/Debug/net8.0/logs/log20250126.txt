@@ -1,0 +1,235 @@
+2025-01-26 00:00:02.592 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:00:05.202 +02:00 [INF] Received message from rockir (830577183): Ювал Ной Харарі
+2025-01-26 00:00:05.459 +02:00 [ERR] Error while setting item description
+Telegram Bot API error 400: Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageCaption(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String caption, ParseMode parseMode, IEnumerable`1 captionEntities, Boolean showCaptionAboveMedia, InlineKeyboardMarkup replyMarkup, String businessConnectionId, CancellationToken cancellationToken)
+   at WistBot.Core.UserStates.SettingDescriptionState.HandleStateAsync(Int64 userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService) in F:\dev\TGBot\WistBot\WistBot\Core\UserStates\SettingDescriptionState.cs:line 50
+2025-01-26 00:00:49.436 +02:00 [INF] Received message from rockir (830577183): Ок
+2025-01-26 00:00:49.585 +02:00 [INF] User 830577183 set item description to Ок
+2025-01-26 00:00:56.607 +02:00 [INF] Received message from rockir (830577183): /lists
+2025-01-26 00:00:56.758 +02:00 [INF] ListsAction executed for user 830577183
+2025-01-26 00:00:58.119 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 00:00:58.542 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 00:01:00.368 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:01:07.651 +02:00 [INF] Received message from rockir (830577183): Ювал Ной Харарі
+2025-01-26 00:01:07.752 +02:00 [INF] User 830577183 set item description to Ювал Ной Харарі
+2025-01-26 00:01:27.000 +02:00 [INF] Received message from rockir (830577183): @rockir
+2025-01-26 00:01:27.205 +02:00 [INF] User rockir tried to find himself
+2025-01-26 00:11:01.590 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:11:01.628 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:11:01.629 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:11:01.630 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:11:02.474 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:11:03.522 +02:00 [ERR] Error SetDescriptionCallbackAction
+Telegram Bot API error 400: Bad Request: can't parse entities: Unclosed start tag at byte offset 132
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.SendMessage(ITelegramBotClient botClient, ChatId chatId, String text, ParseMode parseMode, ReplyParameters replyParameters, IReplyMarkup replyMarkup, LinkPreviewOptions linkPreviewOptions, Nullable`1 messageThreadId, IEnumerable`1 entities, Boolean disableNotification, Boolean protectContent, String messageEffectId, String businessConnectionId, Boolean allowPaidBroadcast, CancellationToken cancellationToken)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 68
+2025-01-26 00:11:47.325 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:11:47.377 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:11:47.379 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:11:47.380 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:11:47.916 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:11:48.931 +02:00 [ERR] Error SetDescriptionCallbackAction
+Telegram Bot API error 400: Bad Request: can't parse entities: Unclosed start tag at byte offset 132
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.SendMessage(ITelegramBotClient botClient, ChatId chatId, String text, ParseMode parseMode, ReplyParameters replyParameters, IReplyMarkup replyMarkup, LinkPreviewOptions linkPreviewOptions, Nullable`1 messageThreadId, IEnumerable`1 entities, Boolean disableNotification, Boolean protectContent, String messageEffectId, String businessConnectionId, Boolean allowPaidBroadcast, CancellationToken cancellationToken)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 68
+2025-01-26 00:12:35.683 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:12:35.726 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:12:35.728 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:12:35.730 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:12:37.164 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:12:38.220 +02:00 [ERR] Error SetDescriptionCallbackAction
+Telegram Bot API error 400: Bad Request: can't parse entities: Unclosed start tag at byte offset 132
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.SendMessage(ITelegramBotClient botClient, ChatId chatId, String text, ParseMode parseMode, ReplyParameters replyParameters, IReplyMarkup replyMarkup, LinkPreviewOptions linkPreviewOptions, Nullable`1 messageThreadId, IEnumerable`1 entities, Boolean disableNotification, Boolean protectContent, String messageEffectId, String businessConnectionId, Boolean allowPaidBroadcast, CancellationToken cancellationToken)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 68
+2025-01-26 00:13:13.957 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:13:13.997 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:13:13.998 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:13:13.999 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:13:16.144 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:13:21.718 +02:00 [INF] Received message from rockir (830577183): Скасувати
+2025-01-26 00:13:21.739 +02:00 [INF] User 830577183 canceled description setting
+2025-01-26 00:15:43.991 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:15:44.036 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:15:44.039 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:15:44.040 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:15:45.114 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 00:26:01.759 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 00:26:01.822 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 00:26:01.824 +02:00 [INF] Hosting environment: Production
+2025-01-26 00:26:01.826 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 00:26:13.547 +02:00 [INF] Application is shutting down...
+2025-01-26 01:19:16.353 +02:00 [ERR] Error in Program.cs
+System.AggregateException: One or more errors occurred. (Callback command 'set_done_callback' is already registered.)
+ ---> System.InvalidOperationException: Callback command 'set_done_callback' is already registered.
+   at WistBot.Services.ActionService.CreateAsync(IEnumerable`1 actions, LocalizationService localizationService) in F:\dev\TGBot\WistBot\WistBot\Services\ActionService.cs:line 28
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at Program.<>c.<<Main>$>b__0_3(IServiceProvider provider) in F:\dev\TGBot\WistBot\WistBot\Program.cs:line 59
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitFactory(FactoryCallSite factoryCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitConstructor(ConstructorCallSite constructorCallSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSiteMain(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitRootCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.VisitScopeCache(ServiceCallSite callSite, RuntimeResolverContext context)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteVisitor`2.VisitCallSite(ServiceCallSite callSite, TArgument argument)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteRuntimeResolver.Resolve(ServiceCallSite callSite, ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceLookup.DynamicServiceProviderEngine.<>c__DisplayClass2_0.<RealizeService>b__0(ServiceProviderEngineScope scope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+   at Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at Program.<Main>$(String[] args) in F:\dev\TGBot\WistBot\WistBot\Program.cs:line 72
+2025-01-26 01:22:28.335 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:22:28.377 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:22:28.378 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:22:28.379 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:22:31.085 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:22:32.773 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:22:42.799 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:22:42.894 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:24:14.917 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:24:14.954 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:24:14.955 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:24:14.956 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:24:16.204 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:24:17.100 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:26:19.157 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:26:19.206 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:26:19.208 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:26:19.209 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:26:19.464 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:26:20.366 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:26:31.749 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:26:31.788 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:26:31.790 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:26:31.790 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:26:32.026 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:26:32.929 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<KeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddButtons(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:32:48.251 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:32:48.303 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:32:48.305 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:32:48.305 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:32:49.161 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:32:50.061 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:32:52.813 +02:00 [INF] Received message from rockir (830577183): /lists
+2025-01-26 01:32:52.892 +02:00 [ERR] Error while setting item description
+System.Exception: UserContext not found
+   at WistBot.Managers.UserContextManager.GetContext(Int64 userId) in F:\dev\TGBot\WistBot\WistBot\Managers\UserContextManager.cs:line 16
+   at WistBot.Core.UserStates.SettingDescriptionState.HandleStateAsync(Int64 userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService) in F:\dev\TGBot\WistBot\WistBot\Core\UserStates\SettingDescriptionState.cs:line 25
+2025-01-26 01:33:05.412 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:33:05.445 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:33:05.447 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:33:05.449 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:33:05.692 +02:00 [INF] Received message from rockir (830577183): /lists
+2025-01-26 01:33:06.761 +02:00 [INF] ListsAction executed for user 830577183
+2025-01-26 01:33:11.650 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:33:12.130 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:33:13.226 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:33:13.278 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:33:25.109 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:33:25.158 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:33:25.160 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:33:25.161 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:33:26.568 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:33:27.495 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:33:44.346 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:33:44.397 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:33:44.399 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:33:44.400 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:33:47.492 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:33:48.923 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:33:49.904 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:33:49.965 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddNewRow(InlineKeyboardButton[] buttons)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:34:19.667 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:34:19.711 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:34:19.714 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:34:19.715 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:34:23.328 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:34:24.552 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:34:25.910 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:34:25.971 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddButton(InlineKeyboardButton button)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:34:59.702 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:34:59.749 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:34:59.750 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:34:59.751 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:35:00.012 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:35:08.517 +02:00 [INF] Received callback from rockir (830577183): cancel_callback
+2025-01-26 01:37:06.738 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:37:06.779 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:37:06.780 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:37:06.782 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:37:07.068 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:37:07.931 +02:00 [ERR] Error SetDescriptionCallbackAction
+System.InvalidOperationException: This method works only with a List<List<InlineKeyboardButton>> keyboard
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddButton(InlineKeyboardButton button)
+   at Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup.AddButton(String text, String callbackData)
+   at WistBot.Core.Actions.SetDescriptionCallbackAction.ExecuteCallback(CallbackQuery callback, CancellationToken token) in F:\dev\TGBot\WistBot\WistBot\Core\Actions\SetDescriptionCallbackAction.cs:line 60
+2025-01-26 01:38:31.366 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:38:31.413 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:38:31.415 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:38:31.417 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:38:31.675 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:39:09.685 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:39:09.738 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:39:09.739 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:39:09.740 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:39:10.006 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:40:42.394 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:40:42.438 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:40:42.439 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:40:42.440 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:40:43.795 +02:00 [INF] Received callback from rockir (830577183): set_link_callback
+2025-01-26 01:41:03.792 +02:00 [INF] Received message from rockir (830577183): Понад 100 000 замовлень: новий кросовер Peugeot викликав ажіотаж на ринку https://uzr.com.ua/novosti/mir/ponad-100-000-zamovlen-novyj-krosover-peugeot-vyklykav-azhiotazh-na-rynku/
+2025-01-26 01:41:17.554 +02:00 [INF] Received message from rockir (830577183): https://uzr.com.ua/novosti/mir/ponad-100-000-zamovlen-novyj-krosover-peugeot-vyklykav-azhiotazh-na-rynku/
+2025-01-26 01:41:17.751 +02:00 [INF] User 830577183 set link to item ddceeb42-732e-428c-9af2-12b808f4ffb7
+2025-01-26 01:41:22.794 +02:00 [INF] Received callback from rockir (830577183): set_link_callback
+2025-01-26 01:41:26.070 +02:00 [INF] Received callback from rockir (830577183): delete_link_callback
+2025-01-26 01:42:22.019 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:42:22.055 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:42:22.056 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:42:22.057 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:42:23.116 +02:00 [INF] Received message from rockir (830577183): /lists
+2025-01-26 01:42:24.113 +02:00 [INF] ListsAction executed for user 830577183
+2025-01-26 01:42:27.404 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:42:27.889 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:42:47.001 +02:00 [INF] Received callback from rockir (830577183): change_item_name_callback
+2025-01-26 01:42:48.188 +02:00 [INF] Received callback from rockir (830577183): cancel_callback
+2025-01-26 01:42:59.071 +02:00 [INF] Received message from rockir (830577183): /language
+2025-01-26 01:42:59.156 +02:00 [INF] LanguageAction: User 830577183 started changing language
+2025-01-26 01:43:01.336 +02:00 [INF] Received message from rockir (830577183): 🇺🇦 Українська
+2025-01-26 01:43:01.427 +02:00 [INF] Language already set to uk for user 830577183

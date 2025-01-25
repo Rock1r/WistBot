@@ -29,6 +29,19 @@ namespace WistBot.Data.Repos
             return await _context.Items.AsNoTracking().Include(l => l.List).ToListAsync();
         }
 
+        public async Task<Dictionary<long, List<ItemEntity>>> GetPresents(string performer)
+        {
+            var items = await _context.Items
+                .AsNoTracking()
+                .Where(x => x.PerformerName == performer)
+                .ToListAsync();
+
+            var presentsByGivers = items.GroupBy(x => x.OwnerId)
+                                        .ToDictionary(g => g.Key, g => g.ToList());
+
+            return presentsByGivers;
+        }
+
         public async Task Add(string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, Guid listId, long userId)
         {
             var item = new ItemEntity

@@ -15,15 +15,17 @@ namespace WistBot.Core.Actions
         private readonly LocalizationService _localization;
         private readonly WishListsService _wishListsService;
         private readonly UserStateManager _userStateManager;
+        private readonly UsersService _usersService;
 
         public string Command => BotCallbacks.ChangeListName;
 
-        public ChangeListNameCallbackAction(ITelegramBotClient bot, LocalizationService localizationService, WishListsService wishListsService, UserStateManager userStateManager)
+        public ChangeListNameCallbackAction(ITelegramBotClient bot, LocalizationService localizationService, WishListsService wishListsService, UserStateManager userStateManager, UsersService usersService)
         {
             _bot = bot;
             _localization = localizationService;
             _wishListsService = wishListsService;
             _userStateManager = userStateManager;
+            _usersService = usersService;
         }
 
         public Task ExecuteMessage(Message message, CancellationToken token)
@@ -39,9 +41,15 @@ namespace WistBot.Core.Actions
                 var message = callback.Message ?? throw new ArgumentNullException(nameof(callback.Message));
                 var listName = message.Text ?? throw new ArgumentNullException(nameof(message.Text));
                 var list = await _wishListsService.GetByName(userId, listName);
-                _userStateManager.SetState(userId, new SettingListNameState(list));
-                var markup = new ReplyKeyboardMarkup(true).AddButtons(new KeyboardButton(await _localization.Get(LocalizationKeys.DefaultListNaming, userId)));
-                var mesToDel = await _bot.SendMessage(message.Chat.Id, await _localization.Get(LocalizationKeys.SetListName, userId), replyMarkup: markup, cancellationToken: token);
+                _userStateManager.SetState(userId, new SettingListNameState(list, _usersService));
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.Cancel, userId), BotCallbacks.Cancel)
+                    }
+                });
+                var mesToDel = await _bot.SendMessage(message.Chat.Id, await _localization.Get(LocalizationKeys.SetListName, userId), replyMarkup: keyboard, cancellationToken: token);
                 UserContextManager.SetContext(userId, new UserContext(mesToDel) { MessageToEdit = message });
             }
             catch (ListNotFoundException ex)

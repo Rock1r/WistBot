@@ -17,8 +17,10 @@ namespace WistBot.Migrations
                 {
                     TelegramId = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    ChatId = table.Column<long>(type: "INTEGER", nullable: false),
                     Username = table.Column<string>(type: "TEXT", nullable: false),
-                    Language = table.Column<string>(type: "TEXT", nullable: false)
+                    Language = table.Column<string>(type: "TEXT", nullable: false),
+                    MaxListsCount = table.Column<uint>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,7 +34,8 @@ namespace WistBot.Migrations
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false),
-                    OwnerId = table.Column<long>(type: "INTEGER", nullable: false)
+                    OwnerId = table.Column<long>(type: "INTEGER", nullable: false),
+                    MaxItemsCount = table.Column<uint>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,15 +57,23 @@ namespace WistBot.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Link = table.Column<string>(type: "TEXT", nullable: false),
                     Media = table.Column<string>(type: "TEXT", nullable: false),
+                    MediaType = table.Column<int>(type: "INTEGER", nullable: false),
                     PerformerName = table.Column<string>(type: "TEXT", nullable: false),
                     CurrentState = table.Column<int>(type: "INTEGER", nullable: false),
-                    ListId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    ListId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    OwnerId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WishListItems", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WishListItems_WishLists_ListId",
+                        name: "FK_Items_Users_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Users",
+                        principalColumn: "TelegramId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Items_WishLists_ListId",
                         column: x => x.ListId,
                         principalTable: "WishLists",
                         principalColumn: "Id",
@@ -70,9 +81,14 @@ namespace WistBot.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_WishListItems_ListId",
+                name: "IX_Items_ListId",
                 table: "Items",
                 column: "ListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_OwnerId",
+                table: "Items",
+                column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WishLists_OwnerId",

@@ -35,6 +35,12 @@ namespace WistBot.Services
             return await _wishListItemsRepo.Get();
         }
 
+        public async Task<Dictionary<long, List<ItemEntity>>> GetPresents(string performer)
+        {
+
+            return await _wishListItemsRepo.GetPresents(performer);
+        }
+
         public async Task Add(string name, string description, string link, string media, MediaTypes type, string performerName, State currentState, Guid listId, long userId)
         {
             await _wishListItemsRepo.Add(name, description, link, media, type, performerName, currentState, listId, userId);
@@ -151,7 +157,7 @@ namespace WistBot.Services
                             }
                         });
                     }
-                    else if (item.CurrentState == State.Busy)
+                    else if (item.CurrentState == State.InProcess)
                     {
                         return new InlineKeyboardMarkup(new[]
                         {

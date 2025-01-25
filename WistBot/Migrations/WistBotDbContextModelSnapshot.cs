@@ -70,9 +70,15 @@ namespace WistBot.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long>("ChatId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Language")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<uint>("MaxListsCount")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -90,6 +96,9 @@ namespace WistBot.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsPublic")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<uint>("MaxItemsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")

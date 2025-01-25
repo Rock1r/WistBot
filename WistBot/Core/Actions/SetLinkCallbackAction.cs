@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Core.UserStates;
@@ -46,17 +47,11 @@ namespace WistBot.Core.Actions
                 text = text.Split("\n")[0];
                 var item = await _wishListItemsService.GetByName(userId, text);
                 _userStateManager.SetState(userId, new SettingLinkState(item));
-                IReplyMarkup inlineReply = new ReplyKeyboardRemove();
+                var inlineReply = new InlineKeyboardMarkup().AddButton(await _localization.Get(InlineButton.Cancel, userId), BotCallbacks.Cancel);
                 var messageToSend = string.Empty;
                 if (!string.IsNullOrEmpty(item.Link))
                 {
-                    inlineReply = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteLink, userId), BotCallbacks.DeleteLink)
-                        }
-                    });
+                    inlineReply.AddButton(InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteLink, userId), BotCallbacks.DeleteLink));
                     messageToSend = await _localization.Get(LocalizationKeys.SetOrDeleteLink, userId);
                 }
                 else
@@ -70,11 +65,11 @@ namespace WistBot.Core.Actions
             catch (ItemNotFoundException ex)
             {
                 await _bot.AnswerCallbackQuery(callback.Id, ex.Message, cancellationToken: token);
-                Console.WriteLine($"Error SetLinkCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error SetLinkCallbackAction, item not found");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error SetLinkCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error SetLinkCallbackAction");
             }
         }
     }

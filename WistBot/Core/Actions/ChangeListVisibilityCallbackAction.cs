@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Core.UserStates;
@@ -44,10 +45,11 @@ namespace WistBot.Core.Actions
                 await _wishListsService.Update(list.Id, list.Name, list.IsPublic);
                 var inlineReply = await WishListsService.GetListMarkup(list, _localization);
                 await _bot.EditMessageReplyMarkup(callback.Message.Chat.Id, callback.Message.Id, inlineReply);
+                Log.Information($"User {userId} changed list {listName} visibility to {list.IsPublic}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error ChangeListVisibilityCallbackAction: {ex.Message}");
+                Log.Error($"Error ChangeListVisibilityCallbackAction: {ex.Message}");
             }
         }
     }

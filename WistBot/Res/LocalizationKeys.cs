@@ -3,6 +3,13 @@
     public static class LocalizationKeys
     {
         public const string StartMessage = "StartMessage";
+        public const string HelpMessage = "HelpMessage";
+        public const string FeedbackMessage = "FeedbackMessage";
+        public const string FeedbackSent = "FeedbackSent";
+        public const string NoPresents = "NoPresents";
+        public const string PresentsFor = "PresentsFor";
+
+        public const string Cancelled = "Cancelled";
         //language
         public const string ChooseLanguage = "ChooseLanguage";
         public const string LanguageChanged = "LanguageChanged";
@@ -47,6 +54,11 @@
         public const string FreeItem = "FreeItem";
         public const string InProcessItem = "InProcessItem";
         public const string DoneItem = "DoneItem";
+        public const string MadeFree = "MadeFree";
+        public const string SettedInProcess = "SettedInProcess";
+        public const string SettedDone = "SettedDone";
+        public const string CantFindYourself = "CantFindYourself";
+
     }
 
 }

@@ -46,7 +46,13 @@ namespace WistBot.Core.Actions
                 text = text.Split("\n")[0];
                 var item = await _wishListItemsService.GetByName(userId, text);
                 _userStateManager.SetState(userId, new SettingItemNameState(item));
-                var keyboard = new ReplyKeyboardMarkup(true).AddButton(await _localization.Get(LocalizationKeys.DefaultItemNaming, userId));
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.Cancel, userId), BotCallbacks.Cancel)
+                    }
+                });
                 var mes = await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.SetItemName, userId), replyMarkup: keyboard, cancellationToken: token);
                 UserContextManager.SetContext(userId, new UserContext(mes) { MessageToEdit = message});
             }

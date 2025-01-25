@@ -119,11 +119,11 @@
   </resheader>
   <data name="AddItemButton" xml:space="preserve">
     <value>AddItemButton</value>
-    <comment>KButton</comment>
+    <comment>Button</comment>
   </data>
   <data name="AddListButton" xml:space="preserve">
     <value>AddListButton</value>
-    <comment>KButton</comment>
+    <comment>Button</comment>
   </data>
   <data name="ChangeListNameButton" xml:space="preserve">
     <value>ChangeListNameButton</value>
@@ -313,5 +313,36 @@
   </data>
   <data name="MaxItemsCountReached" xml:space="preserve">
     <value>MaxItemsCountReached</value>
+  </data>
+  <data name="MadeFree" xml:space="preserve">
+    <value>MadeFree</value>
+  </data>
+  <data name="SettedInProcess" xml:space="preserve">
+    <value>SettedInProcess</value>
+  </data>
+  <data name="SettedDone" xml:space="preserve">
+    <value>SettedDone</value>
+  </data>
+  <data name="FeedbackMessage" xml:space="preserve">
+    <value>FeedbackMessage</value>
+  </data>
+  <data name="FeedbackSent" xml:space="preserve">
+    <value>FeedbackSent</value>
+  </data>
+  <data name="NoPresents" xml:space="preserve">
+    <value>NoPresents</value>
+  </data>
+  <data name="PresentsFor" xml:space="preserve">
+    <value>PresentsFor</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>CancelButton</value>
+    <comment>KButton</comment>
+  </data>
+  <data name="CantFindYourself" xml:space="preserve">
+    <value>CantFindYourself</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
   </data>
 </root>

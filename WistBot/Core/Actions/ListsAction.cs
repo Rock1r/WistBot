@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Res;
@@ -49,10 +50,11 @@ namespace WistBot.Core.Actions
                     var inlineReply = await WishListsService.GetListMarkup(list, _localization);
                     await _bot.SendMessage(message.Chat.Id, $"<b><i>{list.Name}</i></b>", replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
                 }
+                Log.Information("ListsAction executed for user {UserId}", user.Id);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error ListsAction: {ex.Message}");
+                Log.Error(ex, "Error ListsAction");
             }
         }
 

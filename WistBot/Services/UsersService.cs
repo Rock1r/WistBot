@@ -53,14 +53,14 @@ namespace WistBot.Services
             return await _usersRepo.GetWithLists();
         }
 
-        public async Task Add(long telegramId, string username)
+        public async Task Add(long telegramId, long chatId, string username)
         {
-            await _usersRepo.Add(telegramId, username);
+            await _usersRepo.Add(telegramId, chatId, username);
         }
 
-        public async Task Update(long telegramId, string username)
+        public async Task Update(long telegramId, long chatId, string username)
         {
-            await _usersRepo.Update(telegramId, username);
+            await _usersRepo.Update(telegramId, chatId, username);
         }
 
         public async Task Delete(long telegramId)

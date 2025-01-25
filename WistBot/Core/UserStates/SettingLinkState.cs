@@ -4,6 +4,7 @@ using WistBot.Data.Models;
 using WistBot.Services;
 using WistBot.Res;
 using WistBot.Managers;
+using Serilog;
 
 namespace WistBot.Core.UserStates
 {
@@ -22,19 +23,18 @@ namespace WistBot.Core.UserStates
             {
                 var link = message.Text;
 
+                var context = UserContextManager.GetContext(userId) ?? throw new ArgumentNullException();
                 if (!Uri.IsWellFormedUriString(link, UriKind.Absolute))
                 {
                     var warning = await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.InvalidLink, userId), cancellationToken: token);
-                    var usercontext = UserContextManager.GetContext(userId);
-                    usercontext.MessagesToDelete.Add(message);
-                    usercontext.MessagesToDelete.Add(warning);
+                    context.MessagesToDelete.Add(message);
+                    context.MessagesToDelete.Add(warning);
                     return false;
                 }
 
                 _wishListItem.Link = link;
 
                 await wishListItemsService.Update(_wishListItem);
-                var context = UserContextManager.GetContext(userId) ?? throw new ArgumentNullException();
                 var mes = context.MessageToEdit ?? throw new ArgumentNullException();
                 var newText = MessageBuilder.BuildItemMessage(_wishListItem);
                 var replyMarkup = await ItemsService.BuildItemMarkup(userId, localization);
@@ -46,19 +46,14 @@ namespace WistBot.Core.UserStates
                 {
                     await bot.EditMessageText(mes.Chat.Id, mes.Id, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                 }
-                var messagesToDelete = new List<int>();
-                messagesToDelete.Add(message.MessageId);
-                foreach (var msg in context.MessagesToDelete)
-                {
-                    messagesToDelete.Add(msg.MessageId);
-                }
-                await bot.DeleteMessages(message.Chat.Id, messagesToDelete, cancellationToken: token);
-                UserContextManager.ClearContext(userId);
+                context.MessagesToDelete.Add(message);
+                await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
+                Log.Information($"User {userId} set link to item {_wishListItem.Id}");
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error SettingLinkState: {ex.Message}");
+                Log.Error(ex, "Error while setting link");
                 return false; // Ensure a return value in case of exception
             }
         }

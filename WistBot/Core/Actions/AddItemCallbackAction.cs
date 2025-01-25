@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Core.UserStates;
@@ -42,13 +43,19 @@ namespace WistBot.Core.Actions
                 var user = callback.From ?? throw new ArgumentNullException(nameof(callback.From));
 
                 _userStateManager.SetState(user.Id, new AddingNewItemState(await _wishListsService.GetByName(user.Id, callback.Message.Text!)));
-
-                var mes = await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.SetItemName, user.Id), replyMarkup: new ReplyKeyboardRemove(), cancellationToken: token);
+                var keyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.Cancel, user.Id), BotCallbacks.Cancel)
+                    }
+                });
+                var mes = await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.SetItemName, user.Id), replyMarkup: keyboard, cancellationToken: token);
                 UserContextManager.SetContext(user.Id, new UserContext(mes));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error AddListItemAction: {ex.Message}");
+                Log.Error($"Error AddItemCallbackAction: {ex.Message}");
             }
         }
     }

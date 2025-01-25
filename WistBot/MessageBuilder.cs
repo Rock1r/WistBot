@@ -23,7 +23,7 @@ namespace WistBot
             var state = await localizaitonService.Get(LocalizationKeys.FreeItem, id);
             if (item.CurrentState != State.Free)
             {
-                state = item.CurrentState == State.Busy ? await localizaitonService.Get(LocalizationKeys.InProcessItem, id, item.PerformerName) : await localizaitonService.Get(LocalizationKeys.DoneItem,  id, item.PerformerName);
+                state = item.CurrentState == State.InProcess ? await localizaitonService.Get(LocalizationKeys.InProcessItem, id, item.PerformerName) : await localizaitonService.Get(LocalizationKeys.DoneItem,  id, item.PerformerName);
             }
             return $"<b>{name}</b>\n{item.Description}\n{item.Link}\n{state}";
         }

@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Serilog;
+using System.Globalization;
 using System.Resources;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -49,6 +50,7 @@ namespace WistBot.Core.Actions
                         replyMarkup: new ReplyKeyboardRemove(),
                         cancellationToken: token
                     );
+                    Log.Information("Language already set to {Language} for user {UserId}", selectedLanguage, user.Id);
                 }
                 else
                 {
@@ -59,11 +61,12 @@ namespace WistBot.Core.Actions
                         replyMarkup: new ReplyKeyboardRemove(),
                         cancellationToken: token
                     );
+                    Log.Information("Language changed to {Language} for user {UserId}", selectedLanguage, user.Id);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error ChangeLanguageToEnglistAction: {ex.Message}");
+                Log.Error(ex, "Error ChangeLanguageAction");
             }
         }
 

@@ -297,4 +297,34 @@
   <data name="MaxItemsCountReached" xml:space="preserve">
     <value>Ти досяг максимальної кількості бажань у списку (20)</value>
   </data>
+  <data name="MadeFree" xml:space="preserve">
+    <value>Тепер це бажання можуть подарувати інші</value>
+  </data>
+  <data name="SettedInProcess" xml:space="preserve">
+    <value>Приготуй подарунок і натисни "Готово".</value>
+  </data>
+  <data name="SettedDone" xml:space="preserve">
+    <value>Готово!</value>
+  </data>
+  <data name="FeedbackMessage" xml:space="preserve">
+    <value>Надішліть відгук! Можете добавити фото, відео, голосове, тощо</value>
+  </data>
+  <data name="FeedbackSent" xml:space="preserve">
+    <value>Відгук надіслано!</value>
+  </data>
+  <data name="NoPresents" xml:space="preserve">
+    <value>У вас немає подарунків у процесі підготовки</value>
+  </data>
+  <data name="PresentsFor" xml:space="preserve">
+    <value>Подарунки для {0}</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="CantFindYourself" xml:space="preserve">
+    <value>Не можна</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Скасовано</value>
+  </data>
 </root>

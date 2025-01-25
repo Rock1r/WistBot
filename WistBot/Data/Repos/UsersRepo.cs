@@ -53,23 +53,25 @@ namespace WistBot.Data.Repos
             return await _context.Users.AsNoTracking().AsNoTracking().Include(x => x.WishLists).ToListAsync();
         }
 
-        public async Task Add(long telegramId, string username)
+        public async Task Add(long telegramId, long chatId, string username)
         {
             var user = new UserEntity
             {
                 TelegramId = telegramId,
+                ChatId = chatId,
                 Username = username
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(long telegramId, string username)
+        public async Task Update(long telegramId, long chatId, string username)
         {
             await _context.Users
                 .Where(x => x.TelegramId == telegramId)
                 .ExecuteUpdateAsync(x =>  
-                x.SetProperty(n => n.Username, username));
+                x.SetProperty(n => n.Username, username)
+                .SetProperty(n=>n.ChatId, chatId));
             await _context.SaveChangesAsync();
         }
 

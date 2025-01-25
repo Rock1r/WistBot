@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using WistBot.Exceptions;
 using WistBot.Res;
@@ -47,14 +48,16 @@ namespace WistBot.Core.Actions
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
 
                 await WishListsService.ViewUserList(_bot, chatId, sender, list, _localization, _usersService, token);
+                Log.Information("User {UserId} viewed list {ListName} of user {Username}", sender.Id, list.Name, user.Username);
             }
             catch (ListNotFoundException)
             {
                 await _bot.AnswerCallbackQuery(callback.Id, await _localization.Get(LocalizationKeys.ListNotFound, callback.From.Id), cancellationToken: token);
+                Log.Information("List not found");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error ViewAnotherUserListCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error ViewAnotherUserListCallbackAction");
             }
         }
     }

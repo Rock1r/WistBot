@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Res;
@@ -29,13 +30,14 @@ namespace WistBot.Core.Actions
                 var user = message.From ?? throw new ArgumentNullException(nameof(message.From));
                 if (!await _usersService.UserExists(user.Id))
                 {
-                    await _usersService.Add(user.Id, message.From.Username ?? message.From.FirstName ?? message.From.LastName ?? "Unknown");
+                    await _usersService.Add(user.Id, message.Chat.Id, message.From.Username ?? message.From.FirstName ?? message.From.LastName ?? "Unknown");
+                    Log.Information("User {UserId} added", user.Id);
                 }
                 await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.StartMessage, user.Id), replyMarkup: new ReplyKeyboardRemove(), cancellationToken: token);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error StartAction: {ex.Message}");
+                Log.Error(ex, "Error StartAction");
             }
         }
 

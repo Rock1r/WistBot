@@ -6,11 +6,11 @@
         public const string ChangeLanguage = "ChangeLanguageButton";
         //list
         //items
-        public const string ClearList = "ClearListButton";
     }
 
     public static class InlineButton
     {
+        public const string Cancel = "CancelButton";
         //language
         public const string English = "🇬🇧 English";
         public const string Ukrainian = "🇺🇦 Українська";

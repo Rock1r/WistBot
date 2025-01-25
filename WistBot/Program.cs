@@ -3,7 +3,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Resources;
 using Telegram.Bot;
 using WistBot.Core.Actions;
@@ -16,9 +16,15 @@ using WistBot.Services;
 try
 {
     var builder = WebApplication.CreateBuilder(args);
-    builder.Logging.AddConsole();
-
     builder.Configuration.AddJsonFile("config.json");
+    builder.Host.UseSerilog((hostingContext, loggerConfiguration) =>
+    {
+        loggerConfiguration
+            .ReadFrom.Configuration(hostingContext.Configuration)
+            .WriteTo.Console()
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .Enrich.FromLogContext();
+    });
     builder.Services.AddDbContext<WistBotDbContext>();
     builder.Services.AddScoped<UsersRepo>();
     builder.Services.AddScoped<WishlistsRepo>();
@@ -69,6 +75,6 @@ try
 }
 catch (Exception ex)
 {
-    Console.WriteLine(ex.Message);
+    Log.Error(ex, "Error in Program.cs");
 }
     Console.ReadLine();

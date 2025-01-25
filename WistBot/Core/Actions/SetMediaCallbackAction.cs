@@ -1,4 +1,5 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Core.UserStates;
@@ -46,17 +47,11 @@ namespace WistBot.Core.Actions
                 text = text.Split("\n")[0];
                 var item = await _wishListItemsService.GetByName(userId, text);
                 _userStateManager.SetState(userId, new SettingMediaState(item));
-                IReplyMarkup inlineReply = new ReplyKeyboardRemove();
+                var inlineReply = new InlineKeyboardMarkup().AddButton(await _localization.Get(InlineButton.Cancel, userId), BotCallbacks.Cancel);
                 var messageToSend = string.Empty;
                 if (!string.IsNullOrEmpty(item.Media))
                 {
-                    inlineReply = new InlineKeyboardMarkup(new[]
-                    {
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteMedia, userId), BotCallbacks.DeleteMedia)
-                        }
-                    });
+                    inlineReply.AddButton(InlineKeyboardButton.WithCallbackData(await _localization.Get(InlineButton.DeleteMedia, userId), BotCallbacks.DeleteMedia));
                     messageToSend = await _localization.Get(LocalizationKeys.SetOrDeleteMedia, userId);
                 }
                 else
@@ -66,14 +61,16 @@ namespace WistBot.Core.Actions
 
                 var mes = await _bot.SendMessage(chatId, messageToSend, replyMarkup: inlineReply, cancellationToken: token);
                 UserContextManager.SetContext(userId, new UserContext(mes) { ItemToEdit = item, MessageToEdit = message });
+                Log.Information("SetMediaCallbackAction executed for user {UserId}", userId);
             }
             catch (ItemNotFoundException ex)
             {
                 await _bot.AnswerCallbackQuery(callback.Id, ex.Message, cancellationToken: token);
+                Log.Error(ex, "Error SetMediaCallbackAction, item not found");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error SetMediaCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error SetMediaCallbackAction");
             }
         }
     }

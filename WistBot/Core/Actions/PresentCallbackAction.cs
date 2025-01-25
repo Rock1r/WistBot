@@ -1,6 +1,6 @@
-﻿using Telegram.Bot;
+﻿using Serilog;
+using Telegram.Bot;
 using Telegram.Bot.Types;
-using WistBot.Exceptions;
 using WistBot.Res;
 using WistBot.Services;
 
@@ -42,16 +42,17 @@ namespace WistBot.Core.Actions
                 var itemName = text.Split('\n')[0];
                 var item = await _itemsService.GetByName(user.TelegramId, itemName);
                 item.PerformerName = sender.Username ?? sender.FirstName;
-                item.CurrentState = Enums.State.Busy;
+                item.CurrentState = Enums.State.InProcess;
                 await _itemsService.Update(item);
                 var messageToSend = await _localization.Get(LocalizationKeys.PromiseToPresent, sender.Id, sender.Username ?? sender.FirstName, user.Username, item.Name);
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
                 await _bot.DeleteMessage(chatId, message.MessageId, cancellationToken: token);
                 await ItemsService.ViewAnotherUserItem(_bot, chatId, sender, item, _localization, _usersService, token);
+                Log.Information("PresentCallbackAction executed for user {UserId}", user.TelegramId);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error PresentCallbackAction: {ex.Message}");
+                Log.Error(ex, "Error PresentCallbackAction");
             }
         }
     }

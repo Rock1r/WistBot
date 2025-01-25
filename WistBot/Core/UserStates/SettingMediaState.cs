@@ -5,6 +5,7 @@ using WistBot.Services;
 using WistBot.Res;
 using WistBot.Managers;
 using WistBot.Enums;
+using Serilog;
 
 namespace WistBot.Core.UserStates
 {
@@ -27,6 +28,8 @@ namespace WistBot.Core.UserStates
                 {
                     var warning = await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.DocumentNotSupported, userId), cancellationToken: token);
                     context.MessagesToDelete.Add(message);
+                    context.MessagesToDelete.Add(warning);
+                    Log.Information("User {UserId} tried to set document as media", userId);
                     return false;
                 }
 
@@ -41,6 +44,7 @@ namespace WistBot.Core.UserStates
                     {
                         var warning = await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.VideoTooLong, userId), cancellationToken: token);
                         context.MessagesToDelete.Add(message);
+                        context.MessagesToDelete.Add(warning);
                         return false;
                     }
                     _wishListItem.Media = message.Video.FileId;
@@ -50,6 +54,7 @@ namespace WistBot.Core.UserStates
                 {
                     var warning = await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.InvalidMedia, userId), cancellationToken: token);
                     context.MessagesToDelete.Add(message);
+                    context.MessagesToDelete.Add(warning);
                     return false;
                 }
 
@@ -57,19 +62,14 @@ namespace WistBot.Core.UserStates
                 var mes = context.MessageToEdit ?? throw new ArgumentNullException();
                 var newText = MessageBuilder.BuildItemMessage(_wishListItem);
                 var replyMarkup = await ItemsService.BuildItemMarkup(userId, localization);
-                var messagesToDelete = new List<int>();
-                messagesToDelete.Add(message.MessageId);
-                foreach (var msg in context.MessagesToDelete)
-                {
-                    messagesToDelete.Add(msg.MessageId);
-                }
+                context.MessagesToDelete.Add(message);
                 if (itemHasMedia)
                 {
                     await bot.EditMessageCaption(mes.Chat.Id, mes.Id, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                 }
                 else
                 {
-                    messagesToDelete.Add(context.MessageToEdit.MessageId);
+                    context.MessagesToDelete.Add(context.MessageToEdit);
                     if (_wishListItem.MediaType == MediaTypes.Photo)
                     {
                         await bot.SendPhoto(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
@@ -79,13 +79,13 @@ namespace WistBot.Core.UserStates
                         await bot.SendVideo(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                     }
                 }
-                await bot.DeleteMessages(message.Chat.Id, messagesToDelete, cancellationToken: token);
-                UserContextManager.ClearContext(userId);
+                await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
+                Log.Information($"User {userId} set media for item {_wishListItem.Id}");
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error SettingMediaState: {ex.Message}");
+                Log.Error(ex, $"Error SettingMediaState: {ex.Message}");
                 return false; // Ensure a return value in case of exception
             }
         }

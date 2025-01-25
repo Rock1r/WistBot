@@ -1,11 +1,11 @@
-﻿using Telegram.Bot.Types;
+﻿using Serilog;
 using Telegram.Bot;
-using WistBot.Data.Models;
+using Telegram.Bot.Types;
 using WistBot.Core.Actions;
-using Telegram.Bot.Types.ReplyMarkups;
-using WistBot.Services;
-using WistBot.Res;
+using WistBot.Data.Models;
 using WistBot.Managers;
+using WistBot.Res;
+using WistBot.Services;
 
 namespace WistBot.Core.UserStates
 {
@@ -34,6 +34,8 @@ namespace WistBot.Core.UserStates
                     context.MessagesToDelete.Add(warning);
                     return false;
                 }
+
+
                 var counter = 0;
                 var lists = await wishListsService.GetByOwnerId(userId);
                 while (lists.Any(x => x.Name == newListName))
@@ -48,14 +50,10 @@ namespace WistBot.Core.UserStates
                     var context = UserContextManager.GetContext(userId);
                     var inlineReply = await WishListsService.GetListMarkup(_wishList, localization);
                     await bot.EditMessageText(context.MessageToEdit.Chat.Id, context.MessageToEdit.MessageId, newListName, replyMarkup: inlineReply, cancellationToken: token);
-                    var messagesToDelete = new List<int>();
-                    messagesToDelete.Add(message.MessageId);
-                    foreach (var msg in context.MessagesToDelete)
-                    {
-                        messagesToDelete.Add(msg.MessageId);
-                    }
-                    await bot.DeleteMessages(message.Chat.Id, messagesToDelete, cancellationToken: token);
-                    UserContextManager.ClearContext(userId);
+                    context.MessagesToDelete.Add(message);
+                    await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
+
+                    Log.Information($"User {userId} updated list {_wishList.Id} name to {newListName}");
                 }
                 else
                 {
@@ -69,12 +67,13 @@ namespace WistBot.Core.UserStates
                     {
                         await bot.SendMessage(message.Chat.Id, await localization.Get(LocalizationKeys.MaxListsCountReached, userId), cancellationToken: token);
                     }
+                    Log.Information($"User {userId} created new list {newListName}");
                 }
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error SettingListNameState: {ex.Message}");
+                Log.Error(ex, "Error SettingListNameState");
                 return false;
             }
         }

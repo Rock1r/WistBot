@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -35,9 +36,16 @@ namespace WistBot.Core.Actions
                 if (!await _usersService.UserExists(username))
                 {
                     await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.UserNotFound, senderId), cancellationToken: token);
+                    Log.Information($"User {username} not found");
                     return;
                 }
                 var userId = await _usersService.GetId(username);
+                if (userId == senderId)
+                {
+                    await _bot.SendMessage(chatId, await _localization.Get(LocalizationKeys.CantFindYourself, senderId), cancellationToken: token);
+                    Log.Information($"User {username} tried to find himself");
+                    return;
+                }
                 var lists = await _wishListsService.GetPublic(userId);
                 if (lists != null && lists.Count > 0)
                 {
@@ -63,7 +71,7 @@ namespace WistBot.Core.Actions
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to find user: {ex.Message}");
+                Log.Error(ex, $"Error {Command}");
             }
         }
 
