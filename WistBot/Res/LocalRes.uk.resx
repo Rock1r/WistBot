@@ -160,7 +160,7 @@
     <value>Змінити назву</value>
   </data>
   <data name="StartMessage" xml:space="preserve">
-    <value>Привіт</value>
+    <value>Вітаю! Якщо ви бажаєте переглянути списки конкретного користувача, то просто напишіть в чат його тег (@username). А якщо бажаєте створювати власні списки бажань, то введіть '/lists' щоб почати.</value>
   </data>
   <data name="ViewListMessage" xml:space="preserve">
     <value>{0}</value>
@@ -326,5 +326,8 @@
   </data>
   <data name="Cancelled" xml:space="preserve">
     <value>Скасовано</value>
+  </data>
+  <data name="HelpMessage" xml:space="preserve">
+    <value>Команди бота:/n {0} - змінити мову/n {1} - переглянути та редагувати свої списки/n {2} - надіслати відгук або повідомити про баг/n {3} - преглянути бажання на які ви натиснули "{4}"</value>
   </data>
 </root>

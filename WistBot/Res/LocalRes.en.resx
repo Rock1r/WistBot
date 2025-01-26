@@ -160,7 +160,7 @@
     <value>Change name</value>
   </data>
   <data name="StartMessage" xml:space="preserve">
-    <value>Hello</value>
+    <value>Hello! If you want to see the lists of a specific user, just write their tag (@username) in the chat. And if you want to create your own wishlists, just type '/lists' to get started.</value>
   </data>
   <data name="ViewListMessage" xml:space="preserve">
     <value>{0}</value>
@@ -326,5 +326,8 @@
   </data>
   <data name="Cancelled" xml:space="preserve">
     <value>Cancelled</value>
+  </data>
+  <data name="HelpMessage" xml:space="preserve">
+    <value>Bot commands:/n {0} - change language/n {1} - view and edit your lists/n {2} - send feedback or report a bug/n {3} - preview the wishes you clicked on “{4}”</value>
   </data>
 </root>

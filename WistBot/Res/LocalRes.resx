@@ -345,4 +345,7 @@
   <data name="Cancelled" xml:space="preserve">
     <value>Cancelled</value>
   </data>
+  <data name="HelpMessage" xml:space="preserve">
+    <value>HelpMessage</value>
+  </data>
 </root>

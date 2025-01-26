@@ -5,11 +5,10 @@
         public const string Start = "/start";
         public const string Language = "/language";
         public const string Lists = "/lists";
-        public const string Test = "/test";
         public const string Feedback = "/feedback";
-
         public const string MyPresents = "/mypresents";
         public const string Help = "/help";
+
     }
 
 }
