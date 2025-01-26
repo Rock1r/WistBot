@@ -279,3 +279,10 @@ Telegram Bot API error 400: Bad Request: message is not modified: specified new 
 2025-01-26 02:03:19.749 +02:00 [INF] SetMediaCallbackAction executed for user 830577183
 2025-01-26 02:03:33.226 +02:00 [INF] Received message from rockir (830577183): null
 2025-01-26 02:03:33.443 +02:00 [INF] User 830577183 set media for item ddceeb42-732e-428c-9af2-12b808f4ffb7
+2025-01-26 02:10:09.720 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 02:10:09.760 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 02:10:09.761 +02:00 [INF] Hosting environment: Production
+2025-01-26 02:10:09.762 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 02:10:10.118 +02:00 [INF] Received callback from rockir (830577183): add_item_callback
+2025-01-26 02:10:25.384 +02:00 [INF] Received message from rockir (830577183): Будь-яка
+2025-01-26 02:10:25.691 +02:00 [INF] User 830577183 added new item Будь-яка to list Книги
