@@ -65,7 +65,14 @@ namespace WistBot.Core.UserStates
                 context.MessagesToDelete.Add(message);
                 if (itemHasMedia)
                 {
-                    await bot.EditMessageCaption(mes.Chat.Id, mes.Id, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
+                    if (_wishListItem.MediaType == MediaTypes.Photo)
+                    {
+                        await bot.EditMessageMedia(mes.Chat.Id, mes.Id, new InputMediaPhoto(_wishListItem.Media), replyMarkup, cancellationToken: token);
+                    }
+                    else
+                    {
+                        await bot.EditMessageMedia(mes.Chat.Id, mes.Id, new InputMediaVideo(_wishListItem.Media), replyMarkup, cancellationToken: token);
+                    }
                 }
                 else
                 {

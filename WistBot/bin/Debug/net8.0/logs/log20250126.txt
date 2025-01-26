@@ -233,3 +233,49 @@ System.InvalidOperationException: This method works only with a List<List<Inline
 2025-01-26 01:42:59.156 +02:00 [INF] LanguageAction: User 830577183 started changing language
 2025-01-26 01:43:01.336 +02:00 [INF] Received message from rockir (830577183): 🇺🇦 Українська
 2025-01-26 01:43:01.427 +02:00 [INF] Language already set to uk for user 830577183
+2025-01-26 01:48:54.359 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 01:48:54.399 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 01:48:54.400 +02:00 [INF] Hosting environment: Production
+2025-01-26 01:48:54.401 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 01:48:56.087 +02:00 [INF] Received message from rockir (830577183): /lists
+2025-01-26 01:48:57.165 +02:00 [INF] ListsAction executed for user 830577183
+2025-01-26 01:48:58.716 +02:00 [INF] Received callback from rockir (830577183): list_callback
+2025-01-26 01:48:59.215 +02:00 [INF] User 830577183 viewed list Книги
+2025-01-26 01:49:02.041 +02:00 [INF] Received callback from rockir (830577183): add_item_callback
+2025-01-26 01:49:13.629 +02:00 [INF] Received message from rockir (830577183): Метафізика
+2025-01-26 01:49:14.011 +02:00 [INF] User 830577183 added new item Метафізика to list Книги
+2025-01-26 01:49:20.103 +02:00 [INF] Received callback from rockir (830577183): set_description_callback
+2025-01-26 01:49:24.193 +02:00 [INF] Received message from rockir (830577183): Арістотель
+2025-01-26 01:49:24.534 +02:00 [INF] User 830577183 set item description to Арістотель
+2025-01-26 01:53:14.279 +02:00 [INF] Received callback from rockir (830577183): change_visability_callback
+2025-01-26 01:53:14.827 +02:00 [INF] User 830577183 changed list Книги visibility to True
+2025-01-26 01:55:42.770 +02:00 [INF] Received callback from rockir (830577183): set_media_callback
+2025-01-26 01:55:42.839 +02:00 [INF] SetMediaCallbackAction executed for user 830577183
+2025-01-26 01:55:44.991 +02:00 [INF] Received message from rockir (830577183): null
+2025-01-26 01:55:45.587 +02:00 [INF] User 830577183 set media for item a59fb002-818b-4889-b964-1215222f2a87
+2025-01-26 01:56:42.877 +02:00 [INF] Received callback from rockir (830577183): set_media_callback
+2025-01-26 01:56:42.965 +02:00 [INF] SetMediaCallbackAction executed for user 830577183
+2025-01-26 01:56:46.152 +02:00 [INF] Received message from rockir (830577183): null
+2025-01-26 01:56:46.880 +02:00 [ERR] Error SettingMediaState: Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+Telegram Bot API error 400: Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageCaption(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String caption, ParseMode parseMode, IEnumerable`1 captionEntities, Boolean showCaptionAboveMedia, InlineKeyboardMarkup replyMarkup, String businessConnectionId, CancellationToken cancellationToken)
+   at WistBot.Core.UserStates.SettingMediaState.HandleStateAsync(Int64 userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService) in F:\dev\TGBot\WistBot\WistBot\Core\UserStates\SettingMediaState.cs:line 68
+2025-01-26 01:57:06.063 +02:00 [INF] Received callback from rockir (830577183): cancel_callback
+2025-01-26 01:57:33.024 +02:00 [INF] Received callback from rockir (830577183): set_media_callback
+2025-01-26 01:57:33.106 +02:00 [INF] SetMediaCallbackAction executed for user 830577183
+2025-01-26 01:57:35.323 +02:00 [INF] Received message from rockir (830577183): null
+2025-01-26 01:57:35.492 +02:00 [ERR] Error SettingMediaState: Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+Telegram Bot API error 400: Bad Request: message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+   at Telegram.Bot.TelegramBotClient.SendRequest[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Telegram.Bot.TelegramBotClientExtensions.EditMessageCaption(ITelegramBotClient botClient, ChatId chatId, Int32 messageId, String caption, ParseMode parseMode, IEnumerable`1 captionEntities, Boolean showCaptionAboveMedia, InlineKeyboardMarkup replyMarkup, String businessConnectionId, CancellationToken cancellationToken)
+   at WistBot.Core.UserStates.SettingMediaState.HandleStateAsync(Int64 userId, Message message, ITelegramBotClient bot, CancellationToken token, LocalizationService localization, WishListsService wishListsService, ItemsService wishListItemsService) in F:\dev\TGBot\WistBot\WistBot\Core\UserStates\SettingMediaState.cs:line 68
+2025-01-26 01:57:37.151 +02:00 [INF] Received callback from rockir (830577183): cancel_callback
+2025-01-26 02:03:12.302 +02:00 [INF] Now listening on: http://localhost:5000
+2025-01-26 02:03:12.344 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-01-26 02:03:12.345 +02:00 [INF] Hosting environment: Production
+2025-01-26 02:03:12.346 +02:00 [INF] Content root path: F:\dev\TGBot\WistBot\WistBot\bin\Debug\net8.0
+2025-01-26 02:03:18.661 +02:00 [INF] Received callback from rockir (830577183): set_media_callback
+2025-01-26 02:03:19.749 +02:00 [INF] SetMediaCallbackAction executed for user 830577183
+2025-01-26 02:03:33.226 +02:00 [INF] Received message from rockir (830577183): null
+2025-01-26 02:03:33.443 +02:00 [INF] User 830577183 set media for item ddceeb42-732e-428c-9af2-12b808f4ffb7
