@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "F:\\dev\\TGBot\\WistBot\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\core\\actions\\listsaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\core\\actions\\listsaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\core\\userstates\\settingmediastate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\core\\userstates\\settingmediastate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -79,10 +83,6 @@
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\core\\actions\\mypresentsaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\core\\actions\\listsaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\core\\actions\\listsaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|f:\\dev\\tgbot\\wistbot\\wistbot\\core\\actions\\languageaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E43BF3F2-64F9-4CD6-93C3-4CDB14B0B09A}|WistBot\\WistBot.csproj|solutionrelative:wistbot\\core\\actions\\languageaction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -150,7 +150,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 229,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -167,18 +167,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "ChangeListNameCallbackAction.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
-              "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
-              "RelativeToolTip": "WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAAADAAAABvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T22:07:03.486Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "SetDescriptionCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\SetDescriptionCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\SetDescriptionCallbackAction.cs",
@@ -190,7 +178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "SettingListNameState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingListNameState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SettingListNameState.cs",
@@ -202,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "SettingLinkState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingLinkState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SettingLinkState.cs",
@@ -214,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SetLinkCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\SetLinkCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\SetLinkCallbackAction.cs",
@@ -226,7 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "SetMediaCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\SetMediaCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\SetMediaCallbackAction.cs",
@@ -238,20 +226,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "SettingMediaState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingMediaState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SettingMediaState.cs",
               "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingMediaState.cs",
               "RelativeToolTip": "WistBot\\Core\\UserStates\\SettingMediaState.cs",
-              "ViewState": "AgIAACkAAAAAAAAAAAAQwEsAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAACwAAAAAAAAAAAAUwEsAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-25T23:12:58.122Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "ChangeItemNameCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ChangeItemNameCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ChangeItemNameCallbackAction.cs",
@@ -263,7 +251,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
+              "Title": "ListsAction.cs",
+              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ListsAction.cs",
+              "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ListsAction.cs",
+              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ListsAction.cs",
+              "RelativeToolTip": "WistBot\\Core\\Actions\\ListsAction.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADMAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T23:20:52.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ChangeListNameCallbackAction.cs",
+              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
+              "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
+              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
+              "RelativeToolTip": "WistBot\\Core\\Actions\\ChangeListNameCallbackAction.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAADAAAABvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-25T22:07:03.486Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "AddListCallbackAciton.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\AddListCallbackAciton.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\AddListCallbackAciton.cs",
@@ -275,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "AddItemCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\AddItemCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\AddItemCallbackAction.cs",
@@ -287,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "SettingItemNameState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingItemNameState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SettingItemNameState.cs",
@@ -299,7 +312,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "SettingDescriptionState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SettingDescriptionState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SettingDescriptionState.cs",
@@ -311,7 +324,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "SendingFeedbackState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\SendingFeedbackState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\SendingFeedbackState.cs",
@@ -323,7 +336,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "AddingNewItemState.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\UserStates\\AddingNewItemState.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\UserStates\\AddingNewItemState.cs",
@@ -335,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "ViewListCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ViewListCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ViewListCallbackAction.cs",
@@ -347,7 +360,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "ViewAnotherUserListCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ViewAnotherUserListCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ViewAnotherUserListCallbackAction.cs",
@@ -359,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "StartAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\StartAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\StartAction.cs",
@@ -371,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "PresentCallbackAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\PresentCallbackAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\PresentCallbackAction.cs",
@@ -383,7 +396,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "MyPresentsAction.cs",
               "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\MyPresentsAction.cs",
               "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\MyPresentsAction.cs",
@@ -392,18 +405,6 @@
               "ViewState": "AgIAACEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-25T23:20:55.681Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "ListsAction.cs",
-              "DocumentMoniker": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ListsAction.cs",
-              "RelativeDocumentMoniker": "WistBot\\Core\\Actions\\ListsAction.cs",
-              "ToolTip": "F:\\dev\\TGBot\\WistBot\\WistBot\\Core\\Actions\\ListsAction.cs",
-              "RelativeToolTip": "WistBot\\Core\\Actions\\ListsAction.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-25T23:20:52.643Z"
             },
             {
               "$type": "Document",

@@ -48,7 +48,7 @@ namespace WistBot.Core.Actions
                 foreach (var list in wishLists)
                 {
                     var inlineReply = await WishListsService.GetListMarkup(list, _localization);
-                    await _bot.SendMessage(message.Chat.Id, $"<b><i>{list.Name}</i></b>", replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
+                    await _bot.SendMessage(message.Chat.Id, list.Name, replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html);
                 }
                 Log.Information("ListsAction executed for user {UserId}", user.Id);
             }
