@@ -1,6 +1,8 @@
 ﻿using Serilog;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using WistBot.Res;
 using WistBot.Services;
 
@@ -44,8 +46,16 @@ namespace WistBot.Core.Actions
 
                 var messageToSend = await _localization.Get(LocalizationKeys.SettedDone, sender.Id);
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
-                await _bot.DeleteMessage(chatId, message.MessageId, cancellationToken: token);
-                await ItemsService.ViewAnotherUserItem(_bot, chatId, sender, item, _localization, _usersService, token);
+                var owner = await _usersService.GetById(item.OwnerId);
+                var markup = await ItemsService.BuildUserItemMarkup(sender, _localization, owner.Username, item);
+                if (!string.IsNullOrWhiteSpace(item.Media))
+                {
+                    await _bot.EditMessageCaption(chatId, message.MessageId, await MessageBuilder.BuildUserItemMessage(item, _localization, sender.Id), replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
+                }
+                else
+                {
+                    await _bot.EditMessageText(chatId, message.MessageId, await MessageBuilder.BuildUserItemMessage(item, _localization, sender.Id), replyMarkup: markup, cancellationToken: token, parseMode: ParseMode.Html);
+                }
                 Log.Information("SetDoneCallbackAction executed for user {UserId}", sender.Id);
             }
             catch (Exception ex)

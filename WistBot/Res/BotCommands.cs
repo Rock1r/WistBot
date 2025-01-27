@@ -8,7 +8,7 @@
         public const string Feedback = "/feedback";
         public const string MyPresents = "/mypresents";
         public const string Help = "/help";
-
+        public const string test = "/test";
     }
 
 }

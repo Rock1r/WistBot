@@ -45,7 +45,6 @@ namespace WistBot.Core.Actions
                 var messageToSend = await _localization.Get(LocalizationKeys.MadeFree, sender.Id);
                 await _bot.AnswerCallbackQuery(callback.Id, messageToSend, cancellationToken: token);
                 await _bot.DeleteMessage(chatId, message.MessageId, cancellationToken: token);
-                await ItemsService.ViewAnotherUserItem(_bot, chatId, sender, item, _localization, _usersService, token);
                 Log.Information("SetFreeCallbackAction: User {UserId} set item {ItemId} free", sender.Id, item.Id);
             }
             catch (Exception ex)

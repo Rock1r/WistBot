@@ -1,0 +1,6 @@
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.csproj.AssemblyReference.cache
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.GeneratedMSBuildEditorConfig.editorconfig
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.AssemblyInfoInputs.cache
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.AssemblyInfo.cs
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.csproj.CoreCompileInputs.cache
+F:\dev\TGBot\WistBot\WistBotTest\obj\Debug\net8.0\WistBotTest.sourcelink.json

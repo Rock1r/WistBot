@@ -136,7 +136,7 @@ namespace WistBot.Services
                     });
         }
 
-        public static async Task<IReplyMarkup> BuildUserItemMarkup(User sender, LocalizationService localization, string ownerName, ItemEntity item)
+        public static async Task<InlineKeyboardMarkup> BuildUserItemMarkup(User sender, LocalizationService localization, string ownerName, ItemEntity item)
         {
             var senderName = sender.Username ?? sender.FirstName;
             if (!string.IsNullOrWhiteSpace(item.PerformerName))
@@ -182,7 +182,7 @@ namespace WistBot.Services
                 }
                 else
                 {
-                    return new ReplyKeyboardRemove();
+                    return new InlineKeyboardMarkup();
                 }
             }
             else 
