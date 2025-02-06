@@ -175,3 +175,16 @@ F:\dev\TGBot\WistBot\WistBot\obj\Release\net8.0\refint\WistBot.dll
 F:\dev\TGBot\WistBot\WistBot\obj\Release\net8.0\WistBot.pdb
 F:\dev\TGBot\WistBot\WistBot\obj\Release\net8.0\WistBot.genruntimeconfig.cache
 F:\dev\TGBot\WistBot\WistBot\obj\Release\net8.0\ref\WistBot.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Microsoft.Extensions.Configuration.Binder.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.AspNetCore.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Extensions.Hosting.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Extensions.Logging.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Formatting.Compact.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Settings.Configuration.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Sinks.Console.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Sinks.Debug.dll
+F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\Serilog.Sinks.File.dll

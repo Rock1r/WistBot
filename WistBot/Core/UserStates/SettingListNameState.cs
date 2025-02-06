@@ -46,8 +46,15 @@ namespace WistBot.Core.UserStates
 
                 if (_wishList != null)
                 {
-                    await wishListsService.Update(_wishList.Id, newListName, _wishList.IsPublic);
                     var context = UserContextManager.GetContext(userId);
+                    if(_wishList.Name == newListName)
+                    {
+                        context.MessagesToDelete.Add(message);
+                        await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
+                        return true;
+                    }
+
+                    await wishListsService.Update(_wishList.Id, newListName, _wishList.IsPublic);
                     var inlineReply = await WishListsService.GetListMarkup(_wishList, localization);
                     await bot.EditMessageText(context.MessageToEdit.Chat.Id, context.MessageToEdit.MessageId, newListName, replyMarkup: inlineReply, cancellationToken: token);
                     context.MessagesToDelete.Add(message);

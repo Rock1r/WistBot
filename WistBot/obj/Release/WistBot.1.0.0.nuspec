@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>WistBot</id>
+    <version>1.0.0</version>
+    <authors>WistBot</authors>
+    <description>Package Description</description>
+    <repository type="git" commit="92944590fa8f0c28189326afe93cad649dc6edc9" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.DependencyInjection" version="9.0.1" exclude="Build,Analyzers" />
+        <dependency id="Serilog.AspNetCore" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Settings.Configuration" version="9.0.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.Console" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="Serilog.Sinks.File" version="6.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Data.SQLite" version="1.0.119" exclude="Build,Analyzers" />
+        <dependency id="Telegram.Bot" version="22.3.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\en\WistBot.resources.dll" target="lib\net8.0\en\WistBot.resources.dll" />
+    <file src="F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\uk\WistBot.resources.dll" target="lib\net8.0\uk\WistBot.resources.dll" />
+    <file src="F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\WistBot.runtimeconfig.json" target="lib\net8.0\WistBot.runtimeconfig.json" />
+    <file src="F:\dev\TGBot\WistBot\WistBot\bin\Release\net8.0\WistBot.dll" target="lib\net8.0\WistBot.dll" />
+  </files>
+</package>

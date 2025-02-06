@@ -1,0 +1,6 @@
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\WistBot.pdb
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\aspnetcorev2_inprocess.dll
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\sni.dll
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\e_sqlite3.dll
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\SQLite.Interop.dll
+F:\dev\TGBot\WistBot\wistbot\bin\Release\net8.0\win-x64\publish\WistBot.exe

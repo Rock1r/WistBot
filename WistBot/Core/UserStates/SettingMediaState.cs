@@ -6,6 +6,7 @@ using WistBot.Res;
 using WistBot.Managers;
 using WistBot.Enums;
 using Serilog;
+using Telegram.Bot.Types.Enums;
 
 namespace WistBot.Core.UserStates
 {
@@ -32,7 +33,6 @@ namespace WistBot.Core.UserStates
                     Log.Information("User {UserId} tried to set document as media", userId);
                     return false;
                 }
-
                 if (message.Photo != null)
                 {
                     _wishListItem.Media = message.Photo.First().FileId;
@@ -63,19 +63,7 @@ namespace WistBot.Core.UserStates
                 var newText = MessageBuilder.BuildItemMessage(_wishListItem);
                 var replyMarkup = await ItemsService.BuildItemMarkup(userId, localization);
                 context.MessagesToDelete.Add(message);
-                if (itemHasMedia)
-                {
-                    if (_wishListItem.MediaType == MediaTypes.Photo)
-                    {
-                        await bot.EditMessageMedia(mes.Chat.Id, mes.Id, new InputMediaPhoto(_wishListItem.Media), replyMarkup, cancellationToken: token);
-                    }
-                    else
-                    {
-                        await bot.EditMessageMedia(mes.Chat.Id, mes.Id, new InputMediaVideo(_wishListItem.Media), replyMarkup, cancellationToken: token);
-                    }
-                }
-                else
-                {
+                
                     context.MessagesToDelete.Add(context.MessageToEdit);
                     if (_wishListItem.MediaType == MediaTypes.Photo)
                     {
@@ -85,7 +73,6 @@ namespace WistBot.Core.UserStates
                     {
                         await bot.SendVideo(mes.Chat.Id, _wishListItem.Media, newText, replyMarkup: replyMarkup, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                     }
-                }
                 await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
                 Log.Information($"User {userId} set media for item {_wishListItem.Id}");
                 return true;

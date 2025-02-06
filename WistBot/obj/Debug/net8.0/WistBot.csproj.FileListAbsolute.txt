@@ -232,3 +232,5 @@ F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\refint\WistBot.dll
 F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.pdb
 F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\WistBot.genruntimeconfig.cache
 F:\dev\TGBot\WistBot\WistBot\obj\Debug\net8.0\ref\WistBot.dll
+F:\dev\TGBot\WistBot\wistbot\obj\Debug\net8.0\en\WistBot.resources.cs
+F:\dev\TGBot\WistBot\wistbot\obj\Debug\net8.0\uk\WistBot.resources.cs

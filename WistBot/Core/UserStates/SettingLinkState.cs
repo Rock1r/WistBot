@@ -32,11 +32,18 @@ namespace WistBot.Core.UserStates
                     return false;
                 }
 
-                _wishListItem.Link = link;
+                if (_wishListItem.Link == link)
+                {
+                    context.MessagesToDelete.Add(message);
+                    await UserContextManager.DeleteMessages(bot, userId, message.Chat.Id, context, token);
+                    return true;
+                }
 
-                await wishListItemsService.Update(_wishListItem);
+                _wishListItem.Link = link;
                 var mes = context.MessageToEdit ?? throw new ArgumentNullException();
                 var newText = MessageBuilder.BuildItemMessage(_wishListItem);
+                
+                await wishListItemsService.Update(_wishListItem);
                 var replyMarkup = await ItemsService.BuildItemMarkup(userId, localization);
                 if (!string.IsNullOrEmpty(_wishListItem.Media))
                 {

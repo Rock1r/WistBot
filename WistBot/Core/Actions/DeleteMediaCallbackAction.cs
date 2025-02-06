@@ -13,14 +13,16 @@ namespace WistBot.Core.Actions
         private readonly ITelegramBotClient _bot;
         private readonly ItemsService _wishListItemsService;
         private readonly LocalizationService _localization;
+        private readonly UserStateManager _stateManager;
 
         public string Command => BotCallbacks.DeleteMedia;
 
-        public DeleteMediaCallbackAction(ITelegramBotClient bot, ItemsService wishListItemsService, LocalizationService localizationService)
+        public DeleteMediaCallbackAction(ITelegramBotClient bot, ItemsService wishListItemsService, LocalizationService localizationService, UserStateManager stateManager)
         {
             _bot = bot;
             _wishListItemsService = wishListItemsService;
             _localization = localizationService;
+            _stateManager = stateManager;
         }
 
         public Task ExecuteMessage(Message message, CancellationToken token)
@@ -49,6 +51,7 @@ namespace WistBot.Core.Actions
                 var newText = MessageBuilder.BuildItemMessage(item);
                 await _bot.SendMessage(chatId, newText, replyMarkup: inlineReply, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: token);
                 await UserContextManager.DeleteMessages(_bot, userId, chatId, context, token);
+                _stateManager.RemoveState(userId);
             }
             catch (ItemNotFoundException ex)
             {
